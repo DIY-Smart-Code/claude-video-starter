@@ -1,5 +1,0 @@
-Git has three commands with almost the same name, and they do very different things.
-Reset moves your branch to another commit, so it rewrites your history.
-Revert adds a new commit that undoes an old one, so your history stays intact.
-Restore brings files back from the staging area or an older commit, and leaves your branch alone.
-If you already pushed the commit, use revert, because it never rewrites what others pulled.
