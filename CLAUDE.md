@@ -7,7 +7,7 @@
 ## Where things go
 
 - A new video starts as a copy of `templates/long-form/` (16:9) or `templates/short/` (9:16) in `videos/<slug>/`. Set `id` and `name` in its `meta.json`.
-- Check: `npx hyperframes lint videos/<slug>` after every edit, `npx hyperframes check videos/<slug>` before a render.
+- Check: `npx hyperframes lint videos/<slug>` after every edit, `npx hyperframes check videos/<slug>` before a render. A failed check is real until a full-size frame from the render proves otherwise.
 - Preview: `npx hyperframes preview videos/<slug>`
 - Render: `npx hyperframes render videos/<slug> -o videos/<slug>/out/<slug>.mp4`
 - Review: the user runs `/review videos/<slug>` (contact sheet + scores). Do not skip ahead and grade your own work unasked.
@@ -33,6 +33,7 @@
 
 - Text is at least 40px on 16:9 and 48px on 9:16. Short lines beat paragraphs.
 - Something on screen changes at least every 3 seconds. No frozen stretches.
+- No blinking cursors or pulsing loops. A blink is not motion; it hides a frozen screen.
 - Show one idea at a time; lists reveal one item per spoken item.
 - No background music unless the user asks for it.
 

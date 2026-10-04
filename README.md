@@ -18,6 +18,7 @@ claude-video-starter/
 ├── scripts/contact-sheet.py  a render -> one 6x3 grid of stills
 ├── .env.example              your ElevenLabs settings (copy to .env)
 ├── examples/demo-app/        a tiny app to point /brag at in step 8
+├── examples/git-undo-explainer/  the step-7 script and its word timings
 └── videos/                   your videos go here, one folder each
 ```
 
@@ -84,9 +85,20 @@ spread across the video. Claude reads the image, scores Hook, Readability, Motio
 out of 10, and names the three worst problems with timestamps. Say "fix them", render again,
 and run `/review` once more. That loop is what turns a first draft into something you would post.
 
+Two things the tutorial run taught us, now written into `/review`:
+
+- The tiles are a quarter of full size, so text always looks too small on the sheet. Claude checks a
+  full-size frame before it calls text too small.
+- When `npx hyperframes check` fails after a fix, believe the check. Pull a frame from the render
+  and look before anyone calls it a false positive.
+
+Don't chase the scores. They stay rough; the timestamped problems are what you fix.
+
 ## 5. A voice
 
-**ElevenLabs** (best voices, needs an account; there is a free plan to start):
+**ElevenLabs** (needs an account). The free plan is for non-commercial use only and asks you to
+credit ElevenLabs in the title; a monetized channel needs a paid plan
+([ElevenLabs on publishing](https://elevenlabs.io/docs/help-center/legal/can-i-publish-the-content-i-generate-on-the-platform)).
 
 1. Pick a voice in the ElevenLabs voice library and copy its voice ID.
 2. Create an API key.
@@ -126,10 +138,15 @@ Connect it once. Both ways below use the same server, `https://mcp.higgsfield.ai
 
   Start Claude Code, run `/mcp`, pick **higgsfield** and log in to Higgsfield in the browser window.
 - **Through claude.ai:** add the URL under Settings → Connectors. Claude Code shows it as
-  `claude.ai Higgsfield` whenever you are logged in with that account.
+  `claude.ai Higgsfield` whenever you are logged in with that account. This is the route used in
+  the video.
 
-Run `/mcp` and check that Higgsfield shows as connected. Higgsfield needs a paid plan, and every
+Run `claude mcp list` and check that Higgsfield shows as connected. Higgsfield needs a paid plan, and every
 generation costs credits.
+
+Higgsfield's own guide for Claude Code uses its CLI instead of MCP:
+`npm i -g @higgsfield/cli`, then `higgsfield auth login`, then `npx skills add higgsfield-ai/skills`
+([Higgsfield: connect to an AI agent](https://higgsfield.ai/creator-hub/help-center/integrations/how-do-i-connect-higgsfield-to-ai-agent)).
 
 Then ask for an illustration with your palette locked:
 
@@ -148,9 +165,13 @@ product screen. Every generation uses Higgsfield credits.
 3. Ask:
 
 ```
-> Build a 45-second explainer from videos/<slug>/script.txt. Reveal each card on the
-  word where the voice says it, using transcript.json. Use the generated image behind the title.
+> Build a narrated explainer in videos/<slug> from script.txt and narration.wav, 16:9.
+  Reveal each command card on the word where the voice says it, using transcript.json.
+  Put assets/<your-image>.png behind the title. Render it when check passes.
 ```
+
+The tutorial's example lives in `examples/git-undo-explainer/`: the five-line script and the
+transcript the voice produced, so you can compare your timings with ours.
 
 4. Render, then `/review` it.
 
@@ -159,12 +180,17 @@ product screen. Every generation uses Higgsfield credits.
 [brag](https://github.com/latent-spaces/brag) is a Claude Code plugin that reads a project and
 makes a short launch video for it.
 
-Install it inside Claude Code:
+Install it from your terminal:
 
+```bash
+claude plugin marketplace add latent-spaces/brag
+claude plugin install brag@brag
 ```
-/plugin marketplace add latent-spaces/brag
-/plugin install brag@brag
-```
+
+That installs it for every project. To keep it to one folder, run both commands inside that folder
+with `--scope project`. A project-scoped plugin only loads when you start `claude` in that same
+folder. (Inside Claude Code, `/plugin marketplace add latent-spaces/brag` and
+`/plugin install brag@brag` open the plugin panel, where you pick the scope.)
 
 Open the demo app and ask for a launch clip:
 
