@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #000;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #F4F1EA;
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="96.64"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div
+        id="el-01-every-enter"
+        class="scene"
+        data-composition-id="01-every-enter"
+        data-composition-src="compositions/frames/01-every-enter.html"
+        data-start="0"
+        data-duration="7.5"
+        data-track-index="0"
+      ></div>
+      <audio
+        id="el-01-every-enter-voice"
+        src="assets/voice/01.wav"
+        data-start="0"
+        data-duration="7"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-02-what-gets-resent"
+        class="scene"
+        data-composition-id="02-what-gets-resent"
+        data-composition-src="compositions/frames/02-what-gets-resent.html"
+        data-start="7"
+        data-duration="12.36"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-02-what-gets-resent-voice"
+        src="assets/voice/02.wav"
+        data-start="7"
+        data-duration="12.36"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-03-the-take"
+        class="scene"
+        data-composition-id="03-the-take"
+        data-composition-src="compositions/frames/03-the-take.html"
+        data-start="19.36"
+        data-duration="7.26"
+        data-track-index="0"
+      ></div>
+      <audio
+        id="el-03-the-take-voice"
+        src="assets/voice/03.wav"
+        data-start="19.36"
+        data-duration="6.76"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-04-empty-kitchen"
+        class="scene"
+        data-composition-id="04-empty-kitchen"
+        data-composition-src="compositions/frames/04-empty-kitchen.html"
+        data-start="26.119999999999997"
+        data-duration="10.42"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-04-empty-kitchen-voice"
+        src="assets/voice/04.wav"
+        data-start="26.119999999999997"
+        data-duration="9.92"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-05-prepped-kitchen"
+        class="scene"
+        data-composition-id="05-prepped-kitchen"
+        data-composition-src="compositions/frames/05-prepped-kitchen.html"
+        data-start="36.04"
+        data-duration="6.98"
+        data-track-index="0"
+      ></div>
+      <audio
+        id="el-05-prepped-kitchen-voice"
+        src="assets/voice/05.wav"
+        data-start="36.04"
+        data-duration="6.48"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-06-serving-kitchen"
+        class="scene"
+        data-composition-id="06-serving-kitchen"
+        data-composition-src="compositions/frames/06-serving-kitchen.html"
+        data-start="42.519999999999996"
+        data-duration="6.42"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-06-serving-kitchen-voice"
+        src="assets/voice/06.wav"
+        data-start="42.519999999999996"
+        data-duration="5.92"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-07-prefix-rule"
+        class="scene"
+        data-composition-id="07-prefix-rule"
+        data-composition-src="compositions/frames/07-prefix-rule.html"
+        data-start="48.44"
+        data-duration="10.7"
+        data-track-index="0"
+      ></div>
+      <audio
+        id="el-07-prefix-rule-voice"
+        src="assets/voice/07.wav"
+        data-start="48.44"
+        data-duration="10.2"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-08-the-price"
+        class="scene"
+        data-composition-id="08-the-price"
+        data-composition-src="compositions/frames/08-the-price.html"
+        data-start="58.64"
+        data-duration="11.82"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-08-the-price-voice"
+        src="assets/voice/08.wav"
+        data-start="58.64"
+        data-duration="11.32"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-09-cache-lifetime"
+        class="scene"
+        data-composition-id="09-cache-lifetime"
+        data-composition-src="compositions/frames/09-cache-lifetime.html"
+        data-start="69.96000000000001"
+        data-duration="8.36"
+        data-track-index="0"
+      ></div>
+      <audio
+        id="el-09-cache-lifetime-voice"
+        src="assets/voice/09.wav"
+        data-start="69.96000000000001"
+        data-duration="8.36"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-10-what-spoils"
+        class="scene"
+        data-composition-id="10-what-spoils"
+        data-composition-src="compositions/frames/10-what-spoils.html"
+        data-start="78.32000000000001"
+        data-duration="10.86"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-10-what-spoils-voice"
+        src="assets/voice/10.wav"
+        data-start="78.32000000000001"
+        data-duration="10.86"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-11-check-it"
+        class="scene"
+        data-composition-id="11-check-it"
+        data-composition-src="compositions/frames/11-check-it.html"
+        data-start="89.18"
+        data-duration="4.36"
+        data-track-index="0"
+      ></div>
+      <audio
+        id="el-11-check-it-voice"
+        src="assets/voice/11.wav"
+        data-start="89.18"
+        data-duration="3.86"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-12-read-once"
+        class="scene"
+        data-composition-id="12-read-once"
+        data-composition-src="compositions/frames/12-read-once.html"
+        data-start="93.04"
+        data-duration="3.6"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-12-read-once-voice"
+        src="assets/voice/12.wav"
+        data-start="93.04"
+        data-duration="3.6"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+      // ── frame transitions (injected by transitions.mjs) ──
+      (function () { var tl = window.__timelines["main"];
+        tl.to("#el-01-every-enter", { x: -1920, duration: 0.5, ease: "power3.inOut" }, 7);
+        tl.fromTo("#el-02-what-gets-resent", { x: 1920, opacity: 1 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.inOut" }, 7);
+        tl.addLabel("hf:transition:01-every-enter:02-what-gets-resent:push-slide", 7);
+        tl.to("#el-03-the-take", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 26.12);
+        tl.fromTo("#el-04-empty-kitchen", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 26.12);
+        tl.addLabel("hf:transition:03-the-take:04-empty-kitchen:crossfade", 26.12);
+        tl.to("#el-04-empty-kitchen", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 36.04);
+        tl.fromTo("#el-05-prepped-kitchen", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 36.04);
+        tl.addLabel("hf:transition:04-empty-kitchen:05-prepped-kitchen:crossfade", 36.04);
+        tl.to("#el-05-prepped-kitchen", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 42.52);
+        tl.fromTo("#el-06-serving-kitchen", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 42.52);
+        tl.addLabel("hf:transition:05-prepped-kitchen:06-serving-kitchen:crossfade", 42.52);
+        tl.to("#el-06-serving-kitchen", { x: -1920, duration: 0.5, ease: "power3.inOut" }, 48.44);
+        tl.fromTo("#el-07-prefix-rule", { x: 1920, opacity: 1 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.inOut" }, 48.44);
+        tl.addLabel("hf:transition:06-serving-kitchen:07-prefix-rule:push-slide", 48.44);
+        tl.to("#el-07-prefix-rule", { x: -1920, duration: 0.5, ease: "power3.inOut" }, 58.64);
+        tl.fromTo("#el-08-the-price", { x: 1920, opacity: 1 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.inOut" }, 58.64);
+        tl.addLabel("hf:transition:07-prefix-rule:08-the-price:push-slide", 58.64);
+        tl.to("#el-08-the-price", { x: -1920, duration: 0.5, ease: "power3.inOut" }, 69.96);
+        tl.fromTo("#el-09-cache-lifetime", { x: 1920, opacity: 1 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.inOut" }, 69.96);
+        tl.addLabel("hf:transition:08-the-price:09-cache-lifetime:push-slide", 69.96);
+        tl.to("#el-11-check-it", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 93.04);
+        tl.fromTo("#el-12-read-once", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 93.04);
+        tl.addLabel("hf:transition:11-check-it:12-read-once:crossfade", 93.04);
+        tl.to({}, { duration: 96.64 }, 0); // full-span anchor — main.duration() == composition total (Studio master duration)
+      })();
+    </script>
+  </body>
+</html>

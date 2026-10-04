@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Prompt caching, explained — storyboard v2</title>
+<style>
+@font-face { font-family: "Playfair Display"; src: url("assets/fonts/playfair-display-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; }
+@font-face { font-family: "Playfair Display"; src: url("assets/fonts/playfair-display-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; }
+@font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+@font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+
+:root {
+  --ink: #1A1815; --cream: #F4F1EA; --clay: #C15F3C; --tile: #F3E0DA; --navy: #181615; --navy-elev: #252220;
+  --hair: rgba(26,24,21,.12); --hair-strong: rgba(26,24,21,.20);
+  --serif: "Playfair Display", Georgia, serif; --sans: "Inter", system-ui, sans-serif; --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #E9E4DA; color: var(--ink); font-family: var(--sans); padding: 48px 56px 80px; }
+
+/* ---------- sheet chrome ---------- */
+header.sheet { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 36px; border-bottom: 1px solid var(--hair-strong); padding-bottom: 24px; }
+header.sheet h1 { font-family: var(--serif); font-weight: 400; font-size: 44px; letter-spacing: -0.02em; line-height: 1.05; }
+header.sheet h1 em { color: var(--clay); }
+header.sheet p { font-size: 17px; margin-top: 10px; max-width: 760px; line-height: 1.45; color: rgba(26,24,21,.75); }
+.tag { font-family: var(--mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; border: 1px solid var(--hair-strong); border-radius: 999px; padding: 8px 14px; white-space: nowrap; }
+.act { font-family: var(--mono); font-size: 13px; letter-spacing: .16em; text-transform: uppercase; margin: 40px 0 16px; display: flex; align-items: center; gap: 14px; }
+.act::before { content: "✱"; color: var(--clay); font-size: 16px; }
+.act::after { content: ""; flex: 1; height: 1px; background: var(--hair-strong); }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px 24px; }
+figure { display: flex; flex-direction: column; gap: 10px; }
+.label { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+.label b { font-weight: 500; }
+.note { font-size: 13.5px; line-height: 1.5; color: rgba(26,24,21,.8); }
+.note strong { color: var(--ink); font-weight: 600; }
+.vo { font-family: var(--serif); font-style: italic; font-size: 14px; line-height: 1.45; color: rgba(26,24,21,.7); }
+.chip { align-self: flex-start; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; border: 1px solid var(--hair-strong); border-radius: 999px; padding: 4px 10px; }
+.chip.art { border-color: var(--clay); color: var(--clay); }
+
+/* ---------- the 16:9 cell (sizes in cqw so the sheet matches the 1920 build; 2.1cqw = 40px floor) ---------- */
+.cell { aspect-ratio: 16 / 9; container-type: inline-size; position: relative; overflow: hidden; background: var(--cream); border: 1px solid var(--hair); border-radius: 6px; box-shadow: 0 1px 3px rgba(26,24,21,.08), 0 4px 16px rgba(26,24,21,.04); }
+.pad { position: absolute; inset: 4.2cqw; }
+.kicker { font-family: var(--mono); font-weight: 500; font-size: 2.1cqw; letter-spacing: .16em; text-transform: uppercase; }
+.kicker::before { content: "✱ "; color: var(--clay); }
+.mono { font-family: var(--mono); font-weight: 500; font-size: 2.1cqw; letter-spacing: .02em; }
+.serif { font-family: var(--serif); font-weight: 400; letter-spacing: -0.02em; }
+.clay { color: var(--clay); }
+.hl { font-family: var(--serif); font-size: 5cqw; line-height: 1.06; letter-spacing: -0.018em; }
+.plate { position: absolute; top: 0; right: 0; bottom: 0; width: 62%; background:
+  repeating-linear-gradient(135deg, rgba(26,24,21,.05) 0 1.2cqw, transparent 1.2cqw 2.4cqw), #E6DFD2; border-left: 1px solid var(--hair-strong); }
+.plate .tagp { position: absolute; top: 2.2cqw; right: 2.4cqw; font-family: var(--mono); font-size: 2.1cqw; letter-spacing: .08em; text-transform: uppercase; color: rgba(26,24,21,.55); }
+.counter { position: absolute; left: 0; right: 0; bottom: 22%; height: 2px; background: rgba(26,24,21,.45); }
+.wall-rail { position: absolute; top: 24%; left: 8%; right: 8%; height: 1.2cqw; border-top: 2px solid rgba(26,24,21,.45); }
+.ticket { position: absolute; top: 25%; width: 4cqw; height: 6cqw; background: #FBF9F4; border: 1px solid var(--hair-strong); }
+.bowl { position: absolute; bottom: 22%; width: 6.5cqw; height: 3.2cqw; border: 2px solid rgba(26,24,21,.5); border-top: none; border-radius: 0 0 4cqw 4cqw; background: #FBF9F4; }
+.pan { position: absolute; bottom: 22%; width: 9cqw; height: 2.4cqw; border: 2px solid rgba(26,24,21,.4); border-top: none; border-radius: 0 0 1cqw 1cqw; }
+.dish { position: absolute; width: 10cqw; height: 10cqw; border-radius: 50%; border: 2px solid rgba(26,24,21,.5); background: #FBF9F4; display: grid; place-items: center; }
+.dish i { width: 5cqw; height: 5cqw; border-radius: 50%; background: var(--clay); display: block; }
+.pill { display: inline-block; font-family: var(--mono); font-weight: 500; font-size: 2.1cqw; letter-spacing: .04em; padding: .7cqw 1.6cqw; border-radius: 999px; border: 1px solid var(--hair-strong); }
+.pill.on { background: var(--clay); color: var(--cream); border-color: var(--clay); }
+
+/* bars for frame 02 */
+.req { display: flex; height: 3.6cqw; border-radius: .4cqw; overflow: hidden; }
+.req span { display: block; height: 100%; }
+.s1 { background: var(--ink); } .s2 { background: rgba(26,24,21,.72); } .s3 { background: rgba(26,24,21,.48); } .s4 { background: rgba(26,24,21,.28); } .s5 { background: var(--clay); }
+
+/* closing cells */
+.seam-strip { display: flex; flex-wrap: wrap; gap: .8cqw; }
+.seam-strip div { font-family: var(--mono); font-size: 2.1cqw; padding: .5cqw 1cqw; border: 1px solid var(--hair-strong); border-radius: .5cqw; }
+.sw { display: inline-block; width: 5cqw; height: 5cqw; border-radius: .6cqw; vertical-align: middle; margin-right: 1cqw; border: 1px solid var(--hair-strong); }
+</style>
+</head>
+<body>
+
+<header class="sheet">
+  <div>
+    <h1>Prompt caching, explained — <em>storyboard v2</em></h1>
+    <p>Developers who use Claude Code: most of your bill is Claude re-reading the same context. Prompt caching is the kitchen where the prep is already done. Static key moments; no motion yet. Hatched panels are the Higgsfield plates still to come (one kitchen, three states).</p>
+  </div>
+  <span class="tag">1920×1080 · ~2:00 · 12 frames · VO Sarah · no music</span>
+</header>
+
+<!-- ===================== ACT I ===================== -->
+<div class="act">Act I · The re-read · 0:00–0:29</div>
+<div class="grid">
+
+<figure>
+  <div class="cell" id="frame-01">
+    <div class="pad">
+      <div class="kicker">Claude Code · every turn</div>
+      <div class="hl" style="margin-top:6cqw; font-size:6cqw;">Every time you press enter,<br>Claude reads it <span class="clay" style="font-style:italic">all</span> again.</div>
+      <div style="position:absolute; left:0; right:0; bottom:0;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:1.2cqw;"><span class="mono">line 1</span><span class="mono">↵ enter</span></div>
+        <div style="height:1.4cqw; background:var(--hair); border-radius:1cqw; overflow:hidden;"><div style="width:72%; height:100%; background:var(--ink);"></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="label"><b>01 · Every enter</b><span>frame-01 · 0:00–0:08</span></div>
+  <p class="note"><strong>The headline lands first, then the read bar sweeps from line 1</strong> on "from the very first line" and restarts on each "enter". Seam out: hard cut.</p>
+  <p class="vo">"Every time you press enter in Claude Code, Claude reads your whole session again. From the very first line."</p>
+  <span class="chip">in · cut</span>
+</figure>
+
+<figure>
+  <div class="cell" id="frame-02">
+    <div class="pad">
+      <div class="hl" style="font-size:4.4cqw;">Most of it, Claude <span class="clay" style="font-style:italic">already read.</span></div>
+      <div style="position:absolute; left:0; right:0; top:11cqw; display:grid; grid-template-columns:9cqw 1fr; gap:1.8cqw 1.6cqw; align-items:center;">
+        <span class="mono">turn 1</span><div class="req" style="width:46%"><span class="s1" style="flex:30"></span><span class="s2" style="flex:22"></span><span class="s3" style="flex:30"></span><span class="s5" style="flex:9"></span></div>
+        <span class="mono">turn 2</span><div class="req" style="width:66%"><span class="s1" style="flex:30"></span><span class="s2" style="flex:22"></span><span class="s3" style="flex:40"></span><span class="s4" style="flex:18"></span><span class="s5" style="flex:9"></span></div>
+        <span class="mono">turn 3</span><div class="req" style="width:90%"><span class="s1" style="flex:30"></span><span class="s2" style="flex:22"></span><span class="s3" style="flex:52"></span><span class="s4" style="flex:34"></span><span class="s5" style="flex:9"></span></div>
+      </div>
+      <div style="position:absolute; left:0; right:0; bottom:0; display:flex; flex-wrap:wrap; gap:1cqw 2.4cqw;">
+        <span class="mono"><span style="color:var(--ink)">■</span> system prompt</span>
+        <span class="mono"><span style="color:rgba(26,24,21,.72)">■</span> CLAUDE.md</span>
+        <span class="mono"><span style="color:rgba(26,24,21,.48)">■</span> messages</span>
+        <span class="mono"><span style="color:rgba(26,24,21,.4)">■</span> tool results</span>
+        <span class="mono clay">■ your new line</span>
+      </div>
+    </div>
+  </div>
+  <div class="label"><b>02 · What gets re-sent</b><span>frame-02 · 0:08–0:21</span></div>
+  <p class="note"><strong>Segments of turn 1 snap in one per spoken name</strong> (system prompt → CLAUDE.md → messages → tool results), then the clay "new line" on "tacked on the end"; turns 2–3 extend on the closing line. Headline arrives last. Seam out: cut.</p>
+  <p class="vo">"Your system prompt. Your Claude M D. Every message, every tool result. Then your new line, tacked on the end. Most of every request is text Claude has already read."</p>
+  <span class="chip">in · push-slide left</span>
+</figure>
+
+<figure>
+  <div class="cell" id="frame-03">
+    <div class="pad" style="display:flex; flex-direction:column; justify-content:center;">
+      <div class="kicker">The idea</div>
+      <div class="serif" style="font-style:italic; font-size:5.6cqw; line-height:1.12; margin-top:3cqw; max-width:84%;">Caching is the kitchen where the <span class="clay">prep</span> is already done.</div>
+      <div style="margin-top:3.2cqw; width:22cqw; height:1px; background:var(--hair-strong);"></div>
+    </div>
+  </div>
+  <div class="label"><b>03 · The take</b><span>frame-03 · 0:21–0:29</span></div>
+  <p class="note"><strong>The kicker comes first; the quote slides up and crossfades in on "Prompt caching"</strong>, and "prep" turns clay on its word. Then it holds. This is the film's one deliberately held frame. Seam out: crossfade into the kitchen.</p>
+  <p class="vo">"So most of what you pay for is the re-read. Prompt caching is the kitchen where the prep is already done."</p>
+  <span class="chip">in · cut</span>
+</figure>
+
+</div>
+
+<!-- ===================== ACT II ===================== -->
+<div class="act">Act II · The kitchen · 0:29–0:59 · one plate, three states</div>
+<div class="grid">
+
+<figure>
+  <div class="cell" id="frame-04">
+    <div class="plate">
+      <span class="tagp">plate A · empty</span>
+      <div class="wall-rail"></div>
+      <div class="ticket" style="left:14%"></div><div class="ticket" style="left:24%"></div><div class="ticket" style="left:34%"></div><div class="ticket" style="left:44%"></div><div class="ticket" style="left:54%"></div><div class="ticket" style="left:64%"></div><div class="ticket" style="left:74%"></div>
+      <div class="pan" style="left:18%"></div><div class="pan" style="left:52%"></div>
+      <div class="counter"></div>
+    </div>
+    <div class="pad" style="right:66%; display:flex; flex-direction:column; justify-content:center;">
+      <div class="kicker" style="font-size:2.1cqw;">No cache</div>
+      <div class="hl" style="margin-top:2.4cqw; font-size:4.8cqw;">Every order starts <span class="clay" style="font-style:italic">cold.</span></div>
+    </div>
+  </div>
+  <div class="label"><b>04 · Empty kitchen</b><span>frame-04 · 0:29–0:40</span></div>
+  <p class="note"><strong>The plate fades up with a slow push-in; the headline lands on "starts cold".</strong> Tickets on the rail get a soft highlight one by one on "read every ticket again". The left third stays clear for type. Seam out: crossfade (same camera).</p>
+  <p class="vo">"Without a cache, every order starts cold. Chop the onions, make the stock, read every ticket again. All that, just to plate one new dish."</p>
+  <span class="chip art">art · /art-direction plate A</span>
+</figure>
+
+<figure>
+  <div class="cell" id="frame-05">
+    <div class="plate">
+      <span class="tagp">plate B · prepped</span>
+      <div class="wall-rail"></div>
+      <div class="ticket" style="left:14%"></div>
+      <div class="bowl" style="left:10%"></div><div class="bowl" style="left:24%"></div><div class="bowl" style="left:38%"></div><div class="bowl" style="left:52%"></div><div class="bowl" style="left:66%"></div><div class="bowl" style="left:80%"></div>
+      <div class="counter"></div>
+    </div>
+    <div class="pad" style="right:66%; display:flex; flex-direction:column; justify-content:center;">
+      <div class="hl" style="font-size:4.8cqw;">Prep it <span class="clay" style="font-style:italic">once.</span></div>
+      <div style="margin-top:3cqw;"><span class="pill on">cache write</span></div>
+    </div>
+  </div>
+  <div class="label"><b>05 · Prepped kitchen</b><span>frame-05 · 0:40–0:50</span></div>
+  <p class="note"><strong>It crossfades from plate A to plate B</strong> in the same framing, so it looks like the bowls fill the counter. "Prep it once." lands on "does the prep once", and the clay <code>cache write</code> pill pops in on "cache write". Seam out: crossfade.</p>
+  <p class="vo">"With caching, the first request does the prep once and leaves it on the counter. That's a cache write."</p>
+  <span class="chip art">art · plate B (ref: A)</span>
+</figure>
+
+<figure>
+  <div class="cell" id="frame-06">
+    <div class="plate">
+      <span class="tagp">plate C · serving</span>
+      <div class="wall-rail"></div>
+      <div class="bowl" style="left:8%"></div><div class="bowl" style="left:20%"></div><div class="bowl" style="left:32%"></div>
+      <div class="dish" style="left:58%; bottom:24%;"><i></i></div>
+      <div class="counter"></div>
+    </div>
+    <div class="pad" style="right:66%; display:flex; flex-direction:column; justify-content:center;">
+      <div class="hl" style="font-size:4.8cqw;">The prep is <span class="clay" style="font-style:italic">waiting.</span></div>
+      <div style="margin-top:3cqw;"><span class="pill on">cache hit</span></div>
+    </div>
+  </div>
+  <div class="label"><b>06 · Serving kitchen</b><span>frame-06 · 0:50–0:59</span></div>
+  <p class="note"><strong>It crossfades to plate C, and the plated dish is the only new thing in the frame</strong>; it gets a slight lift on "only cooks what's new". The <code>cache hit</code> pill pops in on its word. Seam out: push-slide left into the diagrams.</p>
+  <p class="vo">"Next order, the prep is waiting. Claude only cooks what's new. That's a cache hit."</p>
+  <span class="chip art">art · plate C (ref: A)</span>
+</figure>
+
+</div>
+
+<!-- ===================== ACT III ===================== -->
+<div class="act">Act III · The rules · 0:59–1:36</div>
+<div class="grid">
+
+<figure>
+  <div class="cell" id="frame-07">
+    <div class="pad">
+      <div class="hl" style="font-size:4.4cqw;">It matches from the <span class="clay" style="font-style:italic">top.</span></div>
+      <div style="position:absolute; left:0; right:0; top:10.5cqw; display:flex; flex-direction:column; gap:1.4cqw;">
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:1.6cqw 2cqw; border:1px solid var(--clay); background:var(--tile); border-radius:.8cqw;">
+          <span class="serif" style="font-size:3.4cqw;">System prompt</span><span class="mono">tools · instructions</span><span class="mono clay">✎ changed</span></div>
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:1.6cqw 2cqw; border:1px solid var(--clay); background:var(--tile); border-radius:.8cqw;">
+          <span class="serif" style="font-size:3.4cqw;">Project context</span><span class="mono">CLAUDE.md · memory</span><span class="mono clay">↻ re-read</span></div>
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:1.6cqw 2cqw; border:1px solid var(--clay); background:var(--tile); border-radius:.8cqw;">
+          <span class="serif" style="font-size:3.4cqw;">Conversation</span><span class="mono">messages · tool results</span><span class="mono clay">↻ re-read</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="label"><b>07 · Matches from the top</b><span>frame-07 · 0:59–1:13</span></div>
+  <p class="note"><strong>The three layers stack in, hairline only.</strong> On "change the conversation", only the bottom layer turns clay and the top two get a <code>cached</code> tag. On "something above it", the top layer goes clay and the clay floods down through all three (the moment sketched here). Seam out: push-slide left.</p>
+  <p class="vo">"But the match is exact, and it starts at the top. Change the conversation, and the prep stays. Change something above it, and everything below gets cooked again."</p>
+  <span class="chip">in · push-slide left</span>
+</figure>
+
+<figure>
+  <div class="cell" id="frame-08">
+    <div class="pad">
+      <div class="kicker">Price per input token</div>
+      <div style="position:absolute; left:0; right:0; bottom:5.6cqw; height:26cqw; display:flex; align-items:flex-end; gap:4cqw; border-bottom:1px solid var(--hair-strong); padding-left:2cqw;">
+        <div style="width:13cqw; display:flex; flex-direction:column; align-items:flex-start;"><span class="serif" style="font-size:5.4cqw; line-height:1;">1<span class="mono" style="font-size:2.4cqw;">×</span></span><div style="width:100%; height:16cqw; background:var(--ink); margin-top:1cqw;"></div></div>
+        <div style="width:13cqw; display:flex; flex-direction:column; align-items:flex-start;"><span class="serif" style="font-size:5.4cqw; line-height:1;">1.25<span class="mono" style="font-size:2.4cqw;">×</span></span><div style="width:100%; height:20cqw; background:rgba(26,24,21,.5); margin-top:1cqw;"></div></div>
+        <div style="width:13cqw; display:flex; flex-direction:column; align-items:flex-start;"><span class="serif clay" style="font-size:5.4cqw; line-height:1;">0.1<span class="mono" style="font-size:2.4cqw;">×</span></span><div style="width:100%; height:1.6cqw; background:var(--clay); margin-top:1cqw;"></div></div>
+        <div style="margin-left:auto; align-self:flex-end; padding-bottom:.6cqw;"><span class="mono">Opus 5.5 read · 0.05×</span></div>
+      </div>
+      <div style="position:absolute; left:2cqw; right:0; bottom:0; display:flex; gap:4cqw;">
+        <span class="mono" style="width:13cqw;">input</span><span class="mono" style="width:13cqw;">cache write</span><span class="mono" style="width:13cqw;">cache read</span>
+      </div>
+    </div>
+  </div>
+  <div class="label"><b>08 · The price</b><span>frame-08 · 1:13–1:26</span></div>
+  <p class="note"><strong>The baseline draws first, then each bar grows and its figure counts up on its own word</strong> ("one times", "one and a quarter", "one tenth"). The Opus 5.5 footnote fades in last. Only the read bar is clay. Seam out: push-slide left.</p>
+  <p class="vo">"Here's the price. Normal input costs one times. Writing the cache, one and a quarter. Reading it, one tenth. On Opus five point five, one twentieth."</p>
+  <span class="chip">in · push-slide left</span>
+</figure>
+
+<figure>
+  <div class="cell" id="frame-09">
+    <div class="pad">
+      <div class="hl" style="font-size:4.4cqw;">Prep doesn't keep <span class="clay" style="font-style:italic">forever.</span></div>
+      <div style="position:absolute; left:0; right:0; top:15cqw;">
+        <div style="position:relative; height:1px; background:var(--ink);">
+          <span style="position:absolute; left:6%; top:-1.2cqw; width:2px; height:2.4cqw; background:var(--ink);"></span>
+          <span style="position:absolute; left:20%; top:-1.2cqw; width:2px; height:2.4cqw; background:var(--ink);"></span>
+          <span style="position:absolute; left:31%; top:-1.2cqw; width:2px; height:2.4cqw; background:var(--ink);"></span>
+          <span style="position:absolute; left:31%; width:30%; top:-2.6cqw; height:2.2cqw; border:2px solid var(--clay); border-bottom:none; background:rgba(193,95,60,.12);"></span>
+        </div>
+        <div style="display:flex; gap:0; margin-top:2cqw; position:relative; height:3cqw;">
+          <span class="mono" style="position:absolute; left:4%;">hit</span><span class="mono" style="position:absolute; left:18%;">hit</span><span class="mono" style="position:absolute; left:29%;">hit</span>
+          <span class="mono clay" style="position:absolute; left:40%;">5 min · resets on every hit</span>
+        </div>
+        <div style="margin-top:4cqw; position:relative; height:2.2cqw;">
+          <span style="position:absolute; left:31%; width:66%; height:100%; border:2px solid rgba(26,24,21,.45); border-bottom:none;"></span>
+        </div>
+        <div class="mono" style="margin-left:31%; margin-top:1cqw;">1 h · Claude subscription, within plan usage</div>
+      </div>
+    </div>
+  </div>
+  <div class="label"><b>09 · Cache lifetime</b><span>frame-09 · 1:26–1:36</span></div>
+  <p class="note"><strong>The timeline draws left to right.</strong> The clay 5-minute window appears on "five minutes", then slides forward on each "hit" tick. The longer ink bracket grows on "an hour". Seam out: cut.</p>
+  <p class="vo">"Prep doesn't keep forever. The cache lives five minutes. On a Claude subscription, an hour. And every hit resets the clock."</p>
+  <span class="chip">in · push-slide left</span>
+</figure>
+
+</div>
+
+<!-- ===================== ACT IV ===================== -->
+<div class="act">Act IV · What to do · 1:36–2:02</div>
+<div class="grid">
+
+<figure>
+  <div class="cell" id="frame-10">
+    <div class="pad">
+      <div class="kicker">Mid-task</div>
+      <div class="hl" style="font-size:4.4cqw; margin-top:1.6cqw;">Three things spoil the prep.</div>
+      <div style="position:absolute; left:0; right:0; bottom:0; display:flex; flex-direction:column;">
+        <div style="display:grid; grid-template-columns:5cqw 20cqw 1fr; align-items:center; padding:1.8cqw 0; border-top:1px solid var(--hair-strong);"><span class="mono clay">01</span><span class="mono" style="font-size:2.8cqw;">/model</span><span style="font-size:2.6cqw;">switch models</span></div>
+        <div style="display:grid; grid-template-columns:5cqw 20cqw 1fr; align-items:center; padding:1.8cqw 0; border-top:1px solid var(--hair-strong);"><span class="mono clay">02</span><span class="mono" style="font-size:2.8cqw;">fast mode</span><span style="font-size:2.6cqw;">turn it on</span></div>
+        <div style="display:grid; grid-template-columns:5cqw 20cqw 1fr; align-items:center; padding:1.8cqw 0; border-top:1px solid var(--hair-strong);"><span class="mono clay">03</span><span class="mono" style="font-size:2.8cqw;">/compact</span><span style="font-size:2.6cqw;">mid-task</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="label"><b>10 · What spoils the prep</b><span>frame-10 · 1:36–1:46</span></div>
+  <p class="note"><strong>The headline comes first, then one row slides in per spoken item</strong> on "switching models", "fast mode" and "compacting". The clay index numbers are the only accent. Seam out: cut.</p>
+  <p class="vo">"Mid-task, three things throw the prep out: switching models, turning on fast mode, and compacting."</p>
+  <span class="chip">in · cut</span>
+</figure>
+
+<figure>
+  <div class="cell" id="frame-11">
+    <div class="pad" style="display:flex; align-items:center; justify-content:center;">
+      <div style="width:64cqw; background:var(--navy); border-radius:1cqw; border:1px solid rgba(244,241,234,.14); overflow:hidden;">
+        <div style="background:var(--navy-elev); padding:1.3cqw 2cqw; display:flex; gap:.9cqw;"><i style="width:1.2cqw;height:1.2cqw;border-radius:50%;background:rgba(244,241,234,.25);display:block"></i><i style="width:1.2cqw;height:1.2cqw;border-radius:50%;background:rgba(244,241,234,.25);display:block"></i><i style="width:1.2cqw;height:1.2cqw;border-radius:50%;background:rgba(244,241,234,.25);display:block"></i></div>
+        <div style="padding:3.6cqw 4cqw 4.4cqw; color:var(--cream); display:flex; flex-direction:column; gap:2.8cqw;">
+          <span class="mono" style="font-size:4.6cqw;"><span class="clay">&gt;</span> /usage</span>
+          <div style="height:1px; background:rgba(244,241,234,.14);"></div>
+          <span class="mono" style="font-size:3cqw;">Prompt cache (main)</span>
+          <span class="mono" style="font-size:2.4cqw; color:rgba(244,241,234,.7);">hit ratio · misses · warm</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="label"><b>11 · Check your kitchen</b><span>frame-11 · 1:46–1:56</span></div>
+  <p class="note"><strong>Just the card. It rises in and pushes in slowly while the voice says the two habits</strong> (no text for them on screen). <code>/usage</code> types in on "slash usage", the divider draws, and "Prompt cache (main)" plus its labels appear on "prompt cache line". Labels only, no invented numbers. Seam out: crossfade.</p>
+  <p class="vo">"So pick your model at the start, and compact between tasks. Then run slash usage, and read the prompt cache line."</p>
+  <span class="chip">in · cut</span>
+</figure>
+
+<figure>
+  <div class="cell" id="frame-12">
+    <div class="pad" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
+      <div class="serif" style="font-size:8cqw; line-height:1;">Read once.</div>
+      <div class="serif clay" style="font-style:italic; font-size:5.2cqw; margin-top:2cqw;">Cook only what's new.</div>
+      <div class="clay" style="font-size:4cqw; margin-top:3cqw;">✱</div>
+    </div>
+  </div>
+  <div class="label"><b>12 · Read once</b><span>frame-12 · 1:56–2:02</span></div>
+  <p class="note"><strong>"Read once." on its words, then the clay italic line, then the ✱ settles</strong> (fade plus a 0.92→1 scale). It holds to the end of the audio. Calls back to frame 01 ("reads it all again") and the kitchen.</p>
+  <p class="vo">"Read the context once. Cook only what's new."</p>
+  <span class="chip">in · crossfade</span>
+</figure>
+
+</div>
+
+<!-- ===================== CLOSING CELLS ===================== -->
+<div class="act">Seams &amp; tokens</div>
+<div class="grid">
+
+<figure>
+  <div class="cell">
+    <div class="pad">
+      <div class="kicker">Seam map</div>
+      <div class="seam-strip" style="margin-top:3cqw;">
+        <div>01</div><div>→ push</div><div>02</div><div>→ cut</div><div>03</div><div class="clay">→ fade</div><div>04</div><div class="clay">→ fade</div><div>05</div><div class="clay">→ fade</div><div>06</div><div>→ push</div><div>07</div><div>→ push</div><div>08</div><div>→ push</div><div>09</div><div>→ cut</div><div>10</div><div>→ cut</div><div>11</div><div class="clay">→ fade</div><div>12</div>
+      </div>
+      <p style="font-size:2.2cqw; margin-top:3cqw; line-height:1.4;">Push-slides always go left. Crossfades are for the kitchen and the close.</p>
+    </div>
+  </div>
+  <div class="label"><b>Seam map</b><span>3 seam types</span></div>
+</figure>
+
+<figure>
+  <div class="cell">
+    <div class="pad">
+      <div class="kicker">Tokens</div>
+      <div style="display:flex; flex-direction:column; gap:1.4cqw; margin-top:2.6cqw;">
+        <div class="mono"><span class="sw" style="background:#F4F1EA"></span>cream #F4F1EA · ground</div>
+        <div class="mono"><span class="sw" style="background:#1A1815"></span>ink #1A1815 · type, bars</div>
+        <div class="mono"><span class="sw" style="background:#C15F3C"></span>clay #C15F3C · one accent</div>
+      </div>
+      <div style="margin-top:2.4cqw; display:flex; gap:3cqw; align-items:baseline;">
+        <span class="serif" style="font-size:4cqw;">Playfair</span><span style="font-size:3cqw;">Inter</span><span class="mono" style="font-size:2.6cqw;">JetBrains</span>
+      </div>
+    </div>
+  </div>
+  <div class="label"><b>Tokens</b><span>frame.md · code-editorial</span></div>
+</figure>
+
+<figure>
+  <div class="cell">
+    <div class="pad">
+      <div class="kicker">Bans</div>
+      <div style="display:flex; flex-direction:column; gap:1.4cqw; margin-top:2.6cqw; font-size:2.4cqw; line-height:1.3;">
+        <span>No second accent colour, no glow, no gradients.</span>
+        <span>No fake Claude Code UI and no invented /usage numbers.</span>
+        <span>No text in the plates; numbers stay HTML.</span>
+        <span>No slideshow (every frame develops on its words).</span>
+        <span>No screensaver motion, no blinking cursor.</span>
+      </div>
+    </div>
+  </div>
+  <div class="label"><b>Bans</b><span>text ≥ 40px at 1920</span></div>
+</figure>
+
+</div>
+</body>
+</html>

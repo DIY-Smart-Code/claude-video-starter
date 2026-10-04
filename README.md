@@ -70,7 +70,6 @@ Higgsfield needs a paid plan, and every image costs credits.
 Then start Claude Code in the repo folder: `claude`.
 
 ## 2. The brief
-
 One prompt starts everything. Give it your topic, your take, your sources, your look and your voice:
 
 ```
@@ -86,47 +85,78 @@ One prompt starts everything. Give it your topic, your take, your sources, your 
   Voice: ElevenLabs, voice id EXAVITQu4vr4xnSDxMaL. No music. YouTube, 16:9.
 ```
 
-`/hyperframes` asks a few questions, pitches five ways to tell the story and recommends one, then
-writes `BRIEF.md`. "Use the standard explainer pipeline" routes it to `/faceless-explainer`.
+"Use the standard explainer pipeline" routes it to `/faceless-explainer`. It recommends an angle,
+may offer a few additions, and asks what's missing. Answer in a line each. In the tutorial run:
+
+```
+> 1. Yes, the narrative concept.
+  2. Both. Keep one kitchen across the idea scenes: empty, prepped, serving.
+  3. No, only the two docs pages.
+```
+
+The answers land in `BRIEF.md`.
 
 ## 3. The script
-
-Claude writes `SCRIPT.md` from your sources. Make it prove every number:
+Claude writes `SCRIPT.md` from your sources and checks every claim in `fact-check.md`: one row per
+claim, with the sentence from the source it rests on. Read that file. In the tutorial run it dropped
+two claims the docs didn't support and marked the take as an opinion. If your run skips the file,
+ask for it:
 
 ```
 > Check every number in SCRIPT.md against the sources and write fact-check.md with one row per
   claim: value, source URL, verified or wrong. Fix any wrong ones in the script.
 ```
 
-## 4. The design system
-
-The workflow picks one of its frame presets and remixes it onto your colours and fonts. The result
-is `frame.md`: palette, type sizes, spacing. Read it once; fix anything that is off before the
-storyboard is drawn on it.
-
-## 5. The storyboard review
-
-Before anything moves, Claude draws every frame as a static sketch in `storyboard.html`, in the real
-fonts, colours and text. Open it in your browser. Ask for changes frame by frame, for example:
+The voice reads exactly what's on the page, so write the narration for the ear:
 
 ```
-> Frame 3 has too much text on screen. Cut it to one headline and let the illustration carry it.
-  Show me the sheet again.
+> The frames look right. One change to the narration first: write the spoken lines for the ear, with
+  commas or full stops instead of dashes, and CLAUDE.md spoken as "Claude dot M D". Keep CLAUDE.md
+  as it is on screen. Then draw the sketches.
+```
+
+## 4. The design system
+The workflow picks one of its frame presets and remixes it onto your colours and fonts. The result
+is `frame.md`: palette, type, frame treatments and composition rules. Every frame inherits it, so
+check it once before the storyboard is drawn on it. (In the tutorial run the remix set the body font
+to Playfair; Claude switched it back to Inter.)
+
+## 5. The storyboard review
+Before anything moves, Claude draws every frame as a static sketch in `storyboard.html`, in the real
+fonts, colours and text, with notes on what moves first and how each frame hands off to the next.
+Open it in your browser and look at it the way a viewer would. Ask for changes frame by frame. The
+tutorial's one change:
+
+```
+> Frame 11 has too much text on screen. Cut it to the /usage card and let the voice say the two
+  habits. Show me the sheet again.
 ```
 
 When the sheet looks right, say so. `CLAUDE.md` tells Claude never to build before you confirm it.
 
+```
+> Looks right. Go on.
+```
+
 ## 6. Art direction
+After you confirm the sheet, Claude runs `/art-direction` for the metaphor scenes (if it doesn't,
+type `/art-direction for videos/<slug>`). The skill writes one prompt per scene with a locked style
+block (medium, palette hex codes, an empty third for the headline, no text), shows you the first
+plate and asks: keep or redo. When a plate has a problem the style should never repeat, put the fix
+into the style lock, so every later plate gets it:
 
 ```
-> /art-direction for videos/<slug>
+> Redo it. Add full-bleed, no plate border to the style lock so plates B and C get it too.
 ```
 
-The skill writes one prompt per metaphor scene with a locked style block (medium, palette hex codes,
-an empty third for the headline, no text), shows you the first plate, then uses it as a reference
-image so every plate looks like one illustrator made it. Plates that fail the checklist in
-`.claude/skills/art-direction/style-lock.md` get redone. Everything is saved to
-`videos/<slug>/assets/art/` with a ledger of every prompt. Charts and numbers stay HTML.
+```
+> Keep it. Go on with B and C.
+```
+
+The kept plate becomes the reference image for the rest, so they look like one illustrator made
+them. Plates that fail the checklist in `.claude/skills/art-direction/style-lock.md` get redone.
+Everything is saved to `videos/<slug>/assets/art/` with a ledger of every prompt and job ID. Charts
+and numbers stay HTML.
 
 ## 7. The voice
 
@@ -140,9 +170,12 @@ Free and local instead (no account): `npx hyperframes tts` with a Kokoro voice, 
 `HYPERFRAMES_WHISPER_PATH` pointing at `whisper-cli.exe`).
 
 ## 8. The build
+Approve the plates and Claude builds every frame on its confirmed sketch (one sub-agent per frame),
+assembles the video and runs the checks:
 
-Approve and Claude builds every frame on its confirmed sketch (one sub-agent per frame), assembles
-the video and runs the checks:
+```
+> They look right. Start the build.
+```
 
 ```bash
 npx hyperframes check videos/<slug>
@@ -150,17 +183,27 @@ npx hyperframes preview videos/<slug>
 npx hyperframes render videos/<slug> -o videos/<slug>/out/<slug>.mp4
 ```
 
-## 9. The review loop
+If Claude's own render can't start Chrome from its shell, run the render command yourself.
 
+## 9. The review loop
 ```
 > /review videos/<slug>
 ```
 
 `/review` turns the render into a grid of 18 stills, scores Hook, Readability, Motion and Variety
-out of 10 and names the three worst problems with timestamps. Say "fix them", render again, and run
-`/review` once more. Two lessons are built in: the tiles are a quarter of full size, so Claude checks
-a full-size frame before it calls text too small; and when `npx hyperframes check` fails after a fix,
-believe the check until a frame from the render proves otherwise.
+out of 10 and names the three worst problems with timestamps. Apply them, render again, and run
+`/review` once more:
+
+```
+> Yes, apply all three.
+```
+
+Stop when the list gets shorter and the problems get smaller; the score doesn't have to reach 10.
+Two lessons are built in: the tiles are a quarter of full size, so Claude checks a full-size frame
+before it calls text too small; and when `npx hyperframes check` fails after a fix, believe the check
+until a frame from the render proves otherwise.
+
+The finished project from the tutorial is in `examples/prompt-caching-explained/`.
 
 ## Going further
 

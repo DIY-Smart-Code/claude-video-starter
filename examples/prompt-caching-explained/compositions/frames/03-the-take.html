@@ -1,0 +1,190 @@
+<template id="03-the-take-template">
+  <div data-hf-id="hf-73br" id="root" data-composition-id="03-the-take" data-width="1920" data-height="1080" data-start="0" data-duration="7.26">
+    <style>
+      @font-face { font-family: "Playfair Display"; src: url("assets/fonts/playfair-display-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; }
+      @font-face { font-family: "Playfair Display"; src: url("assets/fonts/playfair-display-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-style: normal; }
+      @font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-style: normal; }
+
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        font-family: "Inter", sans-serif;
+        color: #1A1815;
+      }
+
+      .take-bg {
+        position: absolute;
+        inset: 0;
+        background: #F4F1EA;
+      }
+
+      .take-stage {
+        position: absolute;
+        inset: 0;
+      }
+
+      /* sketch .pad: inset 4.2cqw = 80px; left-aligned block, vertically centred */
+      .take-pad {
+        position: absolute;
+        left: 80px;
+        top: 80px;
+        right: 80px;
+        bottom: 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+      }
+
+      /* kicker: 2.1cqw = 40px, JetBrains Mono 500, uppercase, 0.16em */
+      .take-kicker {
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 500;
+        font-size: 40px;
+        line-height: 1.2;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #1A1815;
+        white-space: nowrap;
+      }
+      .take-spike {
+        color: #C15F3C;
+      }
+
+      /* quote: 5.6cqw = 108px Playfair italic, lh 1.12, margin-top 3cqw = 58px, max-width 84% of 1760 = 1478px */
+      /* review fix (render v2): the pre-line and the quote share one slot and swap in place */
+      .take-slot {
+        margin-top: 58px;
+        display: grid;
+      }
+      .take-slot > * { grid-area: 1 / 1; }
+      .take-pre {
+        align-self: start;
+        font-family: "Playfair Display", Georgia, serif;
+        font-weight: 400;
+        font-size: 108px;
+        line-height: 1.12;
+        letter-spacing: -0.02em;
+        color: #1A1815;
+        white-space: nowrap;
+        transform-origin: 0% 50%;
+      }
+      .take-pre-word { display: inline-block; opacity: 0; }
+      .take-pre-it { font-style: italic; }
+      .take-quote {
+        max-width: 1478px;
+        font-family: "Playfair Display", Georgia, serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 108px;
+        line-height: 1.12;
+        letter-spacing: -0.02em;
+        color: #1A1815;
+      }
+      .take-prep {
+        color: #1A1815;
+      }
+
+      /* rule: margin-top 3.2cqw = 61px, width 22cqw = 422px, 1px ink@20% */
+      .take-rule {
+        display: block;
+        margin-top: 61px;
+        width: 422px;
+        height: 2px;
+        overflow: visible;
+      }
+      .take-rule path {
+        fill: none;
+        stroke: rgba(26, 24, 21, 0.20);
+        stroke-width: 1;
+        stroke-linecap: butt;
+      }
+    </style>
+
+    <div data-hf-id="hf-id59" class="take-bg clip" id="03-the-take-bg" data-start="0" data-duration="7.26" data-track-index="0"></div>
+
+    <div data-hf-id="hf-uh44" class="take-stage clip" id="03-the-take-stage" data-start="0" data-duration="7.26" data-track-index="1">
+      <div data-hf-id="hf-lsdt" class="take-pad">
+        <div data-hf-id="hf-vati" class="take-kicker" id="03-the-take-kicker"><span data-hf-id="hf-jea4" class="take-spike">✱</span> The idea</div>
+        <div class="take-slot">
+          <div class="take-pre" id="03-the-take-pre"><span class="take-pre-word">You</span> <span class="take-pre-word">pay</span> <span class="take-pre-word">for</span> <span class="take-pre-word take-pre-it">the</span> <span class="take-pre-word take-pre-it">re-read.</span></div>
+          <div data-hf-id="hf-g5oy" class="take-quote" id="03-the-take-quote">Caching is the kitchen where the <span data-hf-id="hf-lwaw" class="take-prep" id="03-the-take-prep">prep</span> is already done.</div>
+        </div>
+        <svg data-hf-id="hf-gdjb" class="take-rule" id="03-the-take-rule-svg" viewBox="0 0 422 2" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path data-hf-id="hf-xu7b" id="03-the-take-rule" d="M 0 1 L 422 1" />
+        </svg>
+      </div>
+    </div>
+
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script>
+      (function () {
+        var ID = "03-the-take";
+        var DURATION = 6.76;
+        var root = document.querySelector('[data-composition-id="' + ID + '"]');
+        // ids start with a digit, so look them up by attribute
+        var byId = function (id) { return root.querySelector('[id="' + id + '"]'); };
+
+        window.__timelines = window.__timelines || {};
+        var tl = gsap.timeline({ paused: true });
+
+        var kicker = byId("03-the-take-kicker");
+        var quote = byId("03-the-take-quote");
+        var prep = byId("03-the-take-prep");
+        var rule = byId("03-the-take-rule");
+
+        // ---- Scene 1 (0.0–3.1s): kicker fades up on "So" (0.08s) ----------
+        tl.fromTo(kicker,
+          { opacity: 0, y: 16 },
+          { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+          0.08);
+
+        // svg-path-draw: the hairline rule draws left-to-right, done by "re-read." (1.92s)
+        var len = rule.getTotalLength();
+        tl.fromTo(rule,
+          { strokeDasharray: len, strokeDashoffset: len },
+          { strokeDasharray: len, strokeDashoffset: 0, duration: 1.4, ease: "power2.out" },
+          0.5);
+
+        // ---- Review fix (render v2): the line the voice is saying fills the slot until the quote.
+        // "You pay for the re-read." per word on the spoken cues (transcript.json):
+        // "you" 0.80 · "pay" 0.96 · "for" 1.20 · "the" 1.80 · "re-read." 1.92
+        var pre = byId("03-the-take-pre");
+        var preWords = pre.querySelectorAll(".take-pre-word");
+        var preTimes = [0.8, 0.96, 1.2, 1.8, 1.92];
+        for (var i = 0; i < preWords.length; i++) {
+          tl.fromTo(preWords[i],
+            { opacity: 0, y: 24 },
+            { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" },
+            preTimes[i]);
+        }
+        // scale-swap seam: the pre-line shrinks + fades out as the quote rises in on "Prompt"
+        tl.fromTo(pre,
+          { opacity: 1, scale: 1 },
+          { opacity: 0, scale: 0.96, duration: 0.35, ease: "power2.in" },
+          2.92);
+
+        // ---- Scene 2 (3.1–5.1s): the one restrained move — quote slides up + crossfades in on "Prompt" (3.12s)
+        tl.fromTo(quote,
+          { opacity: 0, y: 40 },
+          { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+          3.12);
+
+        // ---- Scene 3 (5.1–6.76s): "prep" warms ink -> clay on its word (5.08s), colour only
+        tl.fromTo(prep,
+          { color: "#1A1815" },
+          { color: "#C15F3C", duration: 0.5, ease: "power1.out" },
+          5.08);
+
+        // held frame, completely still, to the end
+        tl.set({}, {}, DURATION);
+
+        window.__timelines[ID] = tl;
+      })();
+    </script>
+  </div>
+</template>

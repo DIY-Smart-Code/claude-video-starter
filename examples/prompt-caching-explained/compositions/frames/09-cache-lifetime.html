@@ -1,0 +1,241 @@
+<template>
+  <div data-hf-id="hf-wsvw" id="root" data-composition-id="09-cache-lifetime" data-start="0" data-duration="8.36" data-width="1920" data-height="1080">
+    <style>
+      @font-face { font-family: "Playfair Display"; src: url("assets/fonts/playfair-display-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; }
+      @font-face { font-family: "Playfair Display"; src: url("assets/fonts/playfair-display-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+      @font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+      }
+      .\30 9-cache-lifetime-bg {
+        position: absolute;
+        inset: 0;
+        background: #F4F1EA;
+      }
+      .\30 9-cache-lifetime-stage {
+        position: absolute;
+        left: 80px;
+        top: 80px;
+        width: 1760px;
+        height: 920px;
+        color: #1A1815;
+      }
+      #cache-lifetime-headline {
+        position: absolute;
+        left: 0;
+        top: 0;
+        margin: 0;
+        font-family: "Playfair Display", Georgia, serif;
+        font-weight: 400;
+        font-size: 108px;
+        line-height: 1.06;
+        letter-spacing: -0.018em;
+        white-space: nowrap;
+      }
+      .\30 9-cache-lifetime-word {
+        display: inline-block;
+        opacity: 0;
+      }
+      #cache-lifetime-w4 {
+        color: #C15F3C;
+        font-style: italic;
+      }
+      /* the timeline strip — review fix (render v2): moved down to the frame's middle and enlarged */
+      #cache-lifetime-strip {
+        position: absolute;
+        left: 0;
+        top: 440px;
+        width: 1760px;
+        height: 0;
+      }
+      #cache-lifetime-axis {
+        position: absolute;
+        left: 0;
+        top: -2px;
+        width: 1760px;
+        height: 4px;
+        overflow: visible;
+      }
+      #cache-lifetime-axis line {
+        stroke: #1A1815;
+        stroke-width: 2;
+        fill: none;
+      }
+      .\30 9-cache-lifetime-tick {
+        position: absolute;
+        top: -36px;
+        width: 4px;
+        height: 72px;
+        background: #1A1815;
+        transform-origin: 50% 50%;
+        opacity: 0;
+      }
+      .\30 9-cache-lifetime-mono {
+        position: absolute;
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 48px;
+        line-height: 1.2;
+        letter-spacing: 0.02em;
+        white-space: nowrap;
+      }
+      .\30 9-cache-lifetime-hit {
+        top: 52px;
+        width: 96px;
+        text-align: center;
+        opacity: 0;
+      }
+      /* moving group: clay 5-min window + 1 h bracket, both anchored to the newest hit */
+      #cache-lifetime-clock {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 0;
+        height: 0;
+      }
+      #cache-lifetime-window-fill {
+        position: absolute;
+        left: 0;
+        top: -108px;
+        width: 528px;
+        height: 96px;
+        background: rgba(193, 95, 60, 0.12);
+        transform-origin: 0% 50%;
+        opacity: 0;
+      }
+      #cache-lifetime-window-edge {
+        position: absolute;
+        left: 0;
+        top: -108px;
+        width: 528px;
+        height: 96px;
+        overflow: visible;
+      }
+      #cache-lifetime-window-edge path {
+        stroke: #C15F3C;
+        stroke-width: 3;
+        fill: none;
+        stroke-linejoin: miter;
+      }
+      #cache-lifetime-window-label {
+        left: 158px;
+        top: 52px;
+        color: #C15F3C;
+        opacity: 0;
+      }
+      #cache-lifetime-hour-edge {
+        position: absolute;
+        left: 0;
+        top: 196px;
+        width: 1162px;
+        height: 72px;
+        overflow: visible;
+      }
+      #cache-lifetime-hour-edge path {
+        stroke: rgba(26, 24, 21, 0.45);
+        stroke-width: 3;
+        fill: none;
+        stroke-linejoin: miter;
+      }
+      #cache-lifetime-hour-label {
+        left: 0;
+        top: 284px;
+        font-size: 40px; /* stays inside the 80px pad at its final position (X3) */
+        opacity: 0;
+      }
+    </style>
+
+    <div data-hf-id="hf-9cyv" class="09-cache-lifetime-bg clip" data-start="0" data-duration="8.36" data-track-index="0"></div>
+
+    <div data-hf-id="hf-77pz" class="09-cache-lifetime-stage clip" data-start="0" data-duration="8.36" data-track-index="1">
+      <h1 data-hf-id="hf-crxi" id="cache-lifetime-headline"><span data-hf-id="hf-7hje" class="09-cache-lifetime-word" id="cache-lifetime-w1">Prep</span> <span data-hf-id="hf-a5m4" class="09-cache-lifetime-word" id="cache-lifetime-w2">doesn't</span> <span data-hf-id="hf-j34e" class="09-cache-lifetime-word" id="cache-lifetime-w3">keep</span> <span data-hf-id="hf-ik7n" class="09-cache-lifetime-word" id="cache-lifetime-w4">forever.</span></h1>
+
+      <div data-hf-id="hf-ykvi" id="cache-lifetime-strip">
+        <svg data-hf-id="hf-id8z" id="cache-lifetime-axis" viewBox="0 0 1760 4" preserveAspectRatio="none">
+          <line data-hf-id="hf-14s7" x1="0" y1="2" x2="1760" y2="2" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" />
+        </svg>
+
+        <!-- hit ticks at 6% / 20% / 31% of the strip (sketch) -->
+        <span data-hf-id="hf-y8nr" class="09-cache-lifetime-tick" id="cache-lifetime-tick1" style="left:104px;"></span>
+        <span data-hf-id="hf-sz5o" class="09-cache-lifetime-tick" id="cache-lifetime-tick2" style="left:351px;"></span>
+        <span data-hf-id="hf-g2bt" class="09-cache-lifetime-tick" id="cache-lifetime-tick3" style="left:544px;"></span>
+        <span data-hf-id="hf-iwcd" class="09-cache-lifetime-mono 09-cache-lifetime-hit" id="cache-lifetime-hit1" style="left:58px;">hit</span>
+        <span data-hf-id="hf-kaus" class="09-cache-lifetime-mono 09-cache-lifetime-hit" id="cache-lifetime-hit2" style="left:304px;">hit</span>
+        <span data-hf-id="hf-lug2" class="09-cache-lifetime-mono 09-cache-lifetime-hit" id="cache-lifetime-hit3" style="left:498px;">hit</span>
+
+        <div data-hf-id="hf-qpry" id="cache-lifetime-clock">
+          <div data-hf-id="hf-hbm2" id="cache-lifetime-window-fill"></div>
+          <svg data-hf-id="hf-zyo3" id="cache-lifetime-window-edge" viewBox="0 0 528 96">
+            <path data-hf-id="hf-wth2" d="M 1.5 96 L 1.5 1.5 L 526.5 1.5 L 526.5 96" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" />
+          </svg>
+          <span data-hf-id="hf-3pw0" class="09-cache-lifetime-mono" id="cache-lifetime-window-label">5 min · resets on every hit</span>
+
+          <svg data-hf-id="hf-96xu" id="cache-lifetime-hour-edge" viewBox="0 0 1162 72">
+            <path data-hf-id="hf-d388" d="M 1.5 72 L 1.5 1.5 L 1160.5 1.5 L 1160.5 72" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" />
+          </svg>
+          <span data-hf-id="hf-bxar" class="09-cache-lifetime-mono" id="cache-lifetime-hour-label">1 h · Claude subscription, within plan usage</span>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        var tl = gsap.timeline({ paused: true });
+
+        // window anchor positions (px inside the strip) = tick 1 / 2 / 3
+        var X1 = 105.6, X2 = 352, X3 = 545.6;
+
+        // Scene 1 (0.0–1.9s): headline per word, timeline axis draws left to right.
+        var words = [["#cache-lifetime-w1", 0.12], ["#cache-lifetime-w2", 0.36], ["#cache-lifetime-w3", 0.6], ["#cache-lifetime-w4", 1.0]];
+        words.forEach(function (w) {
+          tl.fromTo(w[0], { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, w[1]);
+        });
+        tl.fromTo("#cache-lifetime-axis line",
+          { attr: { "stroke-dashoffset": 1 } },
+          { attr: { "stroke-dashoffset": 0 }, duration: 1.3, ease: "power2.out" },
+          0.4);
+        tl.set("#cache-lifetime-clock", { x: X1 }, 0);
+
+        // Scene 2 (1.9–3.8s): first hit on "cache", clay window opens on "five minutes".
+        tl.fromTo("#cache-lifetime-tick1", { opacity: 0, scaleY: 0 }, { opacity: 1, scaleY: 1, duration: 0.35, ease: "power3.out" }, 1.96);
+        tl.fromTo("#cache-lifetime-hit1", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 2.04);
+        tl.fromTo("#cache-lifetime-window-edge path",
+          { attr: { "stroke-dashoffset": 1 } },
+          { attr: { "stroke-dashoffset": 0 }, duration: 0.5, ease: "power2.out" },
+          2.68);
+        tl.fromTo("#cache-lifetime-window-fill",
+          { opacity: 0, scaleX: 0 },
+          { opacity: 1, scaleX: 1, duration: 0.5, ease: "power2.out" },
+          2.72);
+        tl.fromTo("#cache-lifetime-window-label", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 3.0);
+
+        // Scene 3 (3.8–6.0s): longer ink bracket draws beneath on "Claude subscription"; label on "hour."
+        tl.fromTo("#cache-lifetime-hour-edge path",
+          { attr: { "stroke-dashoffset": 1 } },
+          { attr: { "stroke-dashoffset": 0 }, duration: 0.8, ease: "power2.out" },
+          4.04);
+        tl.fromTo("#cache-lifetime-hour-label", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 5.24);
+
+        // Scene 4 (6.0–8.36s): two more hits; each slides the clock forward to the newest tick.
+        tl.fromTo("#cache-lifetime-tick2", { opacity: 0, scaleY: 0 }, { opacity: 1, scaleY: 1, duration: 0.3, ease: "power3.out" }, 6.68);
+        tl.fromTo("#cache-lifetime-clock", { x: X1 }, { x: X2, duration: 0.4, ease: "power3.out", immediateRender: false }, 6.68);
+        tl.fromTo("#cache-lifetime-hit2", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, 6.92);
+
+        tl.fromTo("#cache-lifetime-tick3", { opacity: 0, scaleY: 0 }, { opacity: 1, scaleY: 1, duration: 0.3, ease: "power3.out" }, 7.08);
+        tl.fromTo("#cache-lifetime-clock", { x: X2 }, { x: X3, duration: 0.76, ease: "power3.out", immediateRender: false }, 7.08);
+        tl.fromTo("#cache-lifetime-hit3", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, 7.3);
+
+        tl.set({}, {}, 8.36);
+        window.__timelines["09-cache-lifetime"] = tl;
+      })();
+    </script>
+  </div>
+</template>

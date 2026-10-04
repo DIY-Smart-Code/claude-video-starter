@@ -6,8 +6,8 @@ Paste this block at the end of every plate prompt. Change only the subject sente
 Vintage copperplate engraving illustration, fine cross-hatching and stipple, warm cream paper
 background #F4F1EA, charcoal ink #1A1815, a single accent of clay orange #C15F3C used only on
 the one thing the scene is about. Wide editorial composition: subject on the right two-thirds,
-calm empty paper on the left third for the headline. No text, no letters, no numbers, no labels,
-no logos.
+calm empty paper on the left third for the headline. Full-bleed, no plate border: the paper runs
+to every edge in one even tone. No text, no letters, no numbers, no labels, no logos.
 ```
 
 Example subject sentence: "A professional restaurant kitchen where a long counter of small bowls

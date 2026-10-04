@@ -113,36 +113,52 @@ prompt("Log in to Higgsfield once: run /mcp and pick higgsfield", "/mcp")
 # -- 2 brief ----------------------------------------------------------------
 head("2 The brief")
 prompt("Type into Claude Code (swap in your topic, take, sources, look and voice)", BRIEF_PROMPT,
-       note="<p>/hyperframes asks a few questions, pitches five ways to tell the story and recommends one, then writes "
-            "<code>BRIEF.md</code>. \"Use the standard explainer pipeline\" routes it to /faceless-explainer.</p>")
+       note="<p>\"Use the standard explainer pipeline\" routes it to /faceless-explainer. It recommends an angle, "
+            "may offer a few additions, and asks what's missing.</p>")
+prompt("Answer its questions in a line each (the tutorial's answers)",
+       "1. Yes, the narrative concept.\n"
+       "2. Both. Keep one kitchen across the idea scenes: empty, prepped, serving.\n"
+       "3. No, only the two docs pages.",
+       note="<p>The answers land in <code>BRIEF.md</code>.</p>")
 
 # -- 3 script ---------------------------------------------------------------
 head("3 The script")
-prompt("Make it prove every number",
+step("Read fact-check.md: one row per claim, with the sentence from the source it rests on",
+     note="<p>In the tutorial run it dropped two claims the docs didn't support and marked the take as an opinion.</p>")
+prompt("No fact-check.md in your run? Ask for it",
        "Check every number in SCRIPT.md against the sources and write fact-check.md with one row per\n"
-       "claim: value, source URL, verified or wrong. Fix any wrong ones in the script.")
+       "claim: value, source URL, verified or wrong. Fix any wrong ones in the script.", optional=True)
+prompt("Write the narration for the ear",
+       "The frames look right. One change to the narration first: write the spoken lines for the ear, with "
+       "commas or full stops instead of dashes, and CLAUDE.md spoken as \"Claude dot M D\". Keep CLAUDE.md as "
+       "it is on screen. Then draw the sketches.",
+       note="<p>The voice reads exactly what's on the page.</p>")
 
 # -- 4 design system --------------------------------------------------------
 head("4 The design system")
-step("Read frame.md once: the preset the workflow picked, remixed onto your colours and fonts",
-     note="<p>Fix anything that is off now, before the storyboard is drawn on it.</p>")
+step("Check frame.md once: the preset the workflow picked, remixed onto your colours and fonts",
+     note="<p>Every frame inherits it. Fix anything that is off now, before the storyboard is drawn on it.</p>")
 
 # -- 5 storyboard review ----------------------------------------------------
 head("5 The storyboard review")
 step("Open the sketch sheet in your browser", code="videos/<slug>/storyboard.html", lang="javascript",
      note="<p>Every frame as a static sketch, in the real fonts, colours and text. Nothing moves yet.</p>")
-prompt("Ask for changes frame by frame (example)",
-       "Frame 3 has too much text on screen. Cut it to one headline and let the illustration carry it.\n"
-       "Show me the sheet again.")
+prompt("Ask for changes frame by frame (the tutorial's change)",
+       "Frame 11 has too much text on screen. Cut it to the /usage card and let the voice say the two "
+       "habits. Show me the sheet again.")
 prompt("Confirm when it looks right", "Looks right. Go on.",
        note="<p>CLAUDE.md tells Claude never to build before you confirm the sheet.</p>")
 
 # -- 6 art direction --------------------------------------------------------
 head("6 Art direction")
-prompt("Generate the illustrations in one locked style", "/art-direction for videos/<slug>",
-       note="<p>One prompt per metaphor scene, a locked style block, the first plate as a reference for the rest, "
-            "a checklist for redoing plates, and a ledger of every prompt in <code>assets/art/</code>. "
-            "Every image costs Higgsfield credits.</p>")
+step("Claude runs /art-direction for the metaphor scenes and shows you the first plate",
+     note="<p>One prompt per scene with a locked style block, the first kept plate as a reference for the rest, "
+          "a checklist for redoing plates, and a ledger of every prompt in <code>assets/art/</code>. "
+          "Every image costs Higgsfield credits.</p>")
+prompt("If it doesn't start on its own", "/art-direction for videos/<slug>", optional=True)
+prompt("Put a fix into the style lock so every later plate gets it (the tutorial's redo)",
+       "Redo it. Add full-bleed, no plate border to the style lock so plates B and C get it too.")
+prompt("Keep the plate and let it make the rest", "Keep it. Go on with B and C.")
 
 # -- 7 voice ----------------------------------------------------------------
 head("7 The voice")
@@ -157,18 +173,24 @@ step("Free route instead: Kokoro voice + word timings", optional=True,
 
 # -- 8 build ----------------------------------------------------------------
 head("8 The build")
+prompt("Approve the plates and start the build", "They look right. Start the build.",
+       note="<p>One sub-agent per frame, then Claude assembles the video and runs the checks.</p>")
 step("Run the checks", code="npx hyperframes check videos/<slug>")
 step("Watch it in the studio", code="npx hyperframes preview videos/<slug>")
-step("Render it", code="npx hyperframes render videos/<slug> -o videos/<slug>/out/<slug>.mp4")
+step("Render it", code="npx hyperframes render videos/<slug> -o videos/<slug>/out/<slug>.mp4",
+     note="<p>If Claude's own render can't start Chrome from its shell, run this command yourself.</p>")
 
 # -- 9 review loop ----------------------------------------------------------
 head("9 The review loop")
 prompt("Let Claude review its own frames", "/review videos/<slug>",
        note="<p>A grid of 18 stills, scores out of 10 and the three worst problems with timestamps. "
             "Don't chase the scores; fix the timestamped problems.</p>")
-prompt("Apply the fixes", "fix them")
+prompt("Apply the fixes", "Yes, apply all three.")
 step("Render again, then run /review again",
-     note="<p>If <code>npx hyperframes check</code> still fails after a fix, believe the check: pull a full-size frame from the render and look.</p>")
+     note="<p>Stop when the list gets shorter and the problems get smaller. If <code>npx hyperframes check</code> "
+          "still fails after a fix, believe the check: pull a full-size frame from the render and look.</p>")
+step("The finished project from the tutorial", code="examples/prompt-caching-explained/", lang="javascript",
+     optional=True)
 
 # -- going further ----------------------------------------------------------
 head("Going further")

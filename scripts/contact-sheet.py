@@ -15,6 +15,7 @@ import os
 import shlex
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 COLS, ROWS = 6, 3
@@ -43,16 +44,27 @@ def main() -> None:
     out_dir = video.parent.parent if video.parent.name == "out" else video.parent
     sheet = out_dir / "contact.png"
 
-    vf = f"fps={tiles}/{dur:.3f},scale=480:-1,tile={COLS}x{ROWS}"
-    cmd = ["ffmpeg", "-y", "-v", "error", "-i", str(video), "-vf", vf, "-frames:v", "1", str(sheet)]
-    shown = [os.path.relpath(c) if c in (str(video), str(sheet)) else c for c in cmd]
-    print("$ " + " ".join(shlex.quote(c.replace("\\", "/")) for c in shown))
-    subprocess.run(cmd, check=True)
+    # One exact seek per tile, then tile the stills. A single-pass `fps=` filter samples
+    # each tile about half a step later than i * step, so its printed times were wrong.
+    times = [i * step for i in range(tiles)]
+    with tempfile.TemporaryDirectory() as tmp:
+        for i, t in enumerate(times):
+            grab = ["ffmpeg", "-y", "-v", "error", "-ss", f"{t:.3f}", "-i", str(video),
+                    "-frames:v", "1", "-vf", "scale=480:-1", str(Path(tmp) / f"{i:02d}.png")]
+            subprocess.run(grab, check=True)
+        cmd = ["ffmpeg", "-y", "-v", "error", "-i", str(Path(tmp) / "%02d.png"),
+               "-vf", f"tile={COLS}x{ROWS}", "-frames:v", "1", str(sheet)]
+        shown = ["<tile>.png" if c.startswith(tmp) else os.path.relpath(c) if c == str(sheet) else c
+                 for c in cmd]
+        print(f"$ ffmpeg -ss <t> -i {shlex.quote(os.path.relpath(video).replace(chr(92), '/'))}"
+              f" -frames:v 1 ...   (once per tile)")
+        print("$ " + " ".join(shlex.quote(c.replace("\\", "/")) for c in shown))
+        subprocess.run(cmd, check=True)
 
     print(f"\n{os.path.relpath(sheet)}  ({COLS}x{ROWS} tiles, {dur:.1f}s video)")
-    for i in range(tiles):
+    for i, t in enumerate(times):
         row, col = divmod(i, COLS)
-        print(f"  tile {i + 1:2d}  row {row + 1} col {col + 1}  {i * step:6.2f}s")
+        print(f"  tile {i + 1:2d}  row {row + 1} col {col + 1}  {t:6.2f}s")
 
 
 if __name__ == "__main__":
