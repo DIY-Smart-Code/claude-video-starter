@@ -1,0 +1,12 @@
+{
+  "name": "claude-video-starter",
+  "private": true,
+  "type": "module",
+  "description": "Make videos with Claude Code + HyperFrames",
+  "devDependencies": {
+    "hyperframes": "0.8.121"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
+  }
+}

@@ -34,9 +34,11 @@ You need [Node.js](https://nodejs.org) 22 or newer, [ffmpeg](https://ffmpeg.org/
 Then check everything and add the HyperFrames skills for Claude Code:
 
 ```bash
-npx hyperframes doctor
-npx hyperframes skills
+npx hyperframes@latest doctor
+npx hyperframes@latest skills
 ```
+
+`@latest` makes sure you run the current release, not an older copy that may already sit on your machine.
 
 `doctor` marks whisper-cpp as optional. You only need it for the free voice route in step 5.
 
@@ -45,10 +47,11 @@ npx hyperframes skills
 ```bash
 git clone https://github.com/DIY-Smart-Code/claude-video-starter.git
 cd claude-video-starter
+pnpm install        # or: npm install
 claude
 ```
 
-Read `CLAUDE.md` once. Three lines at the top do most of the work:
+`pnpm install` pins the HyperFrames version for this repo, so every `npx hyperframes` command in it runs the same version and renders stay identical. Read `CLAUDE.md` once. Three lines at the top do most of the work:
 
 1. Use HyperFrames for every video.
 2. Same input, same frame: no random numbers, clocks or timers in a composition, so a render never changes.
