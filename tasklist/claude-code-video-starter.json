@@ -1,0 +1,663 @@
+{
+  "name": "Claude Code Video Starter",
+  "data": [
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000001",
+      "text": "What you build",
+      "completed": false,
+      "isHeadline": true,
+      "createdAt": "2026-10-04T12:00:01.000Z"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000002",
+      "text": "An empty folder to a narrated MP4 with Claude Code and HyperFrames: a title card, a narrated explainer synced to its voice, and a /brag launch clip. Every command and prompt from the video is below, in order.",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:02.000Z",
+      "optional": false
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000003",
+      "text": "Starter repo (everything from the video)",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:03.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "javascript",
+        "code": "https://github.com/DIY-Smart-Code/claude-video-starter"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000004",
+      "text": "Commands with &lt;slug&gt; mean the video folder Claude created under videos/. List them with: ls videos",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:04.000Z",
+      "optional": false
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000005",
+      "text": "Step 1: Install the tools",
+      "completed": false,
+      "isHeadline": true,
+      "createdAt": "2026-10-04T12:00:05.000Z"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000006",
+      "text": "Windows: install Node.js (22 or newer)",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:06.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "powershell",
+        "code": "winget install OpenJS.NodeJS.LTS"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000007",
+      "text": "macOS: install Node.js (22 or newer)",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:07.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "brew install node"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000008",
+      "text": "Windows: install ffmpeg",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:08.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "powershell",
+        "code": "winget install Gyan.FFmpeg"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000009",
+      "text": "macOS: install ffmpeg",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:09.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "brew install ffmpeg"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000010",
+      "text": "Windows (PowerShell): install Claude Code",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:10.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "powershell",
+        "code": "irm https://claude.ai/install.ps1 | iex"
+      },
+      "richText": "<p>Official installer from the Claude Code docs. Open a <strong>new</strong> terminal afterwards.</p><p>Claude Code needs a Pro, Max, Team, Enterprise or Console account. The free claude.ai plan does not include it.</p><p>Docs: <a href=\"https://code.claude.com/docs/en/setup\">code.claude.com/docs/en/setup</a></p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000011",
+      "text": "macOS / Linux / WSL: install Claude Code",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:11.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "curl -fsSL https://claude.ai/install.sh | bash"
+      },
+      "richText": "<p>Official installer from the Claude Code docs. Open a <strong>new</strong> terminal afterwards.</p><p>Claude Code needs a Pro, Max, Team, Enterprise or Console account.</p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000012",
+      "text": "Check the three tools",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:12.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "node -v\nffmpeg -version\nclaude --version"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000013",
+      "text": "Python 3.8+ (only for the ElevenLabs voice in step 5)",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:13.000Z",
+      "optional": true,
+      "richText": "<p>Windows: <code>winget install Python.Python.3.12</code></p><p>macOS: <code>brew install python</code></p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000014",
+      "text": "Check your machine",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:14.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "npx hyperframes@latest doctor"
+      },
+      "richText": "<p><code>@latest</code> runs the current release. whisper-cpp shows as missing: that is optional and only needed for the free voice route in step 5.</p><p>No graphics card needed: without one, the browser renders in software.</p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000015",
+      "text": "Teach Claude Code how HyperFrames builds videos",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:15.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "npx hyperframes@latest skills"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000016",
+      "text": "Step 2: Clone the starter",
+      "completed": false,
+      "isHeadline": true,
+      "createdAt": "2026-10-04T12:00:16.000Z"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000017",
+      "text": "Clone the repo",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:17.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "git clone https://github.com/DIY-Smart-Code/claude-video-starter.git"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000018",
+      "text": "Go into the folder",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:18.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "cd claude-video-starter"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000019",
+      "text": "Install (pins one HyperFrames version for the repo)",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:19.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "pnpm install"
+      },
+      "richText": "<p>No pnpm? <code>npm install</code> works too.</p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000020",
+      "text": "Start Claude Code inside the folder",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:20.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "claude"
+      },
+      "richText": "<p>The first start opens your browser to log in.</p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000021",
+      "text": "Read the three rules at the top of CLAUDE.md",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:21.000Z",
+      "optional": false,
+      "richText": "<ol><li>Use HyperFrames for every video.</li><li>Same input, same frame: no random numbers, clocks or network calls inside a composition, so a render never changes.</li><li>Lint after every edit, and a video is not finished until you have run <code>/review</code> on it.</li></ol>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000022",
+      "text": "Step 3: The first prompt",
+      "completed": false,
+      "isHeadline": true,
+      "createdAt": "2026-10-04T12:00:22.000Z"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000023",
+      "text": "Type into Claude Code",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:23.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "javascript",
+        "code": "Using /hyperframes, make a 15-second title card for claude-video-starter, 16:9."
+      },
+      "richText": "<p>Claude copies the template into <code>videos/&lt;slug&gt;/</code> and writes the composition. Naming the skill makes sure it loads.</p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000024",
+      "text": "Preview it in the studio",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:24.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "npx hyperframes preview videos/<slug>"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000025",
+      "text": "Lint it (catches broken timing before you render)",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:25.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "npx hyperframes lint videos/<slug>"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000026",
+      "text": "Render it",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:26.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "npx hyperframes render videos/<slug> -o videos/<slug>/out/<slug>.mp4"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000027",
+      "text": "Step 4: Let Claude review its own frames",
+      "completed": false,
+      "isHeadline": true,
+      "createdAt": "2026-10-04T12:00:27.000Z"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000028",
+      "text": "Type into Claude Code",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:28.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "javascript",
+        "code": "/review videos/<slug>"
+      },
+      "richText": "<p>Turns the render into a grid of 18 stills, scores Hook, Readability, Motion and Variety out of 10, and names the three worst problems with timestamps. It changes nothing until you say so.</p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000029",
+      "text": "Apply the fixes",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:29.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "javascript",
+        "code": "fix them"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000030",
+      "text": "Render again, then run /review again. Repeat until the timestamped problems are gone.",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:30.000Z",
+      "optional": false,
+      "richText": "<p>Don't chase the scores. The timestamped list is the useful part.</p><p>If <code>npx hyperframes check</code> still fails after a fix, believe the check: pull a full-size frame from the render and look.</p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000031",
+      "text": "Step 5: Give it a voice (ElevenLabs)",
+      "completed": false,
+      "isHeadline": true,
+      "createdAt": "2026-10-04T12:00:31.000Z"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000032",
+      "text": "Pick a voice in the voice library and copy its voice ID",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:32.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "javascript",
+        "code": "https://elevenlabs.io/voice-library"
+      },
+      "richText": "<p>The example in the video uses the stock voice <strong>Sarah</strong>: <code>EXAVITQu4vr4xnSDxMaL</code></p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000033",
+      "text": "Create an API key",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:33.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "javascript",
+        "code": "https://elevenlabs.io/app/developers/api-keys"
+      },
+      "richText": "<p>The key is a secret. It goes into <code>.env</code>, never into a prompt or a screenshot.</p><p><a href=\"https://elevenlabs.io/docs/api-reference/authentication\">ElevenLabs docs: authentication</a></p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000034",
+      "text": "Copy the example env file",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:34.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "cp .env.example .env"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000035",
+      "text": "Paste your key and voice ID into .env",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:35.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "javascript",
+        "code": "ELEVENLABS_API_KEY=your-key-here\nELEVENLABS_VOICE_ID=EXAVITQu4vr4xnSDxMaL\nELEVENLABS_MODEL_ID=eleven_v4"
+      },
+      "richText": "<p><code>.env</code> is already in <code>.gitignore</code>.</p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000036",
+      "text": "Put the example script into a new video folder",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:36.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "mkdir videos/git-undo-explainer\ncp examples/git-undo-explainer/script.txt videos/git-undo-explainer/"
+      },
+      "richText": "<p>For your own video, write your lines into <code>videos/&lt;slug&gt;/script.txt</code>.</p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000037",
+      "text": "Make the voice",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:37.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "python scripts/tts.py videos/git-undo-explainer"
+      },
+      "richText": "<p>Writes <code>narration.wav</code> and <code>transcript.json</code>: the start time of every word. Step 7 runs on those times.</p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000038",
+      "text": "Licence check before you publish",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:38.000Z",
+      "optional": false,
+      "richText": "<p>The free ElevenLabs plan has no commercial licence and asks you to credit ElevenLabs in the title. A channel that earns money needs a paid plan.</p><p><a href=\"https://elevenlabs.io/docs/help-center/legal/can-i-publish-the-content-i-generate-on-the-platform\">ElevenLabs: can I publish what I generate?</a></p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000039",
+      "text": "Step 5 (free route): the built-in voice, no account",
+      "completed": false,
+      "isHeadline": true,
+      "createdAt": "2026-10-04T12:00:39.000Z"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000040",
+      "text": "Windows: install whisper.cpp for word timings",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:40.000Z",
+      "optional": true,
+      "codeBlock": {
+        "language": "powershell",
+        "code": "setx HYPERFRAMES_WHISPER_PATH \"C:\\path\\to\\whisper-cli.exe\""
+      },
+      "richText": "<p>Download <code>whisper-bin-x64.zip</code> from the <a href=\"https://github.com/ggml-org/whisper.cpp/releases\">whisper.cpp releases</a>, unzip it, and point <code>HYPERFRAMES_WHISPER_PATH</code> at the <code>whisper-cli.exe</code> inside. Open a new terminal afterwards.</p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000041",
+      "text": "macOS: install whisper.cpp for word timings",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:41.000Z",
+      "optional": true,
+      "codeBlock": {
+        "language": "bash",
+        "code": "brew install whisper-cpp"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000042",
+      "text": "Make the voice on your own machine (Kokoro-82M)",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:42.000Z",
+      "optional": true,
+      "codeBlock": {
+        "language": "bash",
+        "code": "npx hyperframes tts videos/git-undo-explainer/script.txt --voice af_heart -o videos/git-undo-explainer/narration.wav"
+      },
+      "richText": "<p><code>npx hyperframes tts --list</code> shows all voices.</p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000043",
+      "text": "Add the word timings",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:43.000Z",
+      "optional": true,
+      "codeBlock": {
+        "language": "bash",
+        "code": "npx hyperframes transcribe videos/git-undo-explainer/narration.wav -d videos/git-undo-explainer"
+      },
+      "richText": "<p>Writes the same <code>transcript.json</code> as the ElevenLabs route, so step 7 works either way.</p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000044",
+      "text": "Step 6: Pictures with the Higgsfield MCP",
+      "completed": false,
+      "isHeadline": true,
+      "createdAt": "2026-10-04T12:00:44.000Z"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000045",
+      "text": "Connect the Higgsfield MCP server (needs a paid Higgsfield plan)",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:45.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "claude mcp add --transport http higgsfield https://mcp.higgsfield.ai/mcp"
+      },
+      "richText": "<p>Alternative used in the video: add <code>https://mcp.higgsfield.ai/mcp</code> as a connector on claude.ai (Settings, Connectors). Claude Code picks it up when you are logged in with that account.</p><p><a href=\"https://higgsfield.ai/creator-hub/help-center/integrations/what-is-higgsfield-mcp\">Higgsfield: what is the MCP</a></p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000046",
+      "text": "Log in once: start claude, run /mcp, pick higgsfield",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:46.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "javascript",
+        "code": "/mcp"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000047",
+      "text": "Check it shows as connected",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:47.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "claude mcp list"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000048",
+      "text": "Ask for an image with your colours in the prompt",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:48.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "javascript",
+        "code": "Generate a dark illustration of a cassette tape rewinding for my git explainer.\nPalette #0B0F18 and #68D9FF, no text, 16:9. Save it to videos/git-undo-explainer/assets/."
+      },
+      "richText": "<p>Use generated images for illustrations and backgrounds, never to fake a product screen. Every image costs credits.</p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000049",
+      "text": "Step 7: A narrated explainer, synced to the voice",
+      "completed": false,
+      "isHeadline": true,
+      "createdAt": "2026-10-04T12:00:49.000Z"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000050",
+      "text": "Type into Claude Code",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:50.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "javascript",
+        "code": "Build a narrated explainer in videos/git-undo-explainer from script.txt and narration.wav, 16:9.\nReveal each command card on the word where the voice says it, using transcript.json.\nPut assets/cassette-rewind.png behind the title. Render it when check passes."
+      },
+      "richText": "<p>Use the file name your image got in step 6.</p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000051",
+      "text": "Review it",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:51.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "javascript",
+        "code": "/review videos/git-undo-explainer"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000052",
+      "text": "Fix what the review found",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:52.000Z",
+      "optional": true,
+      "codeBlock": {
+        "language": "javascript",
+        "code": "fix them"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000053",
+      "text": "Step 8: /brag, a launch video from one sentence",
+      "completed": false,
+      "isHeadline": true,
+      "createdAt": "2026-10-04T12:00:53.000Z"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000054",
+      "text": "Go to the demo app",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:54.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "cd examples/demo-app"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000055",
+      "text": "Add the brag marketplace (this folder only)",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:55.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "claude plugin marketplace add latent-spaces/brag --scope project"
+      },
+      "richText": "<p>Drop <code>--scope project</code> on both commands to install brag for every project.</p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000056",
+      "text": "Install the plugin",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:56.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "claude plugin install brag@brag --scope project"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000057",
+      "text": "Start Claude Code in the demo app",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:57.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "bash",
+        "code": "claude"
+      }
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000058",
+      "text": "Ask for a launch clip",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:58.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "javascript",
+        "code": "let's /brag about this, no music"
+      },
+      "richText": "<p>On Opus 5.5 brag switches to /brag-slim and makes every decision itself. The results land in <code>brag-output/</code>.</p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000059",
+      "text": "The original brag workflow with music",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:59.000Z",
+      "optional": true,
+      "codeBlock": {
+        "language": "javascript",
+        "code": "/brag --full"
+      }
+    }
+  ]
+}

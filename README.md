@@ -3,6 +3,10 @@
 Make videos with Claude Code. This repo is the setup from the DIY Smart Code tutorial
 **"Your first AI video: the full process"**: an empty folder to a narrated MP4 in eight steps.
 
+**Follow along as a checklist:** every command and prompt from the video, with a copy button, at
+[tasklist.smartcode.diy/list/claude-code-video-starter](https://tasklist.smartcode.diy/list/claude-code-video-starter).
+The same list ships in `tasklist/claude-code-video-starter.json`.
+
 Videos here are web pages. Claude Code writes HTML with an animation timeline,
 [HyperFrames](https://hyperframes.heygen.com) opens it in a headless browser, takes a
 screenshot of every frame, and ffmpeg turns the frames into an MP4. You don't need a graphics card:
@@ -19,6 +23,7 @@ claude-video-starter/
 ├── .env.example              your ElevenLabs settings (copy to .env)
 ├── examples/demo-app/        a tiny app to point /brag at in step 8
 ├── examples/git-undo-explainer/  the step-7 script and its word timings
+├── tasklist/                 the follow-along checklist (import file + its generator)
 └── videos/                   your videos go here, one folder each
 ```
 
@@ -100,7 +105,8 @@ Don't chase the scores. They stay rough; the timestamped problems are what you f
 credit ElevenLabs in the title; a monetized channel needs a paid plan
 ([ElevenLabs on publishing](https://elevenlabs.io/docs/help-center/legal/can-i-publish-the-content-i-generate-on-the-platform)).
 
-1. Pick a voice in the ElevenLabs voice library and copy its voice ID.
+1. Pick a voice in the ElevenLabs voice library and copy its voice ID. The examples in the video use
+   the stock voice Sarah (`EXAVITQu4vr4xnSDxMaL`).
 2. Create an API key.
 3. `cp .env.example .env` and paste both in. `.env` is gitignored; never paste the key into a prompt.
 4. Put your script in `videos/<slug>/script.txt` and run:
@@ -114,7 +120,7 @@ You get `narration.wav` and `transcript.json`: the start and end time of every w
 **Free and local** (no account, no key): HyperFrames ships a voice model (Kokoro-82M).
 
 ```bash
-npx hyperframes tts videos/<slug>/script.txt --voice am_michael -o videos/<slug>/narration.wav
+npx hyperframes tts videos/<slug>/script.txt --voice af_heart -o videos/<slug>/narration.wav
 npx hyperframes transcribe videos/<slug>/narration.wav -d videos/<slug>
 ```
 
