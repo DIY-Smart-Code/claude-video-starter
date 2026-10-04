@@ -1,0 +1,14 @@
+# secrets
+.env
+
+# renders and review sheets (regenerate any time)
+videos/*/out/
+videos/*/contact.png
+renders/
+snapshots/
+
+# tooling
+node_modules/
+.DS_Store
+Thumbs.db
+*.log

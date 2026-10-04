@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <!-- GSAP is vendored so a blocked network can never freeze a render. -->
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Inter"; font-weight: 700; src: url("assets/fonts/inter-700.woff2") format("woff2"); }
+      @font-face { font-family: "Inter"; font-weight: 900; src: url("assets/fonts/inter-900.woff2") format("woff2"); }
+      @font-face { font-family: "JetBrains Mono"; font-weight: 600; src: url("assets/fonts/jetbrains-mono-600.woff2") format("woff2"); }
+
+      /* Palette. Change these four and the whole video follows. */
+      :root {
+        --ground: #0e1116;
+        --ink: #f3f1ec;
+        --muted: #9a958d;
+        --accent: #68d9ff;
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--ground); }
+
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        background: var(--ground);
+        color: var(--ink);
+        font-family: "Inter", sans-serif;
+      }
+
+      /* Replace these three with your own content. Hidden in CSS until the timeline reveals them. */
+      #kicker, #title, #subtitle { position: absolute; left: 140px; opacity: 0; }
+      #kicker {
+        top: 200px;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 600;
+        font-size: 30px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      #title {
+        top: 260px;
+        font-weight: 900;
+        font-size: 132px;
+        line-height: 1;
+        letter-spacing: -4px;
+        max-width: 1500px;
+      }
+      #subtitle {
+        top: 560px;
+        font-weight: 700;
+        font-size: 48px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="8" data-width="1920" data-height="1080">
+      <div id="kicker" class="clip" data-start="0" data-duration="8" data-track-index="1">Your kicker</div>
+      <h1 id="title" class="clip" data-start="0" data-duration="8" data-track-index="2">Your title</h1>
+      <p id="subtitle" class="clip" data-start="0" data-duration="8" data-track-index="3">One line that says why it matters.</p>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // Start 40px low (opacity 0 comes from the CSS), then rise into place.
+      gsap.set(["#kicker", "#title", "#subtitle"], { y: 40 });
+      tl.to("#kicker", { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.2);
+      tl.to("#title", { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 0.4);
+      tl.to("#subtitle", { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 0.9);
+
+      // Keep the timeline as long as the video.
+      tl.set({}, {}, 8);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
