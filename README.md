@@ -52,7 +52,7 @@ stay identical.
 **Voice (ElevenLabs).** Pick a voice in the [voice library](https://elevenlabs.io/voice-library) and
 copy its voice ID (the tutorial uses the stock voice Sarah, `EXAVITQu4vr4xnSDxMaL`). Create an
 [API key](https://elevenlabs.io/docs/api-reference/authentication). Then `cp .env.example .env` and
-paste both in. `.env` is gitignored; never paste the key into a prompt. The free plan is
+paste both in. `.env` is gitignored; the key and the voice never go into a prompt. The free plan is
 non-commercial only; a monetized channel needs a paid plan
 ([ElevenLabs on publishing](https://elevenlabs.io/docs/help-center/legal/can-i-publish-the-content-i-generate-on-the-platform)).
 
@@ -70,7 +70,7 @@ Higgsfield needs a paid plan, and every image costs credits.
 Then start Claude Code in the repo folder: `claude`.
 
 ## 2. The brief
-One prompt starts everything. Give it your topic, your take, your sources, your look and your voice:
+One prompt starts everything. Give it your topic, your take, your sources and your look:
 
 ```
 > /hyperframes Make a 2-minute explainer about prompt caching for developers who use Claude Code.
@@ -82,7 +82,7 @@ One prompt starts everything. Give it your topic, your take, your sources, your 
   https://code.claude.com/docs/en/prompt-caching
   Look: cream paper #F4F1EA, charcoal ink #1A1815, one clay accent #C15F3C. Playfair Display
   headlines, Inter body, JetBrains Mono labels.
-  Voice: ElevenLabs, voice id EXAVITQu4vr4xnSDxMaL. No music. YouTube, 16:9.
+  Voice: ElevenLabs. No music. YouTube, 16:9.
 ```
 
 "Use the standard explainer pipeline" routes it to `/faceless-explainer`. It recommends an angle,
@@ -107,19 +107,19 @@ ask for it:
   claim: value, source URL, verified or wrong. Fix any wrong ones in the script.
 ```
 
-The voice reads exactly what's on the page, so write the narration for the ear:
-
-```
-> The frames look right. One change to the narration first: write the spoken lines for the ear, with
-  commas or full stops instead of dashes, and CLAUDE.md spoken as "Claude dot M D". Keep CLAUDE.md
-  as it is on screen. Then draw the sketches.
-```
+The voice reads exactly what's on the page, so `CLAUDE.md` tells Claude to write the narration for
+the ear: commas or full stops instead of dashes, and file names written the way they're said
+(`CLAUDE.md` becomes "Claude dot M D"). On screen they keep their written form.
 
 ## 4. The design system
 The workflow picks one of its frame presets and remixes it onto your colours and fonts. The result
 is `frame.md`: palette, type, frame treatments and composition rules. Every frame inherits it, so
 check it once before the storyboard is drawn on it. (In the tutorial run the remix set the body font
-to Playfair; Claude switched it back to Inter.)
+to Playfair; Claude switched it back to Inter.) When it looks right, say so:
+
+```
+> The frames look right. Draw the sketches.
+```
 
 ## 5. The storyboard review
 Before anything moves, Claude draws every frame as a static sketch in `storyboard.html`, in the real
@@ -160,8 +160,9 @@ and numbers stay HTML.
 
 ## 7. The voice
 
-The workflow runs `python scripts/tts.py videos/<slug>`. You get `narration.wav` and
-`transcript.json`: the start and end time of every word, so every reveal lands on its word.
+The workflow runs `python scripts/tts.py videos/<slug>` with the voice from `.env`. You get
+`narration.wav` and `transcript.json`: the start and end time of every word, so every reveal lands
+on its word.
 
 Free and local instead (no account): `npx hyperframes tts` with a Kokoro voice, then
 `npx hyperframes transcribe` for the word timings (needs whisper.cpp:

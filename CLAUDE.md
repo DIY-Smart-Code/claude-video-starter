@@ -16,7 +16,8 @@
 
 ## Narration
 
-- ElevenLabs: `python scripts/tts.py videos/<slug>` reads `ELEVENLABS_API_KEY` and `ELEVENLABS_VOICE_ID` from `.env` (or `--voice <id>`) and writes `narration.wav` and `transcript.json` (word timings) into the video folder. Use it whenever the user picked an ElevenLabs voice.
+- Write the narration for the ear: the voice reads exactly what's on the page. Use commas or full stops instead of dashes, and write file names and acronyms the way they are said (`CLAUDE.md` becomes "Claude dot M D", `API` becomes "A P I"). On screen they keep their written form.
+- ElevenLabs: `python scripts/tts.py videos/<slug>` reads `ELEVENLABS_API_KEY` and `ELEVENLABS_VOICE_ID` from `.env` and writes `narration.wav` and `transcript.json` (word timings) into the video folder. Use it whenever the user picked an ElevenLabs voice. The voice is set in `.env`: never ask for a voice ID and never pass `--voice`.
 - Free and local: `npx hyperframes tts videos/<slug>/script.txt -o videos/<slug>/narration.wav`, then `npx hyperframes transcribe videos/<slug>/narration.wav -d videos/<slug>`.
 - Both routes write the same `transcript.json`: a list of `{ "text", "start", "end" }` words in seconds.
 - Every reveal starts at the `start` time of the word that names it. Read the times from `transcript.json`; never guess them.

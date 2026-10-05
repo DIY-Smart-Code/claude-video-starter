@@ -8,9 +8,10 @@ which voice route you used.
 
 Usage:
     python scripts/tts.py videos/<slug>
-    python scripts/tts.py videos/<slug> --voice <voice_id> --model eleven_v4
+    python scripts/tts.py videos/<slug> --model eleven_v4
 
 Needs ELEVENLABS_API_KEY and ELEVENLABS_VOICE_ID in .env (see .env.example).
+--voice <voice_id> overrides the .env voice for one run; the workflow never needs it.
 Python 3.8+, standard library only.
 """
 import argparse

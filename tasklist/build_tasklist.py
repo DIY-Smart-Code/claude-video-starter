@@ -70,7 +70,7 @@ BRIEF_PROMPT = (
     "https://code.claude.com/docs/en/prompt-caching\n"
     "Look: cream paper #F4F1EA, charcoal ink #1A1815, one clay accent #C15F3C. Playfair Display\n"
     "headlines, Inter body, JetBrains Mono labels.\n"
-    "Voice: ElevenLabs, voice id EXAVITQu4vr4xnSDxMaL. No music. YouTube, 16:9."
+    "Voice: ElevenLabs. No music. YouTube, 16:9."
 )
 
 # -- 1 set up ---------------------------------------------------------------
@@ -112,7 +112,7 @@ prompt("Log in to Higgsfield once: run /mcp and pick higgsfield", "/mcp")
 
 # -- 2 brief ----------------------------------------------------------------
 head("2 The brief")
-prompt("Type into Claude Code (swap in your topic, take, sources, look and voice)", BRIEF_PROMPT,
+prompt("Type into Claude Code (swap in your topic, take, sources and look)", BRIEF_PROMPT,
        note="<p>\"Use the standard explainer pipeline\" routes it to /faceless-explainer. It recommends an angle, "
             "may offer a few additions, and asks what's missing.</p>")
 prompt("Answer its questions in a line each (the tutorial's answers)",
@@ -128,16 +128,15 @@ step("Read fact-check.md: one row per claim, with the sentence from the source i
 prompt("No fact-check.md in your run? Ask for it",
        "Check every number in SCRIPT.md against the sources and write fact-check.md with one row per\n"
        "claim: value, source URL, verified or wrong. Fix any wrong ones in the script.", optional=True)
-prompt("Write the narration for the ear",
-       "The frames look right. One change to the narration first: write the spoken lines for the ear, with "
-       "commas or full stops instead of dashes, and CLAUDE.md spoken as \"Claude dot M D\". Keep CLAUDE.md as "
-       "it is on screen. Then draw the sketches.",
-       note="<p>The voice reads exactly what's on the page.</p>")
+step("CLAUDE.md makes Claude write the narration for the ear",
+     note="<p>Commas or full stops instead of dashes, file names written the way they're said "
+          "(<code>CLAUDE.md</code> becomes \"Claude dot M D\"). The voice reads exactly what's on the page.</p>")
 
 # -- 4 design system --------------------------------------------------------
 head("4 The design system")
 step("Check frame.md once: the preset the workflow picked, remixed onto your colours and fonts",
      note="<p>Every frame inherits it. Fix anything that is off now, before the storyboard is drawn on it.</p>")
+prompt("Confirm it and let Claude draw the sketches", "The frames look right. Draw the sketches.")
 
 # -- 5 storyboard review ----------------------------------------------------
 head("5 The storyboard review")
@@ -162,7 +161,7 @@ prompt("Keep the plate and let it make the rest", "Keep it. Go on with B and C."
 
 # -- 7 voice ----------------------------------------------------------------
 head("7 The voice")
-step("The workflow makes the narration with your ElevenLabs voice", code="python scripts/tts.py videos/<slug>",
+step("The workflow makes the narration with the ElevenLabs voice from .env", code="python scripts/tts.py videos/<slug>",
      note="<p>Writes <code>narration.wav</code> and <code>transcript.json</code>: the start time of every word.</p>")
 step("Free route instead: Kokoro voice + word timings", optional=True,
      code="npx hyperframes tts videos/<slug>/script.txt --voice af_heart -o videos/<slug>/narration.wav\n"
