@@ -1,0 +1,57 @@
+<template>
+<div data-hf-id="hf-gmg8" id="root" data-composition-id="06-price" data-start="0" data-duration="8.5" data-width="1920" data-height="1080">
+<style>
+@font-face{font-family:"JetBrains Mono";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-500.woff2") format("woff2");}
+@font-face{font-family:"Playfair Display";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/PlayfairDisplay-400.woff2") format("woff2");}
+@font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-400.woff2") format("woff2");}
+#root{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;}
+.p6-bg{position:absolute;left:0;top:0;width:1920px;height:1080px;background:#F4F1EA;}
+.p6-kicker{position:absolute;left:80px;top:150px;width:1760px;font-family:"JetBrains Mono",monospace;font-weight:500;font-size:40px;letter-spacing:0.12em;text-transform:uppercase;color:#1A1815;opacity:0;}
+.p6-tile{position:absolute;top:290px;width:860px;height:560px;box-sizing:border-box;border:2px solid rgba(26,24,21,0.2);border-radius:12px;background:rgba(255,255,255,0.45);opacity:0;}
+#p6-read{left:80px;}
+#p6-write{left:980px;}
+.p6-label{position:absolute;left:56px;top:48px;font-family:"JetBrains Mono",monospace;font-weight:500;font-size:44px;letter-spacing:0.02em;color:rgba(26,24,21,0.6);opacity:0;}
+.p6-num{position:absolute;left:56px;top:140px;font-family:"Playfair Display",serif;font-weight:400;font-size:260px;line-height:1;letter-spacing:-0.025em;color:#1A1815;opacity:0;}
+.p6-num .u{font-family:"JetBrains Mono",monospace;font-size:80px;letter-spacing:0;margin-left:10px;}
+.p6-cap{position:absolute;left:56px;top:430px;font-family:"Inter",sans-serif;font-weight:400;font-size:56px;color:#1A1815;opacity:0;}
+.p6-once{position:absolute;left:56px;top:490px;font-family:"JetBrains Mono",monospace;font-weight:500;font-size:44px;letter-spacing:0.08em;color:#C15F3C;opacity:0;}
+#p6-write .p6-cap{top:410px}
+#p6-write .p6-once{top:480px}
+</style>
+<div data-hf-id="hf-gdr9" id="p6-bg" class="clip p6-bg" data-start="0" data-duration="8.5" data-track-index="0"></div>
+<div data-hf-id="hf-z3ym" class="clip p6-kicker" id="p6-kicker" data-start="0" data-duration="8.5" data-track-index="1">Price per token, vs normal input = 1×</div>
+<div data-hf-id="hf-r0m1" class="clip p6-tile" id="p6-read" data-start="0" data-duration="8.5" data-track-index="2">
+  <div data-hf-id="hf-09uc" class="p6-label" id="p6-rl">cache read</div>
+  <div data-hf-id="hf-hzk2" class="p6-num" id="p6-rn"><span data-hf-id="hf-2oqk" id="p6-rv" data-layout-allow-overlap="">1.0</span><span data-hf-id="hf-7q0v" class="u">×</span></div>
+  <div data-hf-id="hf-zc36" class="p6-cap" id="p6-rc">one tenth</div>
+</div>
+<div data-hf-id="hf-htoz" class="clip p6-tile" id="p6-write" data-start="0" data-duration="8.5" data-track-index="3">
+  <div data-hf-id="hf-4rmm" class="p6-label" id="p6-wl">cache write</div>
+  <div data-hf-id="hf-ubql" class="p6-num" id="p6-wn"><span data-hf-id="hf-2ci9" id="p6-wv" data-layout-allow-overlap="">1.0</span><span data-hf-id="hf-thmn" class="u">×</span></div>
+  <div data-hf-id="hf-9x8k" class="p6-cap" id="p6-wc" data-layout-allow-overlap="">a quarter more</div>
+  <div data-hf-id="hf-vufq" class="p6-once" id="p6-wo">once</div>
+</div>
+<script src="assets/vendor/gsap.min.js"></script>
+<script>
+window.__timelines = window.__timelines || {};
+var tl = gsap.timeline({ paused: true });
+var rv = document.getElementById("p6-rv"), wv = document.getElementById("p6-wv");
+var rs = { v: 1.0 }, ws = { v: 1.0 };
+tl.fromTo("#p6-kicker", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 0.03);
+tl.fromTo(".p6-tile", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }, 0.16);
+tl.fromTo(".p6-num", { opacity: 0 }, { opacity: 0.3, duration: 0.7, ease: "power2.out" }, 0.3);
+tl.fromTo("#p6-rl", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 1.92);
+tl.to("#p6-rn", { opacity: 1, duration: 0.3, ease: "power1.out" }, 2.96);
+tl.to(rs, { v: 0.1, duration: 0.32, ease: "power2.out", onUpdate: function(){ rv.textContent = rs.v.toFixed(1); } }, 2.96);
+tl.fromTo("#p6-rc", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 3.28);
+tl.to("#p6-write", { borderColor: "#C15F3C", duration: 0.5, ease: "power1.out" }, 4.96);
+tl.fromTo("#p6-wl", { opacity: 0, y: 12, color: "#C15F3C" }, { opacity: 1, y: 0, color: "#C15F3C", duration: 0.5, ease: "power2.out" }, 4.96);
+tl.to("#p6-wn", { opacity: 1, color: "#C15F3C", duration: 0.4, ease: "power1.out" }, 5.4);
+tl.to(ws, { v: 1.25, duration: 0.6, ease: "power2.out", onUpdate: function(){ wv.textContent = ws.v.toFixed(2); } }, 5.4);
+tl.fromTo("#p6-wc", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 6.0);
+tl.fromTo("#p6-wo", { opacity: 0, scale: 1.3, transformOrigin: "0% 50%" }, { opacity: 1, scale: 1, duration: 0.3, ease: "power3.out" }, 7.12);
+tl.set({}, {}, 8);
+window.__timelines["06-price"] = tl;
+</script>
+</div>
+</template>

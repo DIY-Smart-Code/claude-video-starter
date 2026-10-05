@@ -270,7 +270,7 @@
         "language": "javascript",
         "code": "/hyperframes Make a 2-minute explainer about prompt caching for developers who use Claude Code.\nUse the standard explainer pipeline. Collaborative: show me the storyboard before you build.\nMy take: most of your Claude Code bill is Claude re-reading the same context, and caching is the\nkitchen where the prep is already done. The idea scenes use that kitchen as illustrations; the\nnumbers stay diagrams.\nSources: https://platform.claude.com/docs/en/build-with-claude/prompt-caching and\nhttps://code.claude.com/docs/en/prompt-caching\nLook: cream paper #F4F1EA, charcoal ink #1A1815, one clay accent #C15F3C. Playfair Display\nheadlines, Inter body, JetBrains Mono labels.\nVoice: ElevenLabs. No music. YouTube, 16:9."
       },
-      "richText": "<p>\"Use the standard explainer pipeline\" routes it to /faceless-explainer. It recommends an angle, may offer a few additions, and asks what's missing.</p>"
+      "richText": "<p>\"Use the standard explainer pipeline\" routes it to /faceless-explainer. It writes the brief, may recommend a few additions, and asks what's missing.</p>"
     },
     {
       "id": "cc5v0000-0000-4000-8000-000000000025",
@@ -281,9 +281,9 @@
       "optional": false,
       "codeBlock": {
         "language": "javascript",
-        "code": "1. Yes, the narrative concept.\n2. Both. Keep one kitchen across the idea scenes: empty, prepped, serving.\n3. No, only the two docs pages."
+        "code": "a. Keep 2:00.\nYes, count up the cost figures on the word that says them.\nNo material of my own, only the two docs pages."
       },
-      "richText": "<p>The answers land in <code>BRIEF.md</code>.</p>"
+      "richText": "<p>In the tutorial run it warned that the week's usage was low and offered a 90-second cut. The answers land in <code>BRIEF.md</code>.</p>"
     },
     {
       "id": "cc5v0000-0000-4000-8000-000000000026",
@@ -299,7 +299,7 @@
       "isHeadline": false,
       "createdAt": "2026-10-04T12:00:27.000Z",
       "optional": false,
-      "richText": "<p>In the tutorial run it dropped two claims the docs didn't support and marked the take as an opinion.</p>"
+      "richText": "<p>In the tutorial run it checked 19 claims and left MCP servers off the list of things that break the cache, because they only break it when tool search is off.</p>"
     },
     {
       "id": "cc5v0000-0000-4000-8000-000000000028",
@@ -379,7 +379,7 @@
       "optional": false,
       "codeBlock": {
         "language": "javascript",
-        "code": "Frame 11 has too much text on screen. Cut it to the /usage card and let the voice say the two habits. Show me the sheet again."
+        "code": "Frames 11 and 12 leave the right half of the frame empty. Make each list bigger and centre it so it fills the frame. Show me the sheet again."
       }
     },
     {
@@ -425,14 +425,14 @@
     },
     {
       "id": "cc5v0000-0000-4000-8000-000000000040",
-      "text": "Put a fix into the style lock so every later plate gets it (the tutorial's redo)",
+      "text": "Look at the plate yourself; add a missing rule to the checklist (the tutorial's redo)",
       "completed": false,
       "isHeadline": false,
       "createdAt": "2026-10-04T12:00:40.000Z",
       "optional": false,
       "codeBlock": {
         "language": "javascript",
-        "code": "Redo it. Add full-bleed, no plate border to the style lock so plates B and C get it too."
+        "code": "Redo it. That edge breaks the no-plate-border rule in the style lock. Add the rule to the checklist so every plate gets checked for it."
       }
     },
     {
@@ -444,7 +444,7 @@
       "optional": false,
       "codeBlock": {
         "language": "javascript",
-        "code": "Keep it. Go on with B and C."
+        "code": "Keep it. Go on with the other three."
       }
     },
     {
@@ -526,10 +526,23 @@
     },
     {
       "id": "cc5v0000-0000-4000-8000-000000000049",
-      "text": "Render it",
+      "text": "Ask for any last change before the render (the tutorial's change)",
       "completed": false,
       "isHeadline": false,
       "createdAt": "2026-10-04T12:00:49.000Z",
+      "optional": false,
+      "codeBlock": {
+        "language": "javascript",
+        "code": "Make frame 10 fill the frame like 11 and 12, then render."
+      },
+      "richText": "<p>The build stops at the preview so you can look before the render.</p>"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000050",
+      "text": "Render it",
+      "completed": false,
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:50.000Z",
       "optional": false,
       "codeBlock": {
         "language": "bash",
@@ -538,18 +551,18 @@
       "richText": "<p>If Claude's own render can't start Chrome from its shell, run this command yourself.</p>"
     },
     {
-      "id": "cc5v0000-0000-4000-8000-000000000050",
+      "id": "cc5v0000-0000-4000-8000-000000000051",
       "text": "9 The review loop",
       "completed": false,
       "isHeadline": true,
-      "createdAt": "2026-10-04T12:00:50.000Z"
+      "createdAt": "2026-10-04T12:00:51.000Z"
     },
     {
-      "id": "cc5v0000-0000-4000-8000-000000000051",
+      "id": "cc5v0000-0000-4000-8000-000000000052",
       "text": "Let Claude review its own frames",
       "completed": false,
       "isHeadline": false,
-      "createdAt": "2026-10-04T12:00:51.000Z",
+      "createdAt": "2026-10-04T12:00:52.000Z",
       "optional": false,
       "codeBlock": {
         "language": "javascript",
@@ -558,11 +571,11 @@
       "richText": "<p>A grid of 18 stills, scores out of 10 and the three worst problems with timestamps. Don't chase the scores; fix the timestamped problems.</p>"
     },
     {
-      "id": "cc5v0000-0000-4000-8000-000000000052",
+      "id": "cc5v0000-0000-4000-8000-000000000053",
       "text": "Apply the fixes",
       "completed": false,
       "isHeadline": false,
-      "createdAt": "2026-10-04T12:00:52.000Z",
+      "createdAt": "2026-10-04T12:00:53.000Z",
       "optional": false,
       "codeBlock": {
         "language": "javascript",
@@ -570,39 +583,39 @@
       }
     },
     {
-      "id": "cc5v0000-0000-4000-8000-000000000053",
+      "id": "cc5v0000-0000-4000-8000-000000000054",
       "text": "Render again, then run /review again",
       "completed": false,
       "isHeadline": false,
-      "createdAt": "2026-10-04T12:00:53.000Z",
-      "optional": false,
-      "richText": "<p>Stop when the list gets shorter and the problems get smaller. If <code>npx hyperframes check</code> still fails after a fix, believe the check: pull a full-size frame from the render and look.</p>"
-    },
-    {
-      "id": "cc5v0000-0000-4000-8000-000000000054",
-      "text": "The finished project from the tutorial",
-      "completed": false,
-      "isHeadline": false,
       "createdAt": "2026-10-04T12:00:54.000Z",
-      "optional": true,
-      "codeBlock": {
-        "language": "javascript",
-        "code": "examples/prompt-caching-explained/"
-      }
+      "optional": false,
+      "richText": "<p>Stop when the list gets shorter and the problems get smaller; in the tutorial run the third round said the video could ship. If <code>npx hyperframes check</code> still fails after a fix, believe the check: pull a full-size frame from the render and look.</p>"
     },
     {
       "id": "cc5v0000-0000-4000-8000-000000000055",
-      "text": "Going further",
+      "text": "The finished project from the tutorial",
       "completed": false,
-      "isHeadline": true,
-      "createdAt": "2026-10-04T12:00:55.000Z"
+      "isHeadline": false,
+      "createdAt": "2026-10-04T12:00:55.000Z",
+      "optional": true,
+      "codeBlock": {
+        "language": "javascript",
+        "code": "examples/prompt-caching-kitchen/"
+      }
     },
     {
       "id": "cc5v0000-0000-4000-8000-000000000056",
+      "text": "Going further",
+      "completed": false,
+      "isHeadline": true,
+      "createdAt": "2026-10-04T12:00:56.000Z"
+    },
+    {
+      "id": "cc5v0000-0000-4000-8000-000000000057",
       "text": "Official GSAP skills for richer motion",
       "completed": false,
       "isHeadline": false,
-      "createdAt": "2026-10-04T12:00:56.000Z",
+      "createdAt": "2026-10-04T12:00:57.000Z",
       "optional": true,
       "codeBlock": {
         "language": "bash",
@@ -610,11 +623,11 @@
       }
     },
     {
-      "id": "cc5v0000-0000-4000-8000-000000000057",
+      "id": "cc5v0000-0000-4000-8000-000000000058",
       "text": "Ready-made blocks from the HyperFrames registry",
       "completed": false,
       "isHeadline": false,
-      "createdAt": "2026-10-04T12:00:57.000Z",
+      "createdAt": "2026-10-04T12:00:58.000Z",
       "optional": true,
       "codeBlock": {
         "language": "bash",
@@ -622,11 +635,11 @@
       }
     },
     {
-      "id": "cc5v0000-0000-4000-8000-000000000058",
+      "id": "cc5v0000-0000-4000-8000-000000000059",
       "text": "Camera moves and punch-ins: /hyperframes-keyframes. Sound effects: /media-use.",
       "completed": false,
       "isHeadline": false,
-      "createdAt": "2026-10-04T12:00:58.000Z",
+      "createdAt": "2026-10-04T12:00:59.000Z",
       "optional": true
     }
   ]

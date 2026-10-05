@@ -20,6 +20,8 @@ is already prepared, and one chef plates a dish straight from them."
 3. No letters, numbers or fake text anywhere.
 4. Same line weight and paper tone as the first kept plate.
 5. The metaphor reads in one second without narration.
+6. No plate border or hard edge: the drawing fades into the paper, with no straight vertical or
+   horizontal line where the illustration stops and the empty paper starts.
 
 ## Your own style
 

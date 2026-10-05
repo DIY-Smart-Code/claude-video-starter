@@ -1,0 +1,60 @@
+<template>
+<style>
+@font-face{font-family:"JetBrains Mono";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-500.woff2") format("woff2");}
+@font-face{font-family:"Playfair Display";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/PlayfairDisplay-400.woff2") format("woff2");}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;container-type:size;font-family:"Playfair Display",Georgia,serif;color:#1A1815}
+#root .clip{position:absolute}
+#root .f8-bg{left:0;top:0;width:1920px;height:1080px;background:#F4F1EA}
+#root .f8-kicker{left:1150px;top:250px;width:700px;font-family:"JetBrains Mono",monospace;font-weight:500;font-size:40px;letter-spacing:.16em;text-transform:uppercase;opacity:0;white-space:nowrap}
+#root .f8-frame{left:80px;top:170px;width:960px;height:700px;border:1px solid rgba(26,24,21,.2);border-radius:12px;box-shadow:0 1px 3px rgba(26,24,21,.08),0 4px 16px rgba(26,24,21,.04);opacity:0}
+#root .f8-layer{left:120px;width:880px;height:200px;border-radius:8px;background:#1A1815;color:#F4F1EA;font-family:"JetBrains Mono",monospace;font-weight:500;font-size:40px;display:flex;align-items:center;padding:0 40px;box-sizing:border-box;opacity:0;white-space:nowrap;overflow:hidden}
+#root .f8-slot{left:120px;width:880px;height:200px;border-radius:8px;border:3px solid rgba(26,24,21,.25);box-sizing:border-box;opacity:0}
+#root .f8-stack{left:1150px;top:330px;width:740px;font-size:92px;line-height:1.06;letter-spacing:-.018em;opacity:0}
+#root .f8-l1{top:200px}
+#root .f8-l2{top:420px}
+#root .f8-l3{top:640px}
+#root .f8-wash{left:120px;top:420px;width:880px;height:420px;border-radius:8px;background:rgba(244,241,234,.22);opacity:0;transform-origin:50% 0;pointer-events:none}
+#root .f8-tag{left:640px;top:710px;width:340px;font-family:"JetBrains Mono",monospace;font-weight:500;font-size:40px;color:#F4F1EA;opacity:0;white-space:nowrap}
+#root .f8-head{left:1150px;top:330px;width:740px;font-size:92px;line-height:1.06;letter-spacing:-.018em;opacity:0}
+#root .f8-head span.f8-clay{color:#C15F3C}
+#root .f8-h2{left:1150px;top:530px;width:740px;font-size:92px;line-height:1.06;letter-spacing:-.018em;opacity:0}
+</style>
+<div data-hf-id="hf-varj" id="root" data-composition-id="08-order-matters" data-width="1920" data-height="1080" data-start="0" data-duration="13.4">
+  <div data-hf-id="hf-9h06" class="clip f8-bg" id="f8-bg" data-start="0" data-duration="13.4" data-track-index="0"></div>
+  <div data-hf-id="hf-wohe" class="clip f8-kicker" id="f8-kicker" data-start="0" data-duration="13.4" data-track-index="1">✱ Order matters</div>
+  <div data-hf-id="hf-od3g" class="clip f8-frame" id="f8-frame" data-start="0" data-duration="13.4" data-track-index="2"></div>
+  <div class="clip f8-slot f8-l1" id="f8-s1" data-start="0" data-duration="13.4" data-track-index="10"></div>
+  <div class="clip f8-slot f8-l2" id="f8-s2" data-start="0" data-duration="13.4" data-track-index="11"></div>
+  <div class="clip f8-slot f8-l3" id="f8-s3" data-start="0" data-duration="13.4" data-track-index="12"></div>
+  <div class="clip f8-stack" id="f8-stack" data-start="0" data-duration="13.4" data-track-index="13">Stacked<br>from the top.</div>
+  <div data-hf-id="hf-xx5c" class="clip f8-layer f8-l1" id="f8-l1" data-start="0" data-duration="13.4" data-track-index="3">System prompt + tools</div>
+  <div data-hf-id="hf-bn7a" class="clip f8-layer f8-l2" id="f8-l2" data-start="0" data-duration="13.4" data-track-index="4">Project context · CLAUDE.md</div>
+  <div data-hf-id="hf-7aus" class="clip f8-layer f8-l3" id="f8-l3" data-start="0" data-duration="13.4" data-track-index="5">Conversation</div>
+  <div data-hf-id="hf-9hkw" class="clip f8-wash" id="f8-wash" data-start="0" data-duration="13.4" data-track-index="6"></div>
+  <div data-hf-id="hf-jehn" class="clip f8-tag" id="f8-tag" data-start="0" data-duration="13.4" data-track-index="7">re-processed</div>
+  <div data-hf-id="hf-yqku" class="clip f8-head" id="f8-head" data-start="0" data-duration="13.4" data-track-index="8">Change the top,</div>
+  <div data-hf-id="hf-kvtl" class="clip f8-h2" id="f8-h2" data-start="0" data-duration="13.4" data-track-index="9"><span data-hf-id="hf-s7gl" class="f8-clay">re-cook</span><br data-hf-id="hf-x5px">everything below.</div>
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+  window.__timelines = window.__timelines || {};
+  var tl = gsap.timeline({ paused: true });
+  tl.fromTo("#f8-kicker",{opacity:0,y:16},{opacity:1,y:0,duration:.5,ease:"power2.out"},0.02);
+  tl.fromTo("#f8-frame",{opacity:0,y:20},{immediateRender:false,opacity:1,y:0,duration:.6,ease:"power2.out"},0.02);
+  tl.to("#f8-s1",{opacity:1,duration:.5,ease:"power2.out"},0.3);
+  tl.to("#f8-s2",{opacity:1,duration:.5,ease:"power2.out"},0.5);
+  tl.to("#f8-s3",{opacity:1,duration:.5,ease:"power2.out"},0.7);
+  tl.fromTo("#f8-stack",{opacity:0,y:40},{immediateRender:false,opacity:1,y:0,duration:.7,ease:"power3.out"},2.02);
+  tl.to("#f8-stack",{opacity:0,y:-30,duration:.4,ease:"power2.in"},8.63);
+  tl.fromTo("#f8-l1",{opacity:0,y:-60},{immediateRender:false,opacity:1,y:0,duration:.6,ease:"power3.out"},3.54);
+  tl.fromTo("#f8-l2",{opacity:0,y:-60},{immediateRender:false,opacity:1,y:0,duration:.6,ease:"power3.out"},5.78);
+  tl.fromTo("#f8-l3",{opacity:0,y:-60},{immediateRender:false,opacity:1,y:0,duration:.6,ease:"power3.out"},7.62);
+  tl.to("#f8-l1",{backgroundColor:"#C15F3C",duration:.5,ease:"power2.inOut"},9.03);
+  tl.fromTo("#f8-head",{opacity:0,y:40},{immediateRender:false,opacity:1,y:0,duration:.7,ease:"power3.out"},9.03);
+  tl.fromTo("#f8-wash",{opacity:0,scaleY:0},{immediateRender:false,opacity:1,scaleY:1,duration:1.1,ease:"power2.inOut"},10.66);
+  tl.fromTo("#f8-tag",{opacity:0,y:-10},{immediateRender:false,opacity:1,y:0,duration:.5,ease:"power2.out"},11.1);
+  tl.fromTo("#f8-h2",{opacity:0,y:40},{immediateRender:false,opacity:1,y:0,duration:.7,ease:"power3.out"},11.86);
+  tl.set({}, {}, 12.9);
+  window.__timelines["08-order-matters"] = tl;
+  </script>
+</div>
+</template>

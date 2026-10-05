@@ -1,0 +1,55 @@
+<template>
+<style>
+@font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-400.woff2") format("woff2");}
+@font-face{font-family:"JetBrains Mono";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-500.woff2") format("woff2");}
+@font-face{font-family:"Playfair Display";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/PlayfairDisplay-400.woff2") format("woff2");}
+#root{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;}
+#root .clip{position:absolute;}
+.hb-bg{left:0;top:0;width:1920px;height:1080px;background:#F4F1EA;}
+.hb-block{left:210px;top:190px;width:1500px;height:640px;display:flex;flex-direction:column;justify-content:space-between;}
+.hb-row{position:relative;height:170px;}
+.hb-num{position:absolute;left:0;top:0;width:96px;height:170px;font-family:"Playfair Display",serif;font-weight:400;font-size:154px;line-height:170px;letter-spacing:-0.02em;color:#C15F3C;opacity:0;}
+.hb-txt{position:absolute;left:165px;top:0;height:170px;line-height:170px;font-family:"Inter",sans-serif;font-weight:400;font-size:92px;color:#1A1815;white-space:nowrap;opacity:0;}
+.hb-mono{font-family:"JetBrains Mono",monospace;font-weight:500;font-size:84px;letter-spacing:0.01em;}
+.hb-chip{position:absolute;left:165px;top:12px;height:146px;box-sizing:border-box;padding:0 50px;display:flex;align-items:center;background:#1A1815;color:#F4F1EA;border-radius:12px;font-family:"JetBrains Mono",monospace;font-weight:500;font-size:69px;white-space:nowrap;opacity:0;}
+.hb-chip .hb-c{opacity:0;}
+.hb-lab-wrap{display:block;overflow:hidden;max-width:0;white-space:nowrap;}
+.hb-lab{display:inline-block;padding-left:28px;color:#d9a58f;opacity:0;}
+</style>
+<div data-hf-id="hf-l5s3" id="root" data-composition-id="12-habits" data-start="0" data-duration="8.74" data-width="1920" data-height="1080">
+  <div data-hf-id="hf-ejz5" id="hb-bg" class="clip hb-bg" data-start="0" data-duration="8.74" data-track-index="0"></div>
+  <div data-hf-id="hf-x2oi" id="hb-block" class="clip hb-block" data-start="0" data-duration="8.74" data-track-index="1">
+    <div data-hf-id="hf-t3hh" class="hb-row">
+      <span data-hf-id="hf-1b4d" class="hb-num" id="hb-n1">1</span>
+      <span data-hf-id="hf-iqmn" class="hb-txt" id="hb-t1">Pick model + effort first</span>
+    </div>
+    <div data-hf-id="hf-fo6x" class="hb-row">
+      <span data-hf-id="hf-8jbx" class="hb-num" id="hb-n2">2</span>
+      <span data-hf-id="hf-cmwz" class="hb-txt" id="hb-t2"><span data-hf-id="hf-5qtv" class="hb-mono">/compact</span> between tasks</span>
+    </div>
+    <div data-hf-id="hf-gv40" class="hb-row">
+      <span data-hf-id="hf-qmv9" class="hb-num" id="hb-n3">3</span>
+      <span data-hf-id="hf-mvut" class="hb-chip" id="hb-chip"><span data-hf-id="hf-bgn4" class="hb-c" id="hb-c1">/u</span><span data-hf-id="hf-vocj" class="hb-c" id="hb-c2">sa</span><span data-hf-id="hf-mw2m" class="hb-c" id="hb-c3">ge</span><span data-hf-id="hf-szon" class="hb-lab-wrap" id="hb-wrap"><span data-hf-id="hf-9lgf" class="hb-lab" id="hb-lab">→ Prompt cache (main)</span></span></span>
+    </div>
+  </div>
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+  (function(){
+    window.__timelines = window.__timelines || {};
+    var tl = gsap.timeline({ paused: true });
+    function rise(sel, t){ tl.fromTo(sel, {opacity:0, y:36}, {opacity:1, y:0, duration:0.5, ease:"power3.out"}, t); }
+    rise("#hb-n1", 0.02); rise("#hb-t1", 0.12);
+    rise("#hb-n2", 2.9);  rise("#hb-t2", 3.0);
+    rise("#hb-n3", 5.73);
+    tl.fromTo("#hb-chip", {opacity:0, y:36}, {opacity:1, y:0, duration:0.45, ease:"power3.out"}, 5.85);
+    tl.set("#hb-c1", {opacity:1}, 6.98);
+    tl.set("#hb-c2", {opacity:1}, 7.1);
+    tl.set("#hb-c3", {opacity:1}, 7.22);
+    tl.fromTo("#hb-wrap", {maxWidth:0}, {maxWidth:900, duration:0.5, ease:"power2.out"}, 7.38);
+    tl.fromTo("#hb-lab", {opacity:0, x:-120}, {opacity:1, x:0, duration:0.5, ease:"power2.out"}, 7.38);
+    tl.set({}, {}, 8.24);
+    window.__timelines["12-habits"] = tl;
+  })();
+  </script>
+</div>
+</template>

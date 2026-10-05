@@ -1,0 +1,34 @@
+<template>
+<div data-hf-id="hf-t8pm" id="root" data-composition-id="13-keep-it-warm" data-start="0" data-duration="3.46" data-width="1920" data-height="1080">
+  <style>
+    @font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-400.woff2") format("woff2");}
+    @font-face{font-family:"Playfair Display";font-weight:400;font-style:italic;font-display:block;src:url("assets/fonts/PlayfairDisplay-400-Italic.woff2") format("woff2");}
+    @font-face{font-family:"Playfair Display";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/PlayfairDisplay-400.woff2") format("woff2");}
+    #root{position:relative;width:1920px;height:1080px;overflow:hidden;container-type:size;}
+    #root .clip{position:absolute;}
+    .f13-plate{left:0;top:0;width:1920px;height:1080px;overflow:hidden;}
+    .f13-plate img{width:100%;height:100%;object-fit:cover;display:block;transform-origin:70% 50%;}
+    .f13-chip{left:80px;bottom:76px;background:#F4F1EA;border:1px solid rgba(26,24,21,.12);border-radius:12px;padding:30px 46px 34px;box-shadow:0 1px 3px rgba(26,24,21,.08),0 4px 16px rgba(26,24,21,.04);opacity:0;}
+    .f13-title{font-family:"Playfair Display",Georgia,serif;font-weight:400;font-size:100px;line-height:1.06;letter-spacing:-0.022em;color:#1A1815;margin:0;}
+    .f13-line1{display:block;}
+    .f13-warm{display:block;color:#C15F3C;font-style:italic;opacity:0;}
+    .f13-sub{font-family:"Inter",sans-serif;font-weight:400;font-size:44px;line-height:1.3;color:#3b3732;margin:14px 0 0;opacity:0;}
+  </style>
+  <div data-hf-id="hf-jbif" id="f13-plate" class="clip f13-plate" data-start="0" data-duration="3.46" data-track-index="0"><img data-hf-id="hf-pjtj" id="f13-img" src="assets/art/13-serving-kitchen-1.png" alt=""></div>
+  <div data-hf-id="hf-y7my" class="clip f13-chip" id="f13-chip" data-start="0" data-duration="3.46" data-track-index="1">
+    <p data-hf-id="hf-tvli" class="f13-title"><span data-hf-id="hf-mnff" class="f13-line1" data-layout-allow-overlap="">Keep the kitchen</span><span data-hf-id="hf-m2tg" class="f13-warm" id="f13-warm" data-layout-allow-overlap="">warm.</span></p>
+    <p data-hf-id="hf-f81k" class="f13-sub" id="f13-sub">Pay only to cook what's new.</p>
+  </div>
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    window.__timelines = window.__timelines || {};
+    var tl = gsap.timeline({ paused: true });
+    tl.fromTo("#f13-img", { scale: 1 }, { scale: 1.06, duration: 3.46, ease: "none" }, 0);
+    tl.fromTo("#f13-chip", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 0.02);
+    tl.fromTo("#f13-warm", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.74);
+    tl.fromTo("#f13-sub", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 1.7);
+    tl.set({}, {}, 3.46);
+    window.__timelines["13-keep-it-warm"] = tl;
+  </script>
+</div>
+</template>

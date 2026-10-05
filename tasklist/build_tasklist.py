@@ -113,18 +113,20 @@ prompt("Log in to Higgsfield once: run /mcp and pick higgsfield", "/mcp")
 # -- 2 brief ----------------------------------------------------------------
 head("2 The brief")
 prompt("Type into Claude Code (swap in your topic, take, sources and look)", BRIEF_PROMPT,
-       note="<p>\"Use the standard explainer pipeline\" routes it to /faceless-explainer. It recommends an angle, "
-            "may offer a few additions, and asks what's missing.</p>")
+       note="<p>\"Use the standard explainer pipeline\" routes it to /faceless-explainer. It writes the brief, "
+            "may recommend a few additions, and asks what's missing.</p>")
 prompt("Answer its questions in a line each (the tutorial's answers)",
-       "1. Yes, the narrative concept.\n"
-       "2. Both. Keep one kitchen across the idea scenes: empty, prepped, serving.\n"
-       "3. No, only the two docs pages.",
-       note="<p>The answers land in <code>BRIEF.md</code>.</p>")
+       "a. Keep 2:00.\n"
+       "Yes, count up the cost figures on the word that says them.\n"
+       "No material of my own, only the two docs pages.",
+       note="<p>In the tutorial run it warned that the week's usage was low and offered a 90-second cut. "
+            "The answers land in <code>BRIEF.md</code>.</p>")
 
 # -- 3 script ---------------------------------------------------------------
 head("3 The script")
 step("Read fact-check.md: one row per claim, with the sentence from the source it rests on",
-     note="<p>In the tutorial run it dropped two claims the docs didn't support and marked the take as an opinion.</p>")
+     note="<p>In the tutorial run it checked 19 claims and left MCP servers off the list of things that break "
+          "the cache, because they only break it when tool search is off.</p>")
 prompt("No fact-check.md in your run? Ask for it",
        "Check every number in SCRIPT.md against the sources and write fact-check.md with one row per\n"
        "claim: value, source URL, verified or wrong. Fix any wrong ones in the script.", optional=True)
@@ -143,8 +145,8 @@ head("5 The storyboard review")
 step("Open the sketch sheet in your browser", code="videos/<slug>/storyboard.html", lang="javascript",
      note="<p>Every frame as a static sketch, in the real fonts, colours and text. Nothing moves yet.</p>")
 prompt("Ask for changes frame by frame (the tutorial's change)",
-       "Frame 11 has too much text on screen. Cut it to the /usage card and let the voice say the two "
-       "habits. Show me the sheet again.")
+       "Frames 11 and 12 leave the right half of the frame empty. Make each list bigger and centre it so "
+       "it fills the frame. Show me the sheet again.")
 prompt("Confirm when it looks right", "Looks right. Go on.",
        note="<p>CLAUDE.md tells Claude never to build before you confirm the sheet.</p>")
 
@@ -155,9 +157,10 @@ step("Claude runs /art-direction for the metaphor scenes and shows you the first
           "a checklist for redoing plates, and a ledger of every prompt in <code>assets/art/</code>. "
           "Every image costs Higgsfield credits.</p>")
 prompt("If it doesn't start on its own", "/art-direction for videos/<slug>", optional=True)
-prompt("Put a fix into the style lock so every later plate gets it (the tutorial's redo)",
-       "Redo it. Add full-bleed, no plate border to the style lock so plates B and C get it too.")
-prompt("Keep the plate and let it make the rest", "Keep it. Go on with B and C.")
+prompt("Look at the plate yourself; add a missing rule to the checklist (the tutorial's redo)",
+       "Redo it. That edge breaks the no-plate-border rule in the style lock. Add the rule to the "
+       "checklist so every plate gets checked for it.")
+prompt("Keep the plate and let it make the rest", "Keep it. Go on with the other three.")
 
 # -- 7 voice ----------------------------------------------------------------
 head("7 The voice")
@@ -176,6 +179,9 @@ prompt("Approve the plates and start the build", "They look right. Start the bui
        note="<p>One sub-agent per frame, then Claude assembles the video and runs the checks.</p>")
 step("Run the checks", code="npx hyperframes check videos/<slug>")
 step("Watch it in the studio", code="npx hyperframes preview videos/<slug>")
+prompt("Ask for any last change before the render (the tutorial's change)",
+       "Make frame 10 fill the frame like 11 and 12, then render.",
+       note="<p>The build stops at the preview so you can look before the render.</p>")
 step("Render it", code="npx hyperframes render videos/<slug> -o videos/<slug>/out/<slug>.mp4",
      note="<p>If Claude's own render can't start Chrome from its shell, run this command yourself.</p>")
 
@@ -186,9 +192,10 @@ prompt("Let Claude review its own frames", "/review videos/<slug>",
             "Don't chase the scores; fix the timestamped problems.</p>")
 prompt("Apply the fixes", "Yes, apply all three.")
 step("Render again, then run /review again",
-     note="<p>Stop when the list gets shorter and the problems get smaller. If <code>npx hyperframes check</code> "
-          "still fails after a fix, believe the check: pull a full-size frame from the render and look.</p>")
-step("The finished project from the tutorial", code="examples/prompt-caching-explained/", lang="javascript",
+     note="<p>Stop when the list gets shorter and the problems get smaller; in the tutorial run the third round "
+          "said the video could ship. If <code>npx hyperframes check</code> still fails after a fix, believe the "
+          "check: pull a full-size frame from the render and look.</p>")
+step("The finished project from the tutorial", code="examples/prompt-caching-kitchen/", lang="javascript",
      optional=True)
 
 # -- going further ----------------------------------------------------------

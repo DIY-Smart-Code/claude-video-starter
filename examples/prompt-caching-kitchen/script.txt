@@ -1,0 +1,25 @@
+Most of your Claude Code bill isn't Claude writing code. It's Claude, re-reading.
+
+Every time you send a message, Claude Code sends everything again. The system prompt. Your Claude dot M D. Every message, every tool result. Then your new line.
+
+Picture a kitchen that throws out its prep after every order. Chop the onions again. Make the stock again. Every single time.
+
+Prompt caching is the kitchen where the prep is already done. The cook keeps it, and only makes what's new.
+
+Here's how. The cache matches the start of each request, the prefix. If the start is identical, it's read from cache. Only the newest turn is processed fresh.
+
+And reading is cheap. A cache read costs one tenth of normal input. Writing it costs a quarter more, once.
+
+Say your context is a hundred thousand tokens, over forty turns. Without caching, that's four million full price tokens. With caching, about five hundred fifteen thousand.
+
+Order matters. Claude Code stacks it from the top. System prompt and tools. Then project context. Then the conversation. Change something near the top, and everything below it gets cooked again.
+
+That's what a new chef does. Switching models. Changing effort, on most models. Turning on fast mode. Running slash compact. Upgrading Claude Code. Each one costs a slow, full price turn.
+
+Prep also goes cold. With an A P I key, the cache lasts five minutes without use. On a subscription, Claude Code keeps your main conversation warm for an hour.
+
+The good news. Editing files, using skills, switching permission modes, and slash rewind all keep the cache.
+
+So pick your model and effort before you start. Compact between tasks, not in the middle. And check your hit rate with slash usage.
+
+Keep the kitchen warm, and you only pay to cook what's new.

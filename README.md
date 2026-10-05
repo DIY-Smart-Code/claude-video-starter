@@ -21,7 +21,7 @@ claude-video-starter/
 ├── scripts/tts.py                   ElevenLabs: script -> narration.wav + transcript.json
 ├── scripts/contact-sheet.py         a render -> one 6x3 grid of stills
 ├── .env.example                     your ElevenLabs settings (copy to .env)
-├── examples/prompt-caching-explained/  the explainer from the tutorial: brief, script, storyboard, art
+├── examples/prompt-caching-kitchen/ the explainer from the tutorial: brief, script, storyboard, art
 ├── templates/                       bundled fonts and GSAP the workflow can reuse
 ├── tasklist/                        the follow-along checklist (import file + its generator)
 └── videos/                          your videos go here, one folder each
@@ -85,22 +85,24 @@ One prompt starts everything. Give it your topic, your take, your sources and yo
   Voice: ElevenLabs. No music. YouTube, 16:9.
 ```
 
-"Use the standard explainer pipeline" routes it to `/faceless-explainer`. It recommends an angle,
-may offer a few additions, and asks what's missing. Answer in a line each. In the tutorial run:
+"Use the standard explainer pipeline" routes it to `/faceless-explainer`. It writes the brief, may
+recommend a few additions, and asks what's missing. Answer in a line each. In the tutorial run it
+also warned that the week's usage was low and offered a 90-second cut, recommended counting up the
+cost figures, and asked for material of your own:
 
 ```
-> 1. Yes, the narrative concept.
-  2. Both. Keep one kitchen across the idea scenes: empty, prepped, serving.
-  3. No, only the two docs pages.
+> a. Keep 2:00.
+  Yes, count up the cost figures on the word that says them.
+  No material of my own, only the two docs pages.
 ```
 
 The answers land in `BRIEF.md`.
 
 ## 3. The script
 Claude writes `SCRIPT.md` from your sources and checks every claim in `fact-check.md`: one row per
-claim, with the sentence from the source it rests on. Read that file. In the tutorial run it dropped
-two claims the docs didn't support and marked the take as an opinion. If your run skips the file,
-ask for it:
+claim, with the sentence from the source it rests on. Read that file. In the tutorial run it checked
+19 claims and left MCP servers off the list of things that break the cache, because they only break
+it when tool search is off. If your run skips the file, ask for it:
 
 ```
 > Check every number in SCRIPT.md against the sources and write fact-check.md with one row per
@@ -128,8 +130,8 @@ Open it in your browser and look at it the way a viewer would. Ask for changes f
 tutorial's one change:
 
 ```
-> Frame 11 has too much text on screen. Cut it to the /usage card and let the voice say the two
-  habits. Show me the sheet again.
+> Frames 11 and 12 leave the right half of the frame empty. Make each list bigger and centre it so
+  it fills the frame. Show me the sheet again.
 ```
 
 When the sheet looks right, say so. `CLAUDE.md` tells Claude never to build before you confirm it.
@@ -142,15 +144,17 @@ When the sheet looks right, say so. `CLAUDE.md` tells Claude never to build befo
 After you confirm the sheet, Claude runs `/art-direction` for the metaphor scenes (if it doesn't,
 type `/art-direction for videos/<slug>`). The skill writes one prompt per scene with a locked style
 block (medium, palette hex codes, an empty third for the headline, no text), shows you the first
-plate and asks: keep or redo. When a plate has a problem the style should never repeat, put the fix
-into the style lock, so every later plate gets it:
+plate and asks: keep or redo. Look at the plate yourself, not only at the checklist. When a plate
+breaks a rule the checklist doesn't check yet, have the rule added, so every later plate is checked
+for it:
 
 ```
-> Redo it. Add full-bleed, no plate border to the style lock so plates B and C get it too.
+> Redo it. That edge breaks the no-plate-border rule in the style lock. Add the rule to the
+  checklist so every plate gets checked for it.
 ```
 
 ```
-> Keep it. Go on with B and C.
+> Keep it. Go on with the other three.
 ```
 
 The kept plate becomes the reference image for the rest, so they look like one illustrator made
@@ -178,6 +182,13 @@ assembles the video and runs the checks:
 > They look right. Start the build.
 ```
 
+The build stops at the preview, so look at it before the render. In the tutorial run one frame had
+the empty right half that the storyboard review had fixed in two others:
+
+```
+> Make frame 10 fill the frame like 11 and 12, then render.
+```
+
 ```bash
 npx hyperframes check videos/<slug>
 npx hyperframes preview videos/<slug>
@@ -200,11 +211,12 @@ out of 10 and names the three worst problems with timestamps. Apply them, render
 ```
 
 Stop when the list gets shorter and the problems get smaller; the score doesn't have to reach 10.
+In the tutorial run the third round found only small problems and said the video could ship as it was.
 Two lessons are built in: the tiles are a quarter of full size, so Claude checks a full-size frame
 before it calls text too small; and when `npx hyperframes check` fails after a fix, believe the check
 until a frame from the render proves otherwise.
 
-The finished project from the tutorial is in `examples/prompt-caching-explained/`.
+The finished project from the tutorial is in `examples/prompt-caching-kitchen/`.
 
 ## Going further
 

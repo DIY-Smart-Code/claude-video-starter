@@ -1,0 +1,58 @@
+<template>
+  <div data-hf-id="hf-hj9z" id="root" data-composition-id="10-prep-goes-cold" data-width="1920" data-height="1080" data-start="0" data-duration="10.88">
+    <style>
+      @font-face{font-family:"JetBrains Mono";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-500.woff2") format("woff2");}
+      @font-face{font-family:"Playfair Display";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/PlayfairDisplay-400.woff2") format("woff2");}
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+      #root .clip { position: absolute; }
+      #root .f10-bg { left: 0; top: 0; width: 1920px; height: 1080px; background: #F4F1EA; }
+      #root .f10-kicker { left: 160px; top: 120px; font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 44px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(26,24,21,0.55); opacity: 0; white-space: nowrap; }
+      #root .f10-kicker b { color: #1A1815; font-weight: 500; }
+      #root .f10-lbl { left: 160px; font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 48px; color: rgba(26,24,21,0.55); opacity: 0; white-space: nowrap; }
+      #root .f10-bar { left: 160px; height: 120px; border-radius: 6px; transform-origin: 0 50%; }
+      #root .f10-bar-a { top: 330px; width: 120px; background: #1A1815; }
+      #root .f10-bar-b { top: 610px; width: 1340px; background: #C15F3C; }
+      #root .f10-val { font-family: "Playfair Display", serif; font-weight: 400; font-size: 140px; letter-spacing: -0.02em; line-height: 1; opacity: 0; white-space: nowrap; }
+      #root .f10-val-a { left: 1540px; top: 320px; color: #1A1815; }
+      #root .f10-val-b { left: 1540px; top: 600px; color: #C15F3C; }
+      #root .f10-lbl-a { top: 250px; }
+      #root .f10-track { left: 160px; width: 1340px; height: 120px; box-sizing: border-box; border: 3px solid rgba(26,24,21,0.25); border-radius: 6px; transform-origin: 0 50%; transform: scaleX(0); }
+      #root .f10-track-a { top: 330px; }
+      #root .f10-track-b { top: 610px; }
+      #root .f10-lbl-b { top: 530px; }
+      #root .f10-rule { left: 160px; top: 820px; width: 1600px; height: 2px; background: rgba(26,24,21,0.14); transform-origin: 0 50%; opacity: 0; }
+      #root .f10-note { left: 160px; top: 850px; font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 48px; color: rgba(26,24,21,0.55); opacity: 0; white-space: nowrap; }
+    </style>
+    <div data-hf-id="hf-p19f" id="f10-bg" class="clip f10-bg" data-start="0" data-duration="10.88" data-track-index="0"></div>
+    <div data-hf-id="hf-x1f4" class="clip f10-kicker" id="f10-kicker" data-start="0" data-duration="10.88" data-track-index="1">Prep goes cold · time to live</div>
+    <div data-hf-id="hf-vif6" class="clip f10-lbl f10-lbl-a" id="f10-lbl-a" data-start="0" data-duration="10.88" data-track-index="2">API key</div>
+    <div class="clip f10-track f10-track-a" id="f10-track-a" data-start="0" data-duration="10.88" data-track-index="10"></div>
+    <div class="clip f10-track f10-track-b" id="f10-track-b" data-start="0" data-duration="10.88" data-track-index="11"></div>
+    <div data-hf-id="hf-r1vp" class="clip f10-bar f10-bar-a" id="f10-bar-a" data-start="0" data-duration="10.88" data-track-index="3"></div>
+    <div data-hf-id="hf-rx39" class="clip f10-val f10-val-a" id="f10-val-a" data-start="0" data-duration="10.88" data-track-index="4">5 min</div>
+    <div data-hf-id="hf-h300" class="clip f10-lbl f10-lbl-b" id="f10-lbl-b" data-start="0" data-duration="10.88" data-track-index="5">subscription · main conversation</div>
+    <div data-hf-id="hf-6els" class="clip f10-bar f10-bar-b" id="f10-bar-b" data-start="0" data-duration="10.88" data-track-index="6"></div>
+    <div data-hf-id="hf-vg18" class="clip f10-val f10-val-b" id="f10-val-b" data-start="0" data-duration="10.88" data-track-index="7">1 h</div>
+    <div data-hf-id="hf-lk2j" class="clip f10-rule" id="f10-rule" data-start="0" data-duration="10.88" data-track-index="8"></div>
+    <div data-hf-id="hf-ewdm" class="clip f10-note" id="f10-note" data-start="0" data-duration="10.88" data-track-index="9">each use resets the timer</div>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.set("#f10-bar-a, #f10-bar-b", { scaleX: 0 }, 0);
+      tl.fromTo("#f10-kicker", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.02);
+      tl.fromTo("#f10-lbl-a", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.3);
+      tl.to("#f10-track-a", { scaleX: 1, duration: 0.9, ease: "power3.out" }, 0.3);
+      tl.to("#f10-track-b", { scaleX: 1, duration: 0.9, ease: "power3.out" }, 0.6);
+      tl.fromTo("#f10-bar-a", { scaleX: 0 }, { scaleX: 1, duration: 1.0, ease: "power2.inOut" }, 3.34);
+      tl.fromTo("#f10-val-a", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 4.34);
+      tl.fromTo("#f10-rule", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.5, ease: "power2.out" }, 5.3);
+      tl.fromTo("#f10-note", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 5.3);
+      tl.fromTo("#f10-lbl-b", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.6);
+      tl.fromTo("#f10-bar-b", { scaleX: 0 }, { scaleX: 1, duration: 3.44, ease: "power1.inOut" }, 6.66);
+      tl.fromTo("#f10-val-b", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 10.1);
+      tl.set({}, {}, 10.88);
+      window.__timelines["10-prep-goes-cold"] = tl;
+    </script>
+  </div>
+</template>

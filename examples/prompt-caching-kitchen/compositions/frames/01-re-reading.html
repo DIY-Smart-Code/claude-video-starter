@@ -1,0 +1,34 @@
+<template>
+  <style>
+    @font-face{font-family:"JetBrains Mono";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-500.woff2") format("woff2");}
+    @font-face{font-family:"Playfair Display";font-weight:400;font-style:italic;font-display:block;src:url("assets/fonts/PlayfairDisplay-400-Italic.woff2") format("woff2");}
+    @font-face{font-family:"Playfair Display";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/PlayfairDisplay-400.woff2") format("woff2");}
+    #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; container-type: size; }
+    #root .clip { position: absolute; }
+    .f01-bg { left: 0; top: 0; width: 1920px; height: 1080px; background: #F4F1EA; }
+    .f01-kicker { left: 80px; top: 120px; font-family: "Playfair Display", serif; font-weight: 400; font-size: 120px; line-height: 1.05; letter-spacing: -0.02em; color: #1A1815; white-space: nowrap; }
+    .f01-rule { left: 84px; top: 268px; width: 1100px; height: 4px; background: #1A1815; transform-origin: 0 50%; transform: scaleX(0); }
+    .f01-writing { left: 80px; top: 330px; font-family: "Playfair Display", serif; font-weight: 400; font-size: 80px; line-height: 1.1; letter-spacing: -0.018em; color: rgba(26,24,21,0.55); opacity: 0; white-space: nowrap; }
+    .f01-strike { position: absolute; left: -8px; top: 54%; width: calc(100% + 16px); height: 5px; background: rgba(26,24,21,0.7); transform-origin: 0 50%; transform: scaleX(0); }
+    .f01-hero { left: 70px; top: 520px; font-family: "Playfair Display", serif; font-weight: 400; font-style: italic; font-size: 230px; line-height: 1; letter-spacing: -0.028em; color: #C15F3C; opacity: 0; white-space: nowrap; }
+  </style>
+  <div data-hf-id="hf-cs2h" id="root" data-composition-id="01-re-reading" data-start="0" data-duration="6.28" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-ujxo" class="clip f01-bg" id="f01-bg" data-start="0" data-duration="6.28" data-track-index="0"></div>
+    <div data-hf-id="hf-xyj6" class="clip f01-kicker" id="f01-kicker" data-start="0" data-duration="6.28" data-track-index="1">Your Claude Code bill</div>
+    <div class="clip f01-rule" id="f01-rule" data-start="0" data-duration="6.28" data-track-index="4"></div>
+    <div data-hf-id="hf-t3y5" class="clip f01-writing" id="f01-writing" data-start="0" data-duration="6.28" data-track-index="2">writing code<div class="f01-strike" id="f01-strikebar"></div></div>
+    <div data-hf-id="hf-fve1" class="clip f01-hero" id="f01-hero" data-start="0" data-duration="6.28" data-track-index="3">re-reading.</div>
+  </div>
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    window.__timelines = window.__timelines || {};
+    var tl = gsap.timeline({ paused: true });
+    tl.to("#f01-rule", { scaleX: 1, duration: 1.1, ease: "power3.out" }, 0.0);
+    tl.to("#f01-writing", { opacity: 1, duration: 0.5, ease: "power3.out" }, 0.72);
+    tl.to("#f01-strikebar", { scaleX: 1, duration: 0.5, ease: "power2.out" }, 1.68);
+    tl.to("#f01-writing", { opacity: 0.4, duration: 0.6, ease: "power2.out" }, 3.04);
+    tl.fromTo("#f01-hero", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 4.64);
+    tl.set({}, {}, 5.78);
+    window.__timelines["01-re-reading"] = tl;
+  </script>
+</template>

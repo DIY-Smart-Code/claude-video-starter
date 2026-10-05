@@ -1,0 +1,43 @@
+<template>
+  <div data-hf-id="hf-zhpu" id="root" data-composition-id="11-whats-safe" data-width="1920" data-height="1080" data-start="0" data-duration="7.68">
+    <style>
+      @font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-400.woff2") format("woff2");}
+      @font-face{font-family:"Inter";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/Inter-500.woff2") format("woff2");}
+      @font-face{font-family:"JetBrains Mono";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-500.woff2") format("woff2");}
+      @font-face{font-family:"Playfair Display";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/PlayfairDisplay-400.woff2") format("woff2");}
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+      #root .clip { position: absolute; }
+      #root .f11-bg { left: 0; top: 0; width: 1920px; height: 1080px; background: #F4F1EA; }
+      #root .f11-wrap { left: 0; top: 0; width: 1920px; height: 1000px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 96px; }
+      #root .f11-head { position: relative; font-family: "Playfair Display", Georgia, serif; font-weight: 400; font-size: 146px; line-height: 1.06; letter-spacing: -0.02em; color: #1A1815; text-align: center; opacity: 0; }
+      #root .f11-grid { position: relative; display: grid; grid-template-columns: auto auto; column-gap: 154px; row-gap: 73px; }
+      #root .f11-cell { position: relative; display: flex; align-items: center; gap: 28px; font-family: "Inter", sans-serif; font-weight: 400; font-size: 84px; line-height: 1.15; color: #1A1815; opacity: 0; }
+      #root .f11-cell svg { width: 76px; height: 76px; flex: none; }
+      #root .f11-cell path { fill: none; stroke: #1A1815; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+      #root .f11-mono { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 80px; }
+    </style>
+    <div data-hf-id="hf-s90h" id="f11-bg" class="clip f11-bg" data-start="0" data-duration="7.68" data-track-index="0"></div>
+    <div data-hf-id="hf-78iy" id="f11-wrap" class="clip f11-wrap" data-start="0" data-duration="7.68" data-track-index="1">
+      <div data-hf-id="hf-kn4l" class="f11-head" id="f11-head">Keeps the cache</div>
+      <div data-hf-id="hf-w0dl" class="f11-grid">
+        <div data-hf-id="hf-svcm" class="f11-cell" id="f11-c1"><svg data-hf-id="hf-0fmv" viewBox="0 0 76 76"><path data-hf-id="hf-vjbp" d="M12 40 L30 58 L64 16" /></svg><span data-hf-id="hf-nu18">Editing files</span></div>
+        <div data-hf-id="hf-ox8l" class="f11-cell" id="f11-c2"><svg data-hf-id="hf-k53b" viewBox="0 0 76 76"><path data-hf-id="hf-2y89" d="M12 40 L30 58 L64 16" /></svg><span data-hf-id="hf-eyx7">Skills</span></div>
+        <div data-hf-id="hf-o5ks" class="f11-cell" id="f11-c3"><svg data-hf-id="hf-jqsa" viewBox="0 0 76 76"><path data-hf-id="hf-455c" d="M12 40 L30 58 L64 16" /></svg><span data-hf-id="hf-wpae">Permission modes</span></div>
+        <div data-hf-id="hf-bn2b" class="f11-cell" id="f11-c4"><svg data-hf-id="hf-jch9" viewBox="0 0 76 76"><path data-hf-id="hf-3qub" d="M12 40 L30 58 L64 16" /></svg><span data-hf-id="hf-xt9p" class="f11-mono">/rewind</span></div>
+      </div>
+    </div>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#f11-head", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 0.02);
+      const cues = [["#f11-c1", 1.33], ["#f11-c2", 2.18], ["#f11-c3", 3.38], ["#f11-c4", 5.06]];
+      cues.forEach(function (c) {
+        tl.fromTo(c[0], { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, c[1]);
+      });
+      tl.to("#root .f11-cell path", { strokeWidth: 11, duration: 0.4, ease: "power2.out" }, 6.18);
+      tl.set({}, {}, 7.68);
+      window.__timelines["11-whats-safe"] = tl;
+    </script>
+  </div>
+</template>
