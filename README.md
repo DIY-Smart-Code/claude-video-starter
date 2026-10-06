@@ -217,15 +217,17 @@ If Claude's own render can't start Chrome from its shell, run the render command
 ```
 
 `/review` turns the render into a grid of 18 stills, scores Hook, Readability, Motion and Variety
-out of 10 and names the three worst problems with timestamps. Apply them, render again, and run
-`/review` once more:
+out of 10 and names the three worst problems with timestamps, starting with the ones that keep a
+score under 8. Apply them, render again, and run `/review` once more:
 
 ```
 > Yes, apply all three.
 ```
 
-Stop when the list gets shorter and the problems get smaller; the score doesn't have to reach 10.
-In the tutorial run the third round found only small problems and said the video could ship as it was.
+The target is 8 or more on every score; only then does `/review` say the video is ready to ship.
+In the tutorial run, round three put readability at 9 and said the video could ship as it was, but
+the hook was still a 6: a headline on empty paper. Round four stacked request bars beside the
+headline (hook 7, the bars were too small); round five made them tall, and every score reached 8.
 Two lessons are built in: the tiles are a quarter of full size, so Claude checks a full-size frame
 before it calls text too small; and when `npx hyperframes check` fails after a fix, believe the check
 until a frame from the render proves otherwise.

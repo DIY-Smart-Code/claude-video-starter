@@ -23,8 +23,8 @@
 <div data-hf-id="hf-pqiv" id="p5-bg" class="clip p5-bg" data-start="0" data-duration="11.1" data-track-index="0"></div>
 <div data-hf-id="hf-3d8i" class="clip p5-kicker" id="p5-kicker" data-start="0" data-duration="11.1" data-track-index="1"><b data-hf-id="hf-u3lo">✱</b> Matched on the start</div>
 
-<div data-hf-id="hf-he8a" class="clip p5-lbl" id="p5-lbl1" style="top:236px" data-start="0" data-duration="11.1" data-track-index="2">previous request</div>
-<div data-hf-id="hf-3zgf" class="clip p5-row" id="p5-row1" style="top:290px;width:1338px" data-start="0" data-duration="11.1" data-track-index="3">
+<div data-hf-id="hf-he8a" class="clip p5-lbl" id="p5-lbl1" style="top:236px;opacity:1" data-start="0" data-duration="11.1" data-track-index="2">previous request</div>
+<div data-hf-id="hf-3zgf" class="clip p5-row" id="p5-row1" style="top:290px;width:1338px;opacity:1" data-start="0" data-duration="11.1" data-track-index="3">
   <div data-hf-id="hf-y68b" class="p5-seg p5-ink" style="flex:3"><div data-hf-id="hf-5ls3" class="p5-l">system</div></div>
   <div data-hf-id="hf-u84a" class="p5-seg p5-ink" style="flex:2"><div data-hf-id="hf-re2z" class="p5-l">CLAUDE.md</div></div>
   <div data-hf-id="hf-aoqs" class="p5-seg p5-ink" style="flex:4"><div data-hf-id="hf-o96e" class="p5-l">messages</div></div>
@@ -52,8 +52,6 @@
   br.style.strokeDasharray = len;
   br.style.strokeDashoffset = len;
   tl.fromTo("#p5-kicker", {opacity:0,y:-14}, {opacity:1,y:0,duration:0.5,ease:"power2.out"}, 0.04);
-  tl.fromTo("#p5-lbl1", {opacity:0}, {opacity:1,duration:0.4,ease:"power1.out"}, 0.28);
-  tl.fromTo("#p5-row1", {opacity:0,x:-80}, {opacity:1,x:0,duration:0.7,ease:"power3.out"}, 0.28);
   tl.fromTo("#p5-lbl2", {opacity:0}, {opacity:1,duration:0.4,ease:"power1.out"}, 1.76);
   tl.fromTo("#p5-row2", {opacity:0,x:-80}, {opacity:1,x:0,duration:0.7,ease:"power3.out"}, 1.76);
   tl.to(br, {strokeDashoffset:0,duration:1.0,ease:"power2.out"}, 4.24);

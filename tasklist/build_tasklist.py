@@ -188,12 +188,13 @@ step("Render it", code="npx hyperframes render videos/<slug> -o videos/<slug>/ou
 # -- 9 review loop ----------------------------------------------------------
 head("9 The review loop")
 prompt("Let Claude review its own frames", "/review videos/<slug>",
-       note="<p>A grid of 18 stills, scores out of 10 and the three worst problems with timestamps. "
-            "Don't chase the scores; fix the timestamped problems.</p>")
+       note="<p>A grid of 18 stills, scores out of 10 and the three worst problems with timestamps, "
+            "starting with the ones that keep a score under 8.</p>")
 prompt("Apply the fixes", "Yes, apply all three.")
 step("Render again, then run /review again",
-     note="<p>Stop when the list gets shorter and the problems get smaller; in the tutorial run the third round "
-          "said the video could ship. If <code>npx hyperframes check</code> still fails after a fix, believe the "
+     note="<p>Repeat until every score is 8 or more; only then does /review say the video is ready to ship. In the "
+          "tutorial run that took five rounds: the hook went from 6 to 8. If <code>npx hyperframes check</code> "
+          "still fails after a fix, believe the "
           "check: pull a full-size frame from the render and look.</p>")
 step("The finished project from the tutorial", code="examples/prompt-caching-kitchen/", lang="javascript",
      optional=True)

@@ -144,7 +144,7 @@ Scene 3 (3.8-6.52s): body line "The prep is already done." fades up on "cook" @3
 - scene: The request bar returns, two rows: previous request and this request. A bracket spans the identical start labelled "prefix". It fills with a light hatch "read from cache"; only the clay tail is "processed fresh".
 - voiceover: "Here's how. The cache matches the start of each request, the prefix. If the start is identical, it's read from cache. Only the newest turn is processed fresh."
 - duration: 10.6s
-- transition_in: crossfade
+- transition_in: push-slide LEFT
 - status: animated
 - src: compositions/frames/05-prefix.html
 - type: feature_showcase

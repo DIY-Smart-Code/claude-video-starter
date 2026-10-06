@@ -39,7 +39,7 @@ var rv = document.getElementById("p6-rv"), wv = document.getElementById("p6-wv")
 var rs = { v: 1.0 }, ws = { v: 1.0 };
 tl.fromTo("#p6-kicker", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 0.03);
 tl.fromTo(".p6-tile", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }, 0.16);
-tl.fromTo(".p6-num", { opacity: 0 }, { opacity: 0.3, duration: 0.7, ease: "power2.out" }, 0.3);
+tl.fromTo("#p6-rn", { opacity: 0 }, { opacity: 0.3, duration: 0.7, ease: "power2.out" }, 0.3);
 tl.fromTo("#p6-rl", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 1.92);
 tl.to("#p6-rn", { opacity: 1, duration: 0.3, ease: "power1.out" }, 2.96);
 tl.to(rs, { v: 0.1, duration: 0.32, ease: "power2.out", onUpdate: function(){ rv.textContent = rs.v.toFixed(1); } }, 2.96);
