@@ -4,7 +4,7 @@
 2. Never build before the user confirmed the storyboard sketch sheet (`storyboard.html`).
 3. Metaphor scenes get illustrations from /art-direction. Charts, numbers, tables and UI stay HTML.
 4. Same input, same frame: no Math.random(), no Date.now(), no timers, no network calls inside a composition.
-5. Lint after every edit. A video is not finished until the user has run /review on its render.
+5. Lint after every edit. A video is not finished until /review scores every category 8 or higher on its render.
 
 ## Where things go
 
@@ -33,6 +33,8 @@
 
 ## How it should look
 
+- The first frame already shows the idea as a picture, not only a headline on an empty background.
+  The first two seconds decide whether someone keeps watching.
 - Text is at least 40px on 16:9 and 48px on 9:16. Short lines beat paragraphs.
 - Something on screen changes at least every 3 seconds. No frozen stretches.
 - No blinking cursors or pulsing loops. A blink is not motion; it hides a frozen screen.

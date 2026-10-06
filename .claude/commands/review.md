@@ -16,8 +16,11 @@ Review the latest render of $ARGUMENTS. Do not edit any files in this step.
    - **Readability**: is every word large enough and high enough contrast to read on a phone?
    - **Motion**: does something change every few seconds, or do stretches sit frozen?
    - **Variety**: do layouts change, or is it the same centered block the whole time?
+   The target is 8 or higher on every score. Score what the sheet shows, not what the last round fixed.
 5. List the three worst problems, worst first. Each gets the tile timestamp where it shows, what is wrong, and one concrete fix.
-6. Ask whether to apply the fixes. After the fixes, render again so the user can run `/review` on the new version.
+   Start with the problems that keep a score under 8.
+6. If every score is 8 or higher, say the video is ready to ship. Otherwise ask whether to apply the
+   fixes. After the fixes, render again so the user can run `/review` on the new version.
    Confirm each fix on a frame pulled from the new MP4, not on a preview snapshot. If
    `npx hyperframes check` still fails, the problem is still there until a full-size frame
    from the render shows otherwise.
