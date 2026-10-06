@@ -98,6 +98,10 @@ cost figures, and asked for material of your own:
 
 The answers land in `BRIEF.md`.
 
+A shorter prompt works too. With only a topic and a look, Claude asks before it writes the brief:
+it pitches a few concepts and asks where the video will play, whether you want the storyboard
+review, and whether it should run on its own (automation) or check in with you (companion).
+
 ## 3. The script
 Claude writes `SCRIPT.md` from your sources and checks every claim in `fact-check.md`: one row per
 claim, with the sentence from the source it rests on. Read that file. In the tutorial run it checked
@@ -117,7 +121,10 @@ the ear: commas or full stops instead of dashes, and file names written the way 
 The workflow picks one of its frame presets and remixes it onto your colours and fonts. The result
 is `frame.md`: palette, type, frame treatments and composition rules. Every frame inherits it, so
 check it once before the storyboard is drawn on it. (In the tutorial run the remix set the body font
-to Playfair; Claude switched it back to Inter.) When it looks right, say so:
+to Playfair; Claude switched it back to Inter.) If none of the presets fits the look you asked for,
+Claude builds a picker page instead and opens it in your browser: a few custom directions, each
+shown on frames from your video. Answer with the letter of the one you want. When it looks right,
+say so:
 
 ```
 > The frames look right. Draw the sketches.
@@ -158,8 +165,10 @@ for it:
 ```
 
 The kept plate becomes the reference image for the rest, so they look like one illustrator made
-them. Plates that fail the checklist in `.claude/skills/art-direction/style-lock.md` get redone.
-Everything is saved to `videos/<slug>/assets/art/` with a ledger of every prompt and job ID. Charts
+them. Plates that fail the checklist in the style lock get redone. The lock in
+`.claude/skills/art-direction/style-lock.md` is drawn for cream paper; for another look Claude
+writes that video's own lock to `videos/<slug>/assets/art/style-lock.md`, in a medium and palette
+that fit it, and checks the plates against that one. Everything is saved to `videos/<slug>/assets/art/` with a ledger of every prompt and job ID. Charts
 and numbers stay HTML.
 
 ## 7. The voice
@@ -182,6 +191,10 @@ assembles the video and runs the checks:
 > They look right. Start the build.
 ```
 
+Before the preview Claude also runs `npx hyperframes snapshot`: one still per frame on a contact
+sheet in `videos/<slug>/snapshots/`. Look at that sheet too. In a test run the check passed while
+the sheet showed three frames that didn't render, and Claude fixed them before the preview.
+
 The build stops at the preview, so look at it before the render. In the tutorial run one frame had
 the empty right half that the storyboard review had fixed in two others:
 
@@ -191,6 +204,7 @@ the empty right half that the storyboard review had fixed in two others:
 
 ```bash
 npx hyperframes check videos/<slug>
+npx hyperframes snapshot videos/<slug>
 npx hyperframes preview videos/<slug>
 npx hyperframes render videos/<slug> -o videos/<slug>/out/<slug>.mp4
 ```

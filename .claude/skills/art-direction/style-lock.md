@@ -25,6 +25,8 @@ is already prepared, and one chef plates a dish straight from them."
 
 ## Your own style
 
-Swap the block above for your look, but keep its four parts: the medium, the palette as hex codes,
-where the empty space goes, and "no text". Those four parts are what keep a set of plates looking
-like one illustrator made them.
+For a video with another look, `/art-direction` leaves this file alone and writes that video's own
+lock to `videos/<slug>/assets/art/style-lock.md`. It keeps the four parts: the medium, the palette
+as hex codes, where the empty space goes, and "no text". Those four parts are what keep a set of
+plates looking like one illustrator made them. To change the default for every video, edit the
+block above.
