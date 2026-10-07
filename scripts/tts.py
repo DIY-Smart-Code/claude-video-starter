@@ -44,8 +44,14 @@ def load_env(repo_root: Path) -> None:
         if not line or line.startswith("#") or "=" not in line:
             continue
         key, value = line.split("=", 1)
-        value = re.sub(r"\s+#.*$", "", value)  # inline comment: KEY=1.0   # note
-        os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+        value = value.strip()
+        quoted = re.match(r"""^(["'])(.*?)\1""", value)
+        if quoted:  # KEY="a # b" keeps its '#'
+            value = quoted.group(2)
+        else:
+            value = re.sub(r"\s+#.*$", "", value)  # inline comment: KEY=1.0   # note
+            value = value.strip('"').strip("'")
+        os.environ.setdefault(key.strip(), value)
 
 
 def is_portrait(video_dir: Path) -> bool:
@@ -53,8 +59,34 @@ def is_portrait(video_dir: Path) -> bool:
     storyboard = video_dir / "STORYBOARD.md"
     if not storyboard.exists():
         return False
-    match = re.search(r"^format:\s*(\d+)x(\d+)", storyboard.read_text(encoding="utf-8"), re.M)
+    # Also matches markdown variants such as `**format:** 1080x1920` or `- format: 1080 x 1920`.
+    match = re.search(
+        r"^[\s*_-]*format[*_]*:[*_]*\s*(\d+)\s*[x×]\s*(\d+)",
+        storyboard.read_text(encoding="utf-8"),
+        re.M | re.I,
+    )
     return bool(match) and int(match.group(2)) > int(match.group(1))
+
+
+def env_number(env: str, low: float, high: float) -> float:
+    """Parse a numeric .env setting, exiting with a clear message when it is malformed or out of range."""
+    raw = os.environ[env]
+    try:
+        value = float(raw)
+    except ValueError:
+        sys.exit(f"{env} must be a number, got {raw!r}")
+    if not low <= value <= high:
+        sys.exit(f"{env} must be between {low} and {high}, got {value}")
+    return value
+
+
+def env_bool(env: str) -> bool:
+    raw = os.environ[env].strip().lower()
+    if raw in ("true", "1", "yes", "on"):
+        return True
+    if raw in ("false", "0", "no", "off"):
+        return False
+    sys.exit(f"{env} must be true or false, got {os.environ[env]!r}")
 
 
 def voice_settings(portrait: bool) -> dict:
@@ -66,13 +98,12 @@ def voice_settings(portrait: bool) -> dict:
         ("style", "ELEVENLABS_STYLE"),
     ):
         if os.environ.get(env):
-            settings[key] = float(os.environ[env])
+            settings[key] = env_number(env, 0.0, 1.0)
     if os.environ.get("ELEVENLABS_USE_SPEAKER_BOOST"):
-        settings["use_speaker_boost"] = os.environ["ELEVENLABS_USE_SPEAKER_BOOST"].lower() == "true"
-    speed = os.environ.get("ELEVENLABS_SPEED_SHORTS") if portrait else None
-    speed = speed or os.environ.get("ELEVENLABS_SPEED")
-    if speed:
-        settings["speed"] = float(speed)
+        settings["use_speaker_boost"] = env_bool("ELEVENLABS_USE_SPEAKER_BOOST")
+    speed_env = "ELEVENLABS_SPEED_SHORTS" if portrait and os.environ.get("ELEVENLABS_SPEED_SHORTS") else "ELEVENLABS_SPEED"
+    if os.environ.get(speed_env):
+        settings["speed"] = env_number(speed_env, 0.7, 1.2)  # the range the ElevenLabs API accepts
     return settings
 
 
