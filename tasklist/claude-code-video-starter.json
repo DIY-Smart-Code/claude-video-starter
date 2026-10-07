@@ -566,7 +566,7 @@
       "optional": false,
       "codeBlock": {
         "language": "javascript",
-        "code": "/review videos/<slug>"
+        "code": "/video-review videos/<slug>"
       },
       "richText": "<p>A grid of 18 stills, scores out of 10 and the three worst problems with timestamps, starting with the ones that keep a score under 8.</p>"
     },
@@ -584,12 +584,12 @@
     },
     {
       "id": "cc5v0000-0000-4000-8000-000000000054",
-      "text": "Render again, then run /review again",
+      "text": "Render again, then run /video-review again",
       "completed": false,
       "isHeadline": false,
       "createdAt": "2026-10-04T12:00:54.000Z",
       "optional": false,
-      "richText": "<p>Repeat until every score is 8 or more; only then does /review say the video is ready to ship. In the tutorial run that took five rounds: the hook went from 6 to 8. If <code>npx hyperframes check</code> still fails after a fix, believe the check: pull a full-size frame from the render and look.</p>"
+      "richText": "<p>Repeat until every score is 8 or more; only then does /video-review say the video is ready to ship. In the tutorial run that took five rounds: the hook went from 6 to 8. If <code>npx hyperframes check</code> still fails after a fix, believe the check: pull a full-size frame from the render and look.</p>"
     },
     {
       "id": "cc5v0000-0000-4000-8000-000000000055",
