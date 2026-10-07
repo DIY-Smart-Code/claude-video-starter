@@ -12,12 +12,18 @@ Usage:
 
 Needs ELEVENLABS_API_KEY and ELEVENLABS_VOICE_ID in .env (see .env.example).
 --voice <voice_id> overrides the .env voice for one run; the workflow never needs it.
+
+Optional .env voice settings, sent only when set: ELEVENLABS_STABILITY,
+ELEVENLABS_SIMILARITY_BOOST, ELEVENLABS_STYLE, ELEVENLABS_USE_SPEAKER_BOOST, ELEVENLABS_SPEED
+(ELEVENLABS_SPEED_SHORTS instead when the video's STORYBOARD.md format is portrait), and
+ELEVENLABS_PRONUNCIATION_DICT_ID + ELEVENLABS_PRONUNCIATION_DICT_VERSION_ID.
 Python 3.8+, standard library only.
 """
 import argparse
 import base64
 import json
 import os
+import re
 import sys
 import urllib.error
 import urllib.request
@@ -38,11 +44,84 @@ def load_env(repo_root: Path) -> None:
         if not line or line.startswith("#") or "=" not in line:
             continue
         key, value = line.split("=", 1)
-        os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+        value = value.strip()
+        quoted = re.match(r"""^(["'])(.*?)\1""", value)
+        if quoted:  # KEY="a # b" keeps its '#'
+            value = quoted.group(2)
+        else:
+            value = re.sub(r"\s+#.*$", "", value)  # inline comment: KEY=1.0   # note
+            value = value.strip('"').strip("'")
+        os.environ.setdefault(key.strip(), value)
 
 
-def synthesize(text: str, voice: str, model: str, api_key: str) -> dict:
-    body = json.dumps({"text": text, "model_id": model}).encode("utf-8")
+def is_portrait(video_dir: Path) -> bool:
+    """True when STORYBOARD.md's `format: WxH` is taller than wide (Shorts / Reels / TikTok)."""
+    storyboard = video_dir / "STORYBOARD.md"
+    if not storyboard.exists():
+        return False
+    # Also matches markdown variants such as `**format:** 1080x1920` or `- format: 1080 x 1920`.
+    match = re.search(
+        r"^[\s*_-]*format[*_]*:[*_]*\s*(\d+)\s*[x×]\s*(\d+)",
+        storyboard.read_text(encoding="utf-8"),
+        re.M | re.I,
+    )
+    return bool(match) and int(match.group(2)) > int(match.group(1))
+
+
+def env_number(env: str, low: float, high: float) -> float:
+    """Parse a numeric .env setting, exiting with a clear message when it is malformed or out of range."""
+    raw = os.environ[env]
+    try:
+        value = float(raw)
+    except ValueError:
+        sys.exit(f"{env} must be a number, got {raw!r}")
+    if not low <= value <= high:
+        sys.exit(f"{env} must be between {low} and {high}, got {value}")
+    return value
+
+
+def env_bool(env: str) -> bool:
+    raw = os.environ[env].strip().lower()
+    if raw in ("true", "1", "yes", "on"):
+        return True
+    if raw in ("false", "0", "no", "off"):
+        return False
+    sys.exit(f"{env} must be true or false, got {os.environ[env]!r}")
+
+
+def voice_settings(portrait: bool) -> dict:
+    """The .env voice settings that are set, in the shape the ElevenLabs API expects."""
+    settings = {}
+    for key, env in (
+        ("stability", "ELEVENLABS_STABILITY"),
+        ("similarity_boost", "ELEVENLABS_SIMILARITY_BOOST"),
+        ("style", "ELEVENLABS_STYLE"),
+    ):
+        if os.environ.get(env):
+            settings[key] = env_number(env, 0.0, 1.0)
+    if os.environ.get("ELEVENLABS_USE_SPEAKER_BOOST"):
+        settings["use_speaker_boost"] = env_bool("ELEVENLABS_USE_SPEAKER_BOOST")
+    speed_env = "ELEVENLABS_SPEED_SHORTS" if portrait and os.environ.get("ELEVENLABS_SPEED_SHORTS") else "ELEVENLABS_SPEED"
+    if os.environ.get(speed_env):
+        settings["speed"] = env_number(speed_env, 0.7, 1.2)  # the range the ElevenLabs API accepts
+    return settings
+
+
+def pronunciation_locators() -> list:
+    dict_id = os.environ.get("ELEVENLABS_PRONUNCIATION_DICT_ID")
+    version_id = os.environ.get("ELEVENLABS_PRONUNCIATION_DICT_VERSION_ID")
+    if not (dict_id and version_id):
+        return []
+    return [{"pronunciation_dictionary_id": dict_id, "version_id": version_id}]
+
+
+def synthesize(text: str, voice: str, model: str, api_key: str, settings: dict, locators: list) -> dict:
+    payload = {"text": text, "model_id": model}
+    if settings:
+        payload["voice_settings"] = settings
+    if locators:
+        payload["pronunciation_dictionary_locators"] = locators
+    body = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(
         API.format(voice=voice, fmt=f"pcm_{SAMPLE_RATE}"),
         data=body,
@@ -103,7 +182,9 @@ def main() -> None:
         sys.exit(f"No script found at {script}")
     text = script.read_text(encoding="utf-8").strip()
 
-    result = synthesize(text, args.voice, args.model, api_key)
+    settings = voice_settings(is_portrait(video_dir))
+    locators = pronunciation_locators()
+    result = synthesize(text, args.voice, args.model, api_key, settings, locators)
     pcm = base64.b64decode(result["audio_base64"])
     with wave.open(str(video_dir / "narration.wav"), "wb") as wav:
         wav.setnchannels(1)
@@ -117,6 +198,9 @@ def main() -> None:
     seconds = len(pcm) / (2 * SAMPLE_RATE)
     print(f"narration.wav    {seconds:.1f}s")
     print(f"transcript.json  {len(words)} words")
+    print(f"voice settings   {json.dumps(settings) if settings else 'voice defaults'}")
+    if locators:
+        print("pronunciation    dictionary from .env")
 
 
 if __name__ == "__main__":
