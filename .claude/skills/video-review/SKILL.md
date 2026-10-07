@@ -1,6 +1,8 @@
 ---
+name: video-review
 description: Look at a rendered video as a contact sheet, score it, and name the three worst problems
 argument-hint: videos/<slug>
+disable-model-invocation: true
 ---
 
 Review the latest render of $ARGUMENTS. Do not edit any files in this step.
@@ -20,7 +22,7 @@ Review the latest render of $ARGUMENTS. Do not edit any files in this step.
 5. List the three worst problems, worst first. Each gets the tile timestamp where it shows, what is wrong, and one concrete fix.
    Start with the problems that keep a score under 8.
 6. If every score is 8 or higher, say the video is ready to ship. Otherwise ask whether to apply the
-   fixes. After the fixes, render again so the user can run `/review` on the new version.
+   fixes. After the fixes, render again so the user can run `/video-review` on the new version.
    Confirm each fix on a frame pulled from the new MP4, not on a preview snapshot. If
    `npx hyperframes check` still fails, the problem is still there until a full-size frame
    from the render shows otherwise.

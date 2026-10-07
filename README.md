@@ -17,7 +17,7 @@ screenshot of every frame, and ffmpeg turns the frames into an MP4. You don't ne
 claude-video-starter/
 ├── CLAUDE.md                        rules Claude Code reads on every run
 ├── .claude/skills/art-direction/    /art-direction: Higgsfield illustrations in one locked style
-├── .claude/commands/review.md       /review: contact sheet + scores for a render
+├── .claude/skills/video-review/    /video-review: contact sheet + scores for a render
 ├── scripts/tts.py                   ElevenLabs: script -> narration.wav + transcript.json
 ├── scripts/contact-sheet.py         a render -> one 6x3 grid of stills
 ├── .env.example                     your ElevenLabs settings (copy to .env)
@@ -215,18 +215,18 @@ If Claude's own render can't start Chrome from its shell, run the render command
 
 ## 9. The review loop
 ```
-> /review videos/<slug>
+> /video-review videos/<slug>
 ```
 
-`/review` turns the render into a grid of 18 stills, scores Hook, Readability, Motion and Variety
+`/video-review` turns the render into a grid of 18 stills, scores Hook, Readability, Motion and Variety
 out of 10 and names the three worst problems with timestamps, starting with the ones that keep a
-score under 8. Apply them, render again, and run `/review` once more:
+score under 8. Apply them, render again, and run `/video-review` once more:
 
 ```
 > Yes, apply all three.
 ```
 
-The target is 8 or more on every score; only then does `/review` say the video is ready to ship.
+The target is 8 or more on every score; only then does `/video-review` say the video is ready to ship.
 In the tutorial run, round three put readability at 9 and said the video could ship as it was, but
 the hook was still a 6: a headline on empty paper. Round four stacked request bars beside the
 headline (hook 7, the bars were too small); round five made them tall, and every score reached 8.

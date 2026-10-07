@@ -4,7 +4,7 @@
 2. Never build before the user confirmed the storyboard sketch sheet (`storyboard.html`).
 3. Metaphor scenes get illustrations from /art-direction. Charts, numbers, tables and UI stay HTML.
 4. Same input, same frame: no Math.random(), no Date.now(), no timers, no network calls inside a composition.
-5. Lint after every edit. A video is not finished until /review scores every category 8 or higher on its render.
+5. Lint after every edit. A video is not finished until /video-review scores every category 8 or higher on its render.
 
 ## Where things go
 
@@ -12,7 +12,7 @@
 - Check: `npx hyperframes lint videos/<slug>` after every edit, `npx hyperframes check videos/<slug>` before a render. A failed check is real until a full-size frame from the render proves otherwise.
 - Preview: `npx hyperframes preview videos/<slug>`
 - Render: `npx hyperframes render videos/<slug> -o videos/<slug>/out/<slug>.mp4`
-- Review: the user runs `/review videos/<slug>` (contact sheet + scores). Do not skip ahead and grade your own work unasked.
+- Review: the user runs `/video-review videos/<slug>` (contact sheet + scores). Do not skip ahead and grade your own work unasked.
 
 ## Narration
 

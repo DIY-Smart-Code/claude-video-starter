@@ -2,7 +2,7 @@
 
 The explainer built in the DIY Smart Code tutorial, exactly as Claude Code left it after the run
 (2026-10-05/06): 13 frames, 1:59, engraving plates from Higgsfield, voiced with the ElevenLabs stock
-voice Sarah. It went through five `/review` rounds; the fifth scored 8 or higher in every category.
+voice Sarah. It went through five `/video-review` rounds; the fifth scored 8 or higher in every category.
 
 | File | What it is |
 |---|---|
