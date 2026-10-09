@@ -49,10 +49,11 @@ pnpm install
 so every project sees them). `pnpm install` pins one HyperFrames version for this repo, so renders
 stay identical.
 
-**Voice (ElevenLabs).** Pick a voice in the [voice library](https://elevenlabs.io/voice-library) and
-copy its voice ID (the tutorial uses the stock voice Sarah, `EXAVITQu4vr4xnSDxMaL`). Create an
-[API key](https://elevenlabs.io/docs/api-reference/authentication). Then `cp .env.example .env` and
-paste both in. `.env` is gitignored; the key and the voice never go into a prompt. Optional voice
+**Voice (ElevenLabs).** Create an
+[API key](https://elevenlabs.io/docs/api-reference/authentication), then `cp .env.example .env` and
+paste the key in. The voice is preset to the stock voice Sarah (`EXAVITQu4vr4xnSDxMaL`), as in the
+tutorial; for another voice, copy its ID from the [voice library](https://elevenlabs.io/voice-library)
+into `ELEVENLABS_VOICE_ID`. `.env` is gitignored; the key and the voice never go into a prompt. Optional voice
 settings (stability, style, speed, a separate speed for vertical videos) and a pronunciation
 dictionary can go in `.env` too; `.env.example` lists them. The free plan is non-commercial only;
 a monetized channel needs a paid plan

@@ -98,7 +98,7 @@ step("Pick a voice in the ElevenLabs voice library and copy its voice ID",
      note="<p>The explainer in the video uses the stock voice <strong>Sarah</strong>: <code>EXAVITQu4vr4xnSDxMaL</code></p>")
 step("Create an ElevenLabs API key", code="https://elevenlabs.io/app/developers/api-keys", lang="javascript",
      note="<p>The key is a secret. It goes into <code>.env</code>, never into a prompt or a screenshot.</p>")
-step("Copy the example env file and paste in your key and voice ID",
+step("Copy the example env file and paste in your key",
      code="cp .env.example .env",
      note="<p><code>.env</code> is already in <code>.gitignore</code>. The free ElevenLabs plan is non-commercial only; "
           "a monetized channel needs a paid plan "

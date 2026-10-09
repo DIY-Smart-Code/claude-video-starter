@@ -1,0 +1,3 @@
+# pnpm 11+ reads build permissions here (pnpm 10 also reads package.json "pnpm").
+allowBuilds:
+  esbuild: true
