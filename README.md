@@ -18,11 +18,13 @@ claude-video-starter/
 ├── CLAUDE.md                        rules Claude Code reads on every run
 ├── .claude/skills/art-direction/    /art-direction: Higgsfield illustrations in one locked style
 ├── .claude/skills/video-review/    /video-review: contact sheet + scores for a render
+├── .claude/skills/flow-explainer/   /flow-explainer: explainers drawn as one living system diagram
 ├── scripts/tts.py                   ElevenLabs: script -> narration.wav + transcript.json
 ├── scripts/contact-sheet.py         a render -> one 6x3 grid of stills
+├── scripts/new-flow-video.py        start a flow explainer from templates/flow-explainer
 ├── .env.example                     your ElevenLabs settings (copy to .env)
 ├── examples/prompt-caching-kitchen/ the explainer from the tutorial: brief, script, storyboard, art
-├── templates/                       bundled fonts and GSAP the workflow can reuse
+├── templates/                       bundled fonts and GSAP; templates/flow-explainer/ (diagram explainers)
 ├── tasklist/                        the follow-along checklist (import file + its generator)
 └── videos/                          your videos go here, one folder each
 ```
@@ -236,6 +238,28 @@ before it calls text too small; and when `npx hyperframes check` fails after a f
 until a frame from the render proves otherwise.
 
 The finished project from the tutorial is in `examples/prompt-caching-kitchen/`.
+
+## Flow explainers: one living diagram
+
+For a topic with parts that talk to each other (a system, a pipeline, a process, a set of decisions),
+`/flow-explainer` draws the whole video as one system map instead of illustrations. Every sentence changes
+the map: a packet travels a wire, a part lights up, fails, fills or gets a badge, and each chapter is a
+stop on the same map. The template (`templates/flow-explainer/`) carries the motion style in a fixed
+engine; a video writes one scene file. Nothing depends on art you supply: nodes come from 39 built-in
+icons, the colours from the topic, the backdrop from the system's own icons.
+
+```
+> /flow-explainer Make a 3-minute explainer about how a webhook reaches your app, for backend developers.
+  Take: four decisions decide whether an event arrives once. Sources: <links>. Paper look, blue accent.
+  Voice: ElevenLabs. No music.
+```
+
+It writes `BRIEF.md`, `fact-check.md`, `SYSTEM.md` (the map) and `script.txt`, builds the scenes on
+synthetic timing, and shows you `storyboard.html` (real stills of every scene with its narration) before
+the voice is made. After the voice it rebuilds, runs its gates (`check_style.py` for the style contract,
+`check_svg_fit.mjs` for wires through labels, a QA sweep it looks at, `check_static.py` on the render)
+and hands over for `/video-review`. The template's demo (webhook delivery, 1:45) shows every piece:
+`npx hyperframes preview templates/flow-explainer`. Style rules: `templates/flow-explainer/DESIGN.md`.
 
 ## Going further
 

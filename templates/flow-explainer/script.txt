@@ -1,0 +1,7 @@
+Four decisions decide whether a webhook ever reaches your app. This video walks one event through the system. At every stop, you see the part that each decision changes.
+Where does the event start? A shop sends an event to your endpoint. The endpoint checks the request. The queue holds it. And a worker writes it into your database.
+Decision one is the signature. The shop signs the body with a shared secret. Your endpoint computes the same signature and compares the two. A request with a wrong signature is rejected. Recommended: reject it before anything is stored.
+Decision two is the retry plan. When your endpoint is down, the shop tries again. First after one minute, then after ten, then after an hour. After the last try, the event is dropped. How many tries your provider makes is worth checking.
+Decision three is duplicates. A retry can deliver the same event twice. So the queue keeps a list of every event I D it has seen. It reads the list until it finds a match. A known I D is dropped, a new one moves on.
+Decision four is load. A big sale sends three hundred events in one minute. Your worker handles two hundred. Without a queue, a hundred events are lost. With a queue, they wait their turn and arrive a little later. These numbers are an example, not a measurement.
+Four decisions, one path. Sign it, retry it, deduplicate it, and queue it. Get those four right, and each event lands in your database once.

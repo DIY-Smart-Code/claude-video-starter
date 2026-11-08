@@ -1,0 +1,53 @@
+/* flow-explainer tokens — PAPER skin (VIDEO["skin"] = "paper"): the cream graph-paper
+   illustrated look (thick ink outlines, flat fills, offset shadows).
+   Same variable names as flow-dark.css; build/flow.py reads the literal hex values. */
+:root {
+  /* ===== BRAND SKIN ===== */
+  --accent-1: #E2683A;   /* warm orange: the subject */
+  --accent-2: #B4471F;
+  --accent-rgb: 226, 104, 58;
+  --on-acc: #FFFFFF;
+  /* ===== /BRAND SKIN ===== */
+
+  --flow: #1E9C8C;       /* in motion: teal on cream */
+  --flow-rgb: 30, 156, 140;
+
+  --bg: #F4F0EA;
+  --panel: #FFFFFF;
+  --panel-2: #FBF9F6;
+  --tile: #FFFFFF;
+  --ifill: #FBD8C6;      /* icon fill parts: soft accent (icons read as coloured illustrations) */
+  --node: #26282D;       /* default node colour = ink outline */
+  --wire: #26282D;
+  --line: rgba(38, 40, 45, 0.16);
+  --line-2: rgba(38, 40, 45, 0.34);
+  --text: #222429;
+  --text-2: #5D636E;
+  --text-3: #8C919B;
+  --track: rgba(38, 40, 45, 0.07);
+  --stamp-bg: rgba(255, 255, 255, 0.92);
+  --spot: rgba(244, 240, 234, 0.72);
+  --ev-bg: #FFFFFF;
+  --tile-shadow: 5px 6px 0 rgba(38, 40, 45, 0.16);
+
+  --ok: #1F9D63;
+  --bad: #D93A3A;
+  --on-flow: #FFFFFF;   /* text on a flow fill (the palette derives these by contrast) */
+  --on-ok: #FFFFFF;
+  --on-bad: #FFFFFF;
+  --warn: #C9850B;
+  --draft: #6D5BD0;
+
+  --s1: var(--accent-1);
+  --s2: #7C5CC4;
+  --s3: #2F6FD0;
+  --s4: #C2417F;
+
+  --desk-mat: #E9E2D6;
+  --paper: #FFFFFF;
+  --paper-2: #FFFDF9;
+  --ink: #1A1815;
+  --ink-2: #5C544B;
+  --stamp: #C8372D;
+  --tape: rgba(242, 230, 190, 0.92);
+}

@@ -1,11 +1,22 @@
 # secrets
 .env
 
+# your videos stay local; only the empty folder is published
+videos/*
+!videos/.gitkeep
+
 # renders and review sheets (regenerate any time)
 videos/*/out/
 videos/*/contact.png
 renders/
 snapshots/
+# flow-explainer QA sheets and the template's own render / storyboard (regenerate any time)
+qa/
+templates/*/out/
+templates/*/contact.png
+templates/flow-explainer/storyboard/
+templates/flow-explainer/storyboard.html
+__pycache__/
 
 # tooling
 node_modules/

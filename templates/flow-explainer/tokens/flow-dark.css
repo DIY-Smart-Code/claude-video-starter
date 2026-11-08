@@ -1,0 +1,63 @@
+/* flow-explainer tokens — DARK skin (default): the graphite system-design board.
+   Read by build/kit.py (kit.set_skin) and inlined into index.html + every compositions/scene-*.html.
+   Font families are NEVER set through var() (hyperframes-pitfalls §8): the kit names 'Inter' and
+   'JetBrains Mono' literally. Only colours and sizes live here.
+   build/flow.py reads the literal hex values of --accent-1/--flow/--ok/--bad/--warn/--s2/--node
+   (GSAP tweens need literal colours), so keep them as 6-digit hex. */
+:root {
+  /* ===== BRAND SKIN — the per-video token edit (topic-adaptation.md) =====
+     --accent-1 = the SUBJECT: node outlines, kickers, focus rings, attention band, progress.
+     Set it to the topic brand colour; keep --accent-rgb in sync. */
+  --accent-1: #2DD4BF;   /* teal: the system you are explaining */
+  --accent-2: #138A7C;   /* deep version (ink on paper, desk chapters) */
+  --accent-rgb: 45, 212, 191;
+  --on-acc: #08110F;     /* text on an accent fill */
+  /* ===== /BRAND SKIN ===== */
+
+  /* FLOW = something in motion (requests, tokens, packets, messages). One meaning, never decoration. */
+  --flow: #FFD43B;
+  --flow-rgb: 255, 212, 59;
+
+  /* the board */
+  --bg: #16181D;
+  --panel: #1C1F26;
+  --panel-2: #22262E;
+  --tile: #1D2128;          /* node tile fill */
+  --ifill: #1D2128;         /* icon fill parts (= tile: icons read as outlines) */
+  --node: #2DD4BF;          /* default node colour (= accent) */
+  --wire: #C9CED8;          /* connectors */
+  --line: rgba(201, 206, 216, 0.16);
+  --line-2: rgba(201, 206, 216, 0.32);
+  --text: #F2F4F7;
+  --text-2: #A7AFBD;
+  --text-3: #6E7685;
+  --track: rgba(242, 244, 247, 0.06);
+  --stamp-bg: rgba(14, 16, 20, 0.86);
+  --spot: rgba(12, 14, 18, 0.62);
+  --ev-bg: #0E1014;
+  --tile-shadow: 0 16px 34px rgba(0, 0, 0, 0.45);
+
+  /* fixed semantic colours — meaning only */
+  --ok: #3DDC97;     /* works / verified / healthy */
+  --bad: #FF4D5E;    /* broken / overloaded / wrong */
+  --on-flow: #101318;   /* text on a flow fill (the palette derives these by contrast) */
+  --on-ok: #101318;
+  --on-bad: #FFFFFF;
+  --warn: #FF9F43;   /* it depends / degraded */
+  --draft: #8B7BFF;  /* example / placeholder / estimate */
+
+  /* series + zone tints (one meaning each per video; write it in video_scenes.py) */
+  --s1: var(--accent-1);
+  --s2: #A78BFA;
+  --s3: #60A5FA;
+  --s4: #F472B6;
+
+  /* desk accent chapters (kit desk=True) */
+  --desk-mat: #15130F;
+  --paper: #F4F1EA;
+  --paper-2: #FBF8F1;
+  --ink: #1A1815;
+  --ink-2: #5C544B;
+  --stamp: #C8372D;
+  --tape: rgba(242, 230, 190, 0.86);
+}

@@ -1,0 +1,95 @@
+{
+  "fps": 30,
+  "seams": [
+    {
+      "id": "intro→path",
+      "cut": 11.502,
+      "technique": "cut-the-curve LEFT",
+      "exit": {
+        "selector": "#scene-intro-wrap",
+        "axis": "x",
+        "dir": -1
+      },
+      "entry": {
+        "selector": "#scene-path-wrap",
+        "axis": "x",
+        "dir": -1
+      }
+    },
+    {
+      "id": "path→sig",
+      "cut": 23.71,
+      "technique": "cut-the-curve LEFT",
+      "exit": {
+        "selector": "#scene-path-wrap",
+        "axis": "x",
+        "dir": -1
+      },
+      "entry": {
+        "selector": "#scene-sig-wrap",
+        "axis": "x",
+        "dir": -1
+      }
+    },
+    {
+      "id": "sig→retry",
+      "cut": 39.386,
+      "technique": "cut-the-curve LEFT",
+      "exit": {
+        "selector": "#scene-sig-wrap",
+        "axis": "x",
+        "dir": -1
+      },
+      "entry": {
+        "selector": "#scene-retry-wrap",
+        "axis": "x",
+        "dir": -1
+      }
+    },
+    {
+      "id": "retry→dupe",
+      "cut": 56.226,
+      "technique": "cut-the-curve LEFT",
+      "exit": {
+        "selector": "#scene-retry-wrap",
+        "axis": "x",
+        "dir": -1
+      },
+      "entry": {
+        "selector": "#scene-dupe-wrap",
+        "axis": "x",
+        "dir": -1
+      }
+    },
+    {
+      "id": "dupe→load",
+      "cut": 73.666,
+      "technique": "cut-the-curve LEFT",
+      "exit": {
+        "selector": "#scene-dupe-wrap",
+        "axis": "x",
+        "dir": -1
+      },
+      "entry": {
+        "selector": "#scene-load-wrap",
+        "axis": "x",
+        "dir": -1
+      }
+    },
+    {
+      "id": "load→close",
+      "cut": 92.29,
+      "technique": "cut-the-curve UP",
+      "exit": {
+        "selector": "#scene-load-wrap",
+        "axis": "y",
+        "dir": -1
+      },
+      "entry": {
+        "selector": "#scene-close-wrap",
+        "axis": "y",
+        "dir": -1
+      }
+    }
+  ]
+}
