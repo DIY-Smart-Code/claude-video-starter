@@ -9,6 +9,7 @@
 ## Where things go
 
 - Every video lives in its own folder under `videos/<slug>/`; /hyperframes creates it.
+- `videos/` stays local and out of git: the only tracked file in it is `videos/.gitkeep`. Never stage, force-add (`git add -f`) or commit anything under `videos/`; commits carry templates, scripts, skills and docs only.
 - Check: `npx hyperframes lint videos/<slug>` after every edit, `npx hyperframes check videos/<slug>` before a render. A failed check is real until a full-size frame from the render proves otherwise.
 - Preview: `npx hyperframes preview videos/<slug>`
 - Render: `npx hyperframes render videos/<slug> -o videos/<slug>/out/<slug>.mp4`
