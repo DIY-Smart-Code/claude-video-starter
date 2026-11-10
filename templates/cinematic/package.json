@@ -1,0 +1,10 @@
+{
+  "name": "cinematic",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes hyperframes@0.9.29 preview",
+    "lint": "npx --yes hyperframes@0.9.29 lint",
+    "film": "python ../../scripts/film.py all ."
+  }
+}

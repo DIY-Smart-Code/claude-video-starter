@@ -19,12 +19,15 @@ claude-video-starter/
 ├── .claude/skills/art-direction/    /art-direction: Higgsfield illustrations in one locked style
 ├── .claude/skills/video-review/    /video-review: contact sheet + scores for a render
 ├── .claude/skills/flow-explainer/   /flow-explainer: explainers drawn as one living system diagram
+├── .claude/skills/cinematic/        /cinematic: marketing films that look shot, not animated
 ├── scripts/tts.py                   ElevenLabs: script -> narration.wav + transcript.json
 ├── scripts/contact-sheet.py         a render -> one 6x3 grid of stills
 ├── scripts/new-flow-video.py        start a flow explainer from templates/flow-explainer
+├── scripts/new-cinematic-video.py   start a cinematic film from templates/cinematic
+├── scripts/film.py                  cinematic pipeline: score, cut, mix, finish, sheet, storyboard
 ├── .env.example                     your ElevenLabs settings (copy to .env)
 ├── examples/prompt-caching-kitchen/ the explainer from the tutorial: brief, script, storyboard, art
-├── templates/                       bundled fonts and GSAP; templates/flow-explainer/ (diagram explainers)
+├── templates/                       bundled fonts and GSAP; flow-explainer/ (diagram explainers), cinematic/ (films)
 ├── tasklist/                        the follow-along checklist (import file + its generator)
 └── videos/                          your videos go here, one folder each
 ```
@@ -260,6 +263,26 @@ the voice is made. After the voice it rebuilds, runs its gates (`check_style.py`
 `check_svg_fit.mjs` for wires through labels, a QA sweep it looks at, `check_static.py` on the render)
 and hands over for `/video-review`. The template's demo (webhook delivery, 1:45) shows every piece:
 `npx hyperframes preview templates/flow-explainer`. Style rules: `templates/flow-explainer/DESIGN.md`.
+
+## Cinematic films: lit, shot and graded
+
+For launch films, brand spots and product teasers, `/cinematic` makes a 20-90 s film that looks shot
+instead of animated: the product lit out of darkness with a key, rim light and haze, a camera that
+pushes, orbits, racks focus and whips at 24 fps with real 180° motion blur, a trailer-shaped edit (cold
+open, the turn on a hit, montage, title), a designed score (music in sections that match the acts,
+booms, risers, whooshes), then a colour grade, film grain and 2.39:1 letterbox over the whole picture.
+
+```
+> /cinematic Make a 45-second launch film for https://example.app. The one thing: calm is one tap away.
+  ElevenLabs voice, night look, 16:9.
+```
+
+The template (`templates/cinematic/`) is a toolkit (`lib/cine.js`, `lib/cine.css`), a design contract
+(`DESIGN.md`) and a worked example (Nocturne, 30 s, all HTML/CSS). `scripts/film.py` renders in two
+passes, like a film: the **cut** (`index.html`, picture only) and the **finish** (the HyperFrames colour
+shader, grain, bars and the mixed score, generated from `film.json`). It pins HyperFrames 0.9.29 for
+capture motion blur and the grading shader; the rest of the repo stays on 0.8.121. Choosing this
+template is the request for music. Try the demo: `python scripts/film.py all templates/cinematic`.
 
 ## Going further
 

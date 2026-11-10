@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <!-- THE CUT. Picture only, 24 fps, native motion blur. scripts/film.py renders it to build/cut.mp4,
+         then grades, grains, letterboxes and scores it in build/finish.html (generated from film.json). -->
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="lib/cine.js"></script>
+    <link rel="stylesheet" href="lib/cine.css" />
+    <style>
+      /* Film palette: every colour in the film comes from these. */
+      :root {
+        --void: #03040a;
+        --ink: #ece8df;
+        --muted: #9a958a;
+        --key: #f2b66d;
+        --fill: #7d9cff;
+        --accent: #f2b66d;
+      }
+
+      /* ---- Star-map UI (one block, sized in em: 10px in the phone, 26px in the macro) ---- */
+      .map { position: absolute; inset: 0; font-family: var(--f-sans); color: var(--ink);
+        background: radial-gradient(ellipse 120% 70% at 50% 110%, #1b2650 0%, #0a1030 45%, #04060f 100%); overflow: hidden; }
+      .map .sky { position: absolute; inset: 0; }
+      .map .sky i { position: absolute; border-radius: 50%; background: #fff; }
+      .map svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+      .map svg line { stroke: var(--key); stroke-width: 0.24em; vector-effect: non-scaling-stroke; stroke-linecap: round; opacity: 0.9; filter: drop-shadow(0 0 0.4em rgba(242,182,109,0.6)); }
+      .map svg circle { fill: #fff; }
+      .map .top { position: absolute; left: 1.6em; right: 1.6em; top: 5.2em; display: flex; justify-content: space-between; font-size: 1.3em; font-weight: 600; letter-spacing: 0.06em; color: rgba(236,232,223,0.75); }
+      .map .chip { position: absolute; padding: 0.35em 0.8em; border-radius: 99em; font-size: 1.25em; font-weight: 600; letter-spacing: 0.12em;
+        background: rgba(242,182,109,0.16); border: 0.08em solid rgba(242,182,109,0.55); color: var(--key); text-transform: uppercase; }
+      .map .star-name { position: absolute; font-size: 1.6em; font-weight: 500; color: rgba(236,232,223,0.8); letter-spacing: 0.04em; }
+      .map .compass { position: absolute; left: 50%; bottom: 3.4em; transform: translateX(-50%); font-size: 1.3em; font-weight: 600; letter-spacing: 0.2em; color: rgba(236,232,223,0.8); }
+      .map .horizon { position: absolute; left: -10%; right: -10%; bottom: 0; height: 22%; background: linear-gradient(180deg, transparent, rgba(5,8,20,0.95) 60%); border-top: 0.08em solid rgba(125,156,255,0.35); }
+
+      /* S1 */
+      #s1 .floor-glow { position: absolute; left: 380px; top: 860px; width: 900px; height: 260px; border-radius: 50%;
+        background: radial-gradient(ellipse at 50% 50%, rgba(242,182,109,0.22), transparent 70%); filter: blur(20px); }
+
+      /* S2 sky and mountains */
+      #s2 .skyfield { position: absolute; left: 0; top: -500px; width: 1920px; height: 1500px; }
+      #s2 .glow { position: absolute; left: -10%; right: -10%; bottom: 40px; height: 640px;
+        background: radial-gradient(ellipse 65% 75% at 50% 100%, rgba(255,160,90,0.7), rgba(150,110,220,0.25) 45%, transparent 75%); filter: blur(10px); }
+      #s2 .rw { position: absolute; left: -200px; right: -200px; filter: drop-shadow(0 -2px 0 rgba(150,170,255,0.35)); }
+      #s2 .ridge { position: relative; }
+      #s2 .milky { position: absolute; left: -300px; top: -420px; width: 2600px; height: 520px; transform: rotate(-18deg); border-radius: 50%;
+        background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(190,180,255,0.20), rgba(242,182,109,0.08) 45%, transparent 72%); filter: blur(30px); }
+      #s2 .r3 { height: 560px; background: #161b38; clip-path: polygon(0 62%, 9% 48%, 17% 55%, 27% 34%, 36% 49%, 46% 30%, 55% 44%, 66% 26%, 76% 46%, 86% 36%, 100% 52%, 100% 100%, 0 100%); }
+      #s2 .r2 { height: 470px; background: #0b0e20; clip-path: polygon(0 55%, 12% 40%, 22% 58%, 33% 35%, 44% 52%, 57% 38%, 68% 60%, 79% 42%, 90% 56%, 100% 44%, 100% 100%, 0 100%); }
+      #s2 .r1 { height: 400px; background: #030409; clip-path: polygon(0 40%, 14% 62%, 25% 44%, 38% 70%, 52% 50%, 63% 72%, 75% 48%, 88% 66%, 100% 52%, 100% 100%, 0 100%); }
+
+      /* S4 hero */
+      #s4 .phone3d { --pw: 360px; left: calc(960px - 180px); top: calc(540px - 374px); }
+      #s4 .rim-l { position: absolute; left: 520px; top: 120px; width: 380px; height: 840px; border-radius: 50%;
+        background: radial-gradient(ellipse at 70% 50%, color-mix(in srgb, var(--fill) 45%, transparent), transparent 65%); filter: blur(40px); mix-blend-mode: screen; }
+      #s4 .rim-r { position: absolute; left: 1040px; top: 160px; width: 360px; height: 780px; border-radius: 50%;
+        background: radial-gradient(ellipse at 30% 50%, color-mix(in srgb, var(--key) 45%, transparent), transparent 65%); filter: blur(40px); mix-blend-mode: screen; }
+      #s4 .phone3d .map { font-size: 8.3px; }
+
+      /* S5 macro */
+      #s5 .screen { position: absolute; left: -60px; top: -120px; width: 2040px; height: 1320px; overflow: hidden; }
+      #s5 .map { font-size: 26px; }
+      #s5 .glass { position: absolute; inset: 0; background: linear-gradient(120deg, rgba(255,255,255,0.07), transparent 40%), linear-gradient(180deg, transparent 55%, rgba(3,4,10,0.85) 88%); }
+
+      /* S6 tonight card */
+      #s6 .card { position: absolute; left: 560px; top: 210px; width: 800px; height: 660px; border-radius: 36px; padding: 52px 56px;
+        background: linear-gradient(180deg, #121733, #090c1e); border: 1.5px solid rgba(125,156,255,0.28); box-shadow: 0 60px 120px rgba(0,0,0,0.6), 0 0 80px rgba(125,156,255,0.10); }
+      #s6 .card h3 { font-family: var(--f-display); font-weight: 500; font-size: 64px; color: var(--ink); margin-bottom: 28px; }
+      #s6 .row { display: flex; align-items: center; gap: 28px; height: 112px; border-top: 1px solid rgba(236,232,223,0.10); opacity: 0; }
+      #s6 .orb { width: 64px; height: 64px; border-radius: 50%; flex: none; }
+      #s6 .nm { flex: 1; font-size: 40px; font-weight: 600; color: var(--ink); }
+      #s6 .tm { font-size: 40px; font-weight: 500; color: var(--key); letter-spacing: 0.04em; }
+      /* foreground lights: in focus they are points, racked out they bloom into bokeh discs */
+      #s6 .bk { position: absolute; border-radius: 50%; transform-origin: 50% 50%;
+        background: radial-gradient(circle, color-mix(in srgb, var(--c) 55%, transparent) 0 62%, color-mix(in srgb, var(--c) 90%, transparent) 70%, transparent 73%); }
+      .sky-bg { position: absolute; inset: 0; }
+
+      /* S7 montage */
+      #s7a .moon { position: absolute; left: 660px; top: 240px; width: 600px; height: 600px; border-radius: 50%;
+        background: radial-gradient(circle at 38% 40%, #d8d0bd, #aea48d 55%, #6f6756 100%); box-shadow: 0 0 120px rgba(242,230,200,0.18); overflow: hidden; }
+      #s7a .moon::after { content: ""; position: absolute; inset: -2%; border-radius: 50%; background: radial-gradient(circle at 18% 50%, transparent 52%, rgba(3,4,10,0.97) 58%); }
+      #s7b .note { position: absolute; left: 460px; top: 430px; width: 1000px; height: 200px; border-radius: 44px; display: flex; align-items: center; gap: 36px; padding: 0 48px;
+        background: rgba(30,34,52,0.92); border: 1.5px solid rgba(255,255,255,0.10); box-shadow: 0 40px 100px rgba(0,0,0,0.6); }
+      #s7b .ic { width: 104px; height: 104px; border-radius: 26px; background: linear-gradient(145deg, #2a3a80, #0d1330); display: grid; place-items: center; }
+      #s7b .ic::after { content: ""; width: 40px; height: 40px; border-radius: 50%; border: 5px solid var(--key); }
+      #s7b .tx b { display: block; font-size: 44px; font-weight: 600; color: var(--ink); }
+      #s7b .tx span { display: block; font-size: 40px; font-weight: 500; color: var(--muted); margin-top: 6px; }
+      #s7c .ring { position: absolute; left: 660px; top: 240px; width: 600px; height: 600px; border-radius: 50%; border: 3px solid rgba(236,232,223,0.35);
+        background: repeating-conic-gradient(from 0deg, rgba(236,232,223,0.5) 0deg 0.6deg, transparent 0.6deg 10deg); -webkit-mask-image: radial-gradient(circle, transparent 62%, #000 63%); mask-image: radial-gradient(circle, transparent 62%, #000 63%); }
+      #s7c .needle { position: absolute; left: 954px; top: 290px; width: 12px; height: 500px; border-radius: 6px; transform-origin: 50% 50%;
+        background: linear-gradient(180deg, var(--key) 0 50%, rgba(236,232,223,0.5) 50% 100%); }
+      #s7c .deg { position: absolute; left: 0; right: 0; top: 500px; text-align: center; font-size: 64px; font-weight: 600; letter-spacing: 0.1em; }
+
+      /* S8 end */
+      #s8 .wordmark { color: var(--ink); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="30" data-width="1920" data-height="1080"
+         data-fps="24" data-aspect="2.39" data-motion-blur="on" data-motion-blur-tier="capture" data-motion-blur-shutter="180">
+
+      <!-- S1 0-4  COLD OPEN: one beam in the dark, dust turning in it -->
+      <section id="s1" class="shot clip" data-start="0" data-duration="4" data-track-index="0">
+        <div class="cam">
+          <div class="key-pool" style="--kx:42%; --ky:30%"></div>
+          <div class="beam" id="s1-beam" style="left:560px; width:560px; top:-160px; height:1500px; transform:rotate(-14deg)"></div>
+          <div class="floor-glow"></div>
+          <div class="abs" id="s1-motes" style="left:430px; top:-60px; width:820px; height:1200px; transform:rotate(-14deg)"></div>
+        </div>
+        <div class="band center"><div class="kicker track t" id="s1-k">Every clear night</div></div>
+      </section>
+
+      <!-- S2 4-8.5  THE SKY: tilt down from stars to the horizon, ridges in parallax -->
+      <section id="s2" class="shot clip" data-start="4" data-duration="4.5" data-track-index="1">
+        <div class="cam">
+          <div class="skyfield" id="s2-sky" data-depth="0.15"></div>
+          <div class="milky" data-depth="0.15"></div>
+          <div class="glow" data-depth="0.3"></div>
+          <div class="rw" style="bottom:-117px" data-depth="0.45"><div class="ridge r3"></div></div>
+          <div class="rw" style="bottom:-182px" data-depth="0.7"><div class="ridge r2"></div></div>
+          <div class="rw" style="bottom:-260px" data-depth="1"><div class="ridge r1"></div></div>
+        </div>
+        <div class="band center" style="justify-content:flex-start; padding-top:120px">
+          <div class="display t" id="s2-t">Three thousand stars <i>are out.</i></div>
+        </div>
+      </section>
+
+      <!-- S3 8.5-11  TITLE CARD on black: the question. The music drops out. -->
+      <section id="s3" class="shot clip" data-start="8.5" data-duration="2.5" data-track-index="2">
+        <div class="band center"><div class="display t" id="s3-t" style="font-size:96px"><span>You can name</span><span><i>none of them.</i></span></div></div>
+      </section>
+
+      <!-- S4 11-17  HERO: the phone is lit out of the dark and turns toward us -->
+      <section id="s4" class="shot clip" data-start="11" data-duration="6" data-track-index="3">
+        <div class="key-pool" id="s4-pool" style="--kx:50%; --ky:50%; opacity:0"></div>
+        <div class="beam" id="s4-beam" style="left:640px; transform:rotate(-8deg); opacity:0"></div>
+        <div class="rim-l" id="s4-rl" style="opacity:0"></div>
+        <div class="rim-r" id="s4-rr" style="opacity:0"></div>
+        <div class="stage">
+          <div class="world" id="s4-world">
+            <div class="phone3d" id="s4-phone">
+              <div class="p-screen">
+                <div class="map" id="map-a">
+                  <div class="sky"></div>
+                  <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <line x1="50" y1="22" x2="31" y2="31" /><line x1="50" y1="22" x2="68" y2="33" />
+                    <line x1="31" y1="31" x2="43" y2="52" /><line x1="68" y1="33" x2="58" y2="48" />
+                    <line x1="43" y1="52" x2="50" y2="50" /><line x1="50" y1="50" x2="58" y2="48" />
+                    <line x1="43" y1="52" x2="36" y2="73" /><line x1="58" y1="48" x2="70" y2="71" />
+                  </svg>
+                  <div class="top"><span>TONIGHT</span><span>22:41</span></div>
+                  <div class="chip" style="left:56%; top:56%">Orion</div>
+                  <div class="horizon"></div>
+                  <div class="compass">SW · 214°</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="haze" id="s4-haze"></div>
+        <div class="layer" id="s4-motes"></div>
+      </section>
+
+      <!-- S5 17-20.5  MACRO: into the screen; the hunter draws itself -->
+      <section id="s5" class="shot clip" data-start="17" data-duration="3.5" data-track-index="4">
+        <div class="cam" id="s5-cam">
+          <div class="screen">
+            <div class="map" id="map-b">
+              <div class="sky"></div>
+              <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                <line class="s5-l" x1="50" y1="22" x2="31" y2="31" /><line class="s5-l" x1="50" y1="22" x2="68" y2="33" />
+                <line class="s5-l" x1="31" y1="31" x2="43" y2="52" /><line class="s5-l" x1="68" y1="33" x2="58" y2="48" />
+                <line class="s5-l" x1="43" y1="52" x2="50" y2="50" /><line class="s5-l" x1="50" y1="50" x2="58" y2="48" />
+                <line class="s5-l" x1="43" y1="52" x2="36" y2="73" /><line class="s5-l" x1="58" y1="48" x2="70" y2="71" />
+              </svg>
+              <div class="star-name" style="left:20%; top:27%">Betelgeuse</div>
+              <div class="star-name" style="left:71%; top:69%">Rigel</div>
+              <div class="chip t" id="s5-chip" style="left:59%; top:52%">Orion · the hunter</div>
+            </div>
+            <div class="glass"></div>
+          </div>
+        </div>
+        <div class="band center" style="justify-content:flex-end; padding-bottom:40px">
+          <div class="display t" id="s5-t" style="font-size:80px; text-shadow:0 4px 30px rgba(0,0,0,0.8)">Point it at the sky. <i>Know it.</i></div>
+        </div>
+      </section>
+
+      <!-- S6 20.5-23.5  FEATURE: tonight, hour by hour. Rack focus from the glass to the card. -->
+      <section id="s6" class="shot clip" data-start="20.5" data-duration="3" data-track-index="5">
+        <div class="cam" id="s6-cam">
+          <div class="key-pool" style="--kx:55%; --ky:45%"></div>
+          <div class="rays" style="--rx:62%; --ry:-15%; opacity:0.55"></div>
+          <div class="card dof" id="s6-card">
+            <h3>Tonight</h3>
+            <div class="row"><div class="orb" style="background:radial-gradient(circle at 35% 35%,#f3d9a8,#b9874a)"></div><div class="nm">Jupiter</div><div class="tm">rises 21:40</div></div>
+            <div class="row"><div class="orb" style="background:radial-gradient(circle at 35% 35%,#efe4c4,#a8946a)"></div><div class="nm">Saturn</div><div class="tm">best 23:15</div></div>
+            <div class="row"><div class="orb" style="background:radial-gradient(circle at 35% 35%,#ffffff,#9aa0b0)"></div><div class="nm">Moon · 34%</div><div class="tm">sets 00:52</div></div>
+            <div class="row"><div class="orb" style="background:radial-gradient(circle at 35% 35%,#ffd2c2,#c0533a)"></div><div class="nm">Mars</div><div class="tm">rises 02:10</div></div>
+          </div>
+          <div class="layer" id="s6-bokeh"></div>
+        </div>
+      </section>
+
+      <!-- S7 23.5-25.5  MONTAGE: three quick cuts, each one beat -->
+      <section id="s7a" class="shot clip" data-start="23.5" data-duration="0.67" data-track-index="6">
+        <div class="sky-bg" id="s7a-sky"></div><div class="key-pool" style="--kx:50%; --ky:50%"></div><div class="cam" id="s7a-cam"><div class="moon"></div></div>
+      </section>
+      <section id="s7b" class="shot clip" data-start="24.17" data-duration="0.66" data-track-index="7">
+        <div class="sky-bg" id="s7b-sky"></div><div class="key-pool" style="--kx:50%; --ky:55%"></div><div class="cam" id="s7b-cam"><div class="note"><div class="ic"></div><div class="tx"><b>ISS overhead at 22:14</b><span>Look southwest · 4 min</span></div></div></div>
+      </section>
+      <section id="s7c" class="shot clip" data-start="24.83" data-duration="0.67" data-track-index="8">
+        <div class="sky-bg" id="s7c-sky"></div><div class="cam" id="s7c-cam"><div class="ring"></div><div class="needle" id="s7c-needle"></div></div>
+      </section>
+
+      <!-- S8 25.5-30  END: the name catches the light; the line; the store -->
+      <section id="s8" class="shot clip" data-start="25.5" data-duration="4.5" data-track-index="9">
+        <div class="key-pool" style="--kx:50%; --ky:48%"></div>
+        <div class="flare" id="s8-flare" style="top:452px"></div>
+        <div class="band center" style="gap:36px">
+          <div class="wordmark sweep-text t" id="s8-w">Nocturne</div>
+          <div class="display t" id="s8-tag" style="font-size:80px"><i>Look up.</i></div>
+          <div class="small t" id="s8-store" style="margin-top:20px">On the App Store</div>
+        </div>
+      </section>
+
+      <!-- Edit overlays: span the film, driven by cine.flash / dip / burn -->
+      <div id="fx-leak" class="fx-leak clip" data-start="0" data-duration="30" data-track-index="20"></div>
+      <div id="fx-flash" class="fx-flash clip" data-start="0" data-duration="30" data-track-index="21"></div>
+      <div id="fx-black" class="fx-black clip" data-start="0" data-duration="30" data-track-index="22"></div>
+      <div id="bars" class="bars clip" data-start="0" data-duration="30" data-track-index="23"></div>
+    </div>
+
+    <script>
+      const tl = cine.film("main", 30);
+
+      // Star fields (seeded; same stars every render)
+      cine.stars("#s2-sky", { count: 520, seed: 4, bias: 1.1 });
+      ["#map-a .sky", "#map-b .sky"].forEach((q) => {
+        const box = document.querySelector(q), r = cine.rng(21);
+        for (let i = 0; i < 140; i++) {
+          const d = document.createElement("i"), s = 0.12 + r() * 0.22;
+          Object.assign(d.style, { left: (r() * 100).toFixed(2) + "%", top: (r() * 80).toFixed(2) + "%", width: s.toFixed(2) + "em", height: s.toFixed(2) + "em", opacity: (0.3 + r() * 0.6).toFixed(2) });
+          box.appendChild(d);
+        }
+        // the constellation's own stars, brighter
+        [[50,22],[31,31],[68,33],[43,52],[50,50],[58,48],[36,73],[70,71]].forEach(([x, y]) => {
+          const d = document.createElement("i");
+          Object.assign(d.style, { left: `calc(${x}% - 0.3em)`, top: `calc(${y}% - 0.3em)`, width: "0.6em", height: "0.6em", boxShadow: "0 0 0.8em 0.2em rgba(255,240,220,0.7)" });
+          box.appendChild(d);
+        });
+      });
+      cine.phone("#s4-phone", { depth: 16, slabs: 7 });
+      cine.stars("#s7a-sky", { count: 160, seed: 31 });
+      cine.stars("#s7b-sky", { count: 160, seed: 32 });
+      cine.stars("#s7c-sky", { count: 160, seed: 33 });
+      // S6 foreground lights (seeded), kept to the frame edges so the card stays clear
+      (function () {
+        const box = document.getElementById("s6-bokeh"), r = cine.rng(41);
+        for (let i = 0; i < 14; i++) {
+          const b = document.createElement("i"), d = 90 + r() * 170, left = i % 2 ? 1380 + r() * 460 : -60 + r() * 480;
+          b.className = "bk";
+          Object.assign(b.style, { left: left.toFixed(0) + "px", top: (120 + r() * 760).toFixed(0) + "px", width: d.toFixed(0) + "px", height: d.toFixed(0) + "px" });
+          b.style.setProperty("--c", r() > 0.5 ? "#f2b66d" : "#7d9cff");
+          box.appendChild(b);
+        }
+      })();
+
+      // S1 cold open
+      cine.fadeIn(tl, 0, 1.4);
+      cine.push(tl, "#s1 .cam", 0, 4, 0.06);
+      cine.motes(tl, "#s1-motes", 0, 4, { count: 70, seed: 5, size: [2, 7], drift: [50, -70], color: "#f6dcb0", opacity: [0.2, 0.75], glow: "rgba(242,182,109,0.6)" });
+      cine.reveal(tl, "#s1-k", "track", 1.0, { from: 0.3, to: 0.52, hold: 3 });
+      cine.hide(tl, "#s1-k", "blur", 3.45, 0.45);
+
+      // S2 tilt down the sky to the horizon (parallax by data-depth)
+      cine.parallax(tl, "#s2 .cam", 4, 4.5, 0, -260, "sine.inOut");
+      cine.reveal(tl, "#s2-t", "focus", 4.7);
+      cine.hide(tl, "#s2-t", "blur", 7.9, 0.5);
+
+      // S3 title card
+      cine.reveal(tl, "#s3-t", "rise", 8.8, { stagger: 0.45, dur: 1.1 });
+      cine.hide(tl, "#s3-t", "fade", 10.5, 0.4);
+
+      // S4 hit + hero
+      cine.flash(tl, 11, 0.5, 0.85);
+      cine.orbit(tl, "#s4-world", 11, 6, { rotationY: -34, rotationX: 8, z: -260 }, { rotationY: -6, rotationX: 2, z: 40 }, "power2.out");
+      tl.fromTo("#s4-phone .p-glare", { "--gx": "120%" }, { "--gx": "20%", duration: 6, ease: "power2.out" }, 11);
+      cine.lightOn(tl, "#s4-pool", 11.1, 1.8, 1);
+      cine.lightOn(tl, ["#s4-rl", "#s4-rr"], 11.2, 1.4, 1);
+      cine.lightOn(tl, "#s4-beam", 11.6, 2.2, 0.55);
+      cine.draw(tl, "#map-a line", 12.6, 0.7, 0.12);
+      cine.motes(tl, "#s4-motes", 11, 6, { count: 26, seed: 9, size: [4, 16], drift: [-60, -30], color: "#f6dcb0", opacity: [0.15, 0.5], blur: 4 });
+
+      // S5 macro: push into the screen, the hunter draws on
+      cine.move(tl, "#s5-cam", 17, 3.5, { scale: 1.12, x: -40, y: -20, rotation: 0 }, { from: { scale: 1.0, x: 30, y: 10, rotation: -2 }, ease: "none" });
+      cine.draw(tl, ".s5-l", 17.2, 0.6, 0.14);
+      cine.reveal(tl, "#s5-chip", "focus", 18.4, { dur: 0.7 });
+      cine.reveal(tl, "#s5-t", "focus", 18.2);
+      cine.hide(tl, "#s5-t", "fade", 20.1, 0.35);
+
+      // S6 whip in, rack from the glass to the card, rows land one by one
+      cine.whip(tl, "#s5-cam", "#s6-cam", 20.5, -1);
+      cine.focus(tl, "#s6-card", 20.5, 0.4, 16, 16, "none");   // card starts soft behind sharp foreground lights
+      cine.focus(tl, "#s6-card", 20.9, 0.9, 16, 0);
+      gsap.utils.toArray("#s6-bokeh .bk").forEach((b, i) => {
+        tl.fromTo(b, { scale: 0.12, opacity: 1, filter: "blur(0px)" }, { scale: 1, opacity: 0.55, filter: "blur(2px)", duration: 0.9, ease: "power2.inOut" }, 20.9);
+      });
+      tl.to("#s6 .row", { opacity: 1, duration: 0.4, stagger: 0.28, ease: "power2.out" }, 21.4);
+      cine.push(tl, "#s6-cam", 20.84, 2.66, 0.05);
+
+      // S7 montage: each cut moves (push, slide, needle swing)
+      cine.push(tl, "#s7a-cam", 23.5, 0.67, 0.1);
+      cine.move(tl, "#s7b-cam", 24.17, 0.66, { x: -60 }, { from: { x: 60 }, ease: "none" });
+      tl.fromTo("#s7c-needle", { rotation: -120 }, { rotation: 34, duration: 0.6, ease: "back.out(1.6)" }, 24.83);
+      cine.crash(tl, "#s7c-cam", 25.28, 0.22, 0.5);
+
+      // S8 end card
+      cine.flare(tl, "#s8-flare", 25.7, 1.8, { fromX: -700, toX: 700, peak: 0.8 });
+      cine.reveal(tl, "#s8-w", "track", 25.8, { from: 0.18, to: 0.42, hold: 4 });
+      cine.sweep(tl, "#s8-w", 26.6, 1.4);
+      cine.reveal(tl, "#s8-tag", "focus", 27.2);
+      cine.reveal(tl, "#s8-store", "fade", 28.1, { dur: 0.6 });
+      cine.dip(tl, 29.2, 0.8, 0, 0);
+
+      cine.end(tl, 30);
+    </script>
+  </body>
+</html>

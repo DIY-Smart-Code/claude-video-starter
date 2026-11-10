@@ -1,0 +1,309 @@
+{
+  "title": "Nocturne: Look up",
+  "look": "night",
+  "audio": {
+    "loudness": -14,
+    "music": {
+      "src": "assets/score/music.mp3",
+      "volume": 0.9,
+      "fadeIn": 0.8,
+      "fadeOut": 1.2,
+      "envelope": [
+        [
+          0,
+          0
+        ],
+        [
+          8.2,
+          0
+        ],
+        [
+          8.7,
+          -22
+        ],
+        [
+          10.7,
+          -22
+        ],
+        [
+          11.0,
+          0
+        ],
+        [
+          30,
+          0
+        ]
+      ]
+    },
+    "sfx": [
+      {
+        "at": 0.0,
+        "src": "assets/score/sfx/drone.mp3",
+        "volume": 0.55
+      },
+      {
+        "at": 8.5,
+        "src": "assets/score/sfx/riser.mp3",
+        "volume": 0.7
+      },
+      {
+        "at": 11.0,
+        "src": "assets/score/sfx/boom.mp3",
+        "volume": 1.0
+      },
+      {
+        "at": 16.85,
+        "src": "assets/score/sfx/whoosh.mp3",
+        "volume": 0.35
+      },
+      {
+        "at": 20.2,
+        "src": "assets/score/sfx/whoosh.mp3",
+        "volume": 0.75
+      },
+      {
+        "at": 23.5,
+        "src": "assets/score/sfx/tick.mp3",
+        "volume": 0.6
+      },
+      {
+        "at": 24.17,
+        "src": "assets/score/sfx/tick.mp3",
+        "volume": 0.6
+      },
+      {
+        "at": 24.83,
+        "src": "assets/score/sfx/tick.mp3",
+        "volume": 0.6
+      },
+      {
+        "at": 25.2,
+        "src": "assets/score/sfx/whoosh.mp3",
+        "volume": 0.5,
+        "dur": 0.4
+      },
+      {
+        "at": 25.5,
+        "src": "assets/score/sfx/boom.mp3",
+        "volume": 0.8
+      },
+      {
+        "at": 26.5,
+        "src": "assets/score/sfx/shimmer.mp3",
+        "volume": 0.45
+      }
+    ]
+  },
+  "score": {
+    "music": {
+      "out": "assets/score/music.mp3",
+      "styles": [
+        "instrumental",
+        "cinematic film score",
+        "modern trailer underscore",
+        "clean wide mix",
+        "90 bpm"
+      ],
+      "negative": [
+        "vocals",
+        "singing",
+        "choir",
+        "lo-fi",
+        "dubstep",
+        "guitar"
+      ],
+      "sections": [
+        {
+          "name": "Night",
+          "ms": 8000,
+          "styles": [
+            "dark ambient pad",
+            "sparse felt piano notes",
+            "low sustained drone",
+            "slowly building",
+            "mysterious"
+          ],
+          "negative": [
+            "drums"
+          ]
+        },
+        {
+          "name": "Breath",
+          "ms": 3000,
+          "styles": [
+            "near silence",
+            "one high sustained string note",
+            "suspense"
+          ],
+          "negative": [
+            "drums",
+            "bass"
+          ]
+        },
+        {
+          "name": "Wonder",
+          "ms": 9500,
+          "styles": [
+            "big warm string swell",
+            "awe",
+            "soft pulsing synth arpeggio",
+            "cinematic and emotional"
+          ],
+          "negative": [
+            "aggressive"
+          ]
+        },
+        {
+          "name": "Drive",
+          "ms": 5000,
+          "styles": [
+            "driving pulse",
+            "taiko and toms build",
+            "rising intensity",
+            "accelerating"
+          ],
+          "negative": [
+            "vocals"
+          ]
+        },
+        {
+          "name": "Resolve",
+          "ms": 4500,
+          "styles": [
+            "huge warm final chord",
+            "sustained",
+            "resolves on the tonic",
+            "long ring out"
+          ],
+          "negative": [
+            "drums after the hit"
+          ]
+        }
+      ]
+    },
+    "sfx": {
+      "drone": {
+        "prompt": "deep dark cinematic ambient drone, low rumble with airy texture, slow",
+        "seconds": 8
+      },
+      "riser": {
+        "prompt": "slow airy cinematic riser swelling up, reverse cymbal and strings, ends abruptly",
+        "seconds": 2.5
+      },
+      "boom": {
+        "prompt": "massive cinematic trailer boom impact, deep sub hit with long reverb tail",
+        "seconds": 3
+      },
+      "whoosh": {
+        "prompt": "fast deep cinematic whoosh pass by, airy and smooth",
+        "seconds": 0.9
+      },
+      "tick": {
+        "prompt": "single crisp high cinematic tick, metallic clock hit, short",
+        "seconds": 0.5
+      },
+      "shimmer": {
+        "prompt": "soft glittering light shimmer, magical sparkle sweep, gentle",
+        "seconds": 2
+      }
+    }
+  },
+  "shots": [
+    {
+      "id": "s1",
+      "start": 0,
+      "end": 4,
+      "key": 2.2,
+      "shot": "Cold open: one beam of warm light in the dark, dust turning in it",
+      "light": "key from top left, floor glow",
+      "camera": "push 6 %, fade up from black",
+      "type": "EVERY CLEAR NIGHT (kicker, track)",
+      "sound": "drone, music enters low",
+      "out": "hard cut"
+    },
+    {
+      "id": "s2",
+      "start": 4,
+      "end": 8.5,
+      "key": 7.2,
+      "shot": "The sky: stars and the Milky Way, tilt down to a horizon glow and three ridges",
+      "light": "warm horizon glow, rim on the ridge tops",
+      "camera": "tilt down 260 px with depth parallax",
+      "type": "Three thousand stars are out. (display, focus)",
+      "sound": "music builds",
+      "out": "hard cut"
+    },
+    {
+      "id": "s3",
+      "start": 8.5,
+      "end": 11,
+      "key": 9.9,
+      "shot": "Title card on black",
+      "light": "none",
+      "camera": "locked",
+      "type": "You can name / none of them. (rise)",
+      "sound": "music pulled down, riser",
+      "out": "flash cut on the hit"
+    },
+    {
+      "id": "s4",
+      "start": 11,
+      "end": 17,
+      "key": 14.5,
+      "shot": "Hero: the phone lit out of the dark, turning toward us; Orion draws on the screen",
+      "light": "cool rim left, warm rim right, fill pool, beam, haze",
+      "camera": "3D orbit -34° to -6°, dolly in",
+      "type": "none: the product speaks",
+      "sound": "BOOM on the cut, Wonder section",
+      "out": "hard cut"
+    },
+    {
+      "id": "s5",
+      "start": 17,
+      "end": 20.5,
+      "key": 19.2,
+      "shot": "Macro: into the screen, the hunter's lines draw, star names",
+      "light": "screen glow, glass sheen",
+      "camera": "push 12 % with a slight roll",
+      "type": "Point it at the sky. Know it. (display)",
+      "sound": "soft whoosh in",
+      "out": "whip pan"
+    },
+    {
+      "id": "s6",
+      "start": 20.5,
+      "end": 23.5,
+      "key": 22.8,
+      "shot": "Feature: Tonight card behind a glass pane; rack focus from glass to card; rows land",
+      "light": "key pool, god rays",
+      "camera": "whip in, push 5 %, rack focus",
+      "type": "card rows (UI)",
+      "sound": "whoosh, Drive section",
+      "out": "hard cut"
+    },
+    {
+      "id": "s7",
+      "start": 23.5,
+      "end": 25.5,
+      "key": 24.5,
+      "shot": "Montage: moon, ISS alert, compass needle (0.67 s each)",
+      "light": "object light",
+      "camera": "push / slide / needle swing, crash zoom out",
+      "type": "UI only",
+      "sound": "tick on each cut",
+      "out": "crash zoom into the hit"
+    },
+    {
+      "id": "s8",
+      "start": 25.5,
+      "end": 30,
+      "key": 28.6,
+      "shot": "End card: wordmark catches the light, the line, the store",
+      "light": "key pool, anamorphic flare",
+      "camera": "locked",
+      "type": "NOCTURNE (track + sweep), Look up., On the App Store",
+      "sound": "boom, shimmer, resolve",
+      "out": "dip to black"
+    }
+  ]
+}

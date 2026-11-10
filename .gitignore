@@ -16,6 +16,10 @@ templates/*/out/
 templates/*/contact.png
 templates/flow-explainer/storyboard/
 templates/flow-explainer/storyboard.html
+# cinematic: the cut, the mix and the generated finish / storyboard (regenerate with scripts/film.py)
+templates/cinematic/build/
+templates/cinematic/storyboard.html
+templates/cinematic/.hyperframes/
 __pycache__/
 
 # tooling

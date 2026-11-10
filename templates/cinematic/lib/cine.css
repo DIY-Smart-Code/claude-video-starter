@@ -1,0 +1,165 @@
+/* cine.css: the cinematic template's stage, lens, light, type and device styles.
+   Pair it with lib/cine.js. Palette and fonts are set per film in index.html (:root).
+   Rule of thumb: the cut is lit, framed and moved here; it is graded and grained in build/finish.html. */
+
+@font-face { font-family: "Cormorant Garamond"; font-weight: 300 700; font-style: normal; src: url("../assets/fonts/cormorant-garamond-var.woff2") format("woff2"); }
+@font-face { font-family: "Cormorant Garamond"; font-weight: 300 700; font-style: italic; src: url("../assets/fonts/cormorant-garamond-italic-var.woff2") format("woff2"); }
+@font-face { font-family: "Anton"; font-weight: 400; src: url("../assets/fonts/anton-400.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 400; src: url("../assets/fonts/inter-400.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 500; src: url("../assets/fonts/inter-500.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 600; src: url("../assets/fonts/inter-600.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 700; src: url("../assets/fonts/inter-700.woff2") format("woff2"); }
+
+:root {
+  /* Film palette: override in the film's own <style>. */
+  --void: #04050a;         /* the darkness every shot is lit out of */
+  --ink: #ece8df;          /* warm white for type */
+  --muted: #8a8678;
+  --key: #f2b66d;          /* key light colour (warm) */
+  --fill: #6f8fff;         /* fill / rim colour (cool) */
+  --accent: #f2b66d;
+
+  /* Fonts by role. */
+  --f-display: "Cormorant Garamond", Georgia, serif;
+  --f-trailer: "Anton", sans-serif;
+  --f-sans: "Inter", Arial, sans-serif;
+
+  /* Frame and the 2.39:1 band (1080 tall: bars of 138 px). the finish draws the bars;
+     keep every read inside the band. cine.js resets these from data-aspect on #root. */
+  --W: 1920px;
+  --H: 1080px;
+  --bar: 138px;
+  --band-top: var(--bar);
+  --band-bottom: calc(var(--H) - var(--bar));
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: var(--W); height: var(--H); overflow: hidden; background: var(--void); }
+#root { position: relative; width: var(--W); height: var(--H); overflow: hidden; background: var(--void); color: var(--ink); font-family: var(--f-sans); }
+
+/* ---------- Shot anatomy ----------
+   .shot   one clip, full frame; owns its background (never transparent)
+   .cam    the 2D camera: push, pull, truck, whip, crash. Motion-blurred natively.
+   .rig    handheld drift (cine.handheld) on its own wrapper so it never fights the camera
+   .stage  a lens: static perspective. Only for slow 3D moves; 3D layers get no motion blur.
+   .world  preserve-3d; tween its rotationY / rotationX / z for orbits and dollies
+   .plane  a depth layer inside .world: style="--z:-600px" (cine.depth() keeps its size) */
+.shot { position: absolute; inset: 0; overflow: hidden; background: var(--void); }
+.cam, .rig { position: absolute; inset: 0; transform-origin: 50% 50%; will-change: transform; }
+.stage { position: absolute; inset: 0; perspective: 1800px; perspective-origin: 50% 50%; }
+.world { position: absolute; inset: 0; transform-style: preserve-3d; transform-origin: 50% 50%; will-change: transform; }
+.plane { position: absolute; inset: 0; transform-style: preserve-3d; transform: translateZ(var(--z, 0px)) scale(var(--zs, 1)); }
+.layer { position: absolute; inset: 0; }
+.abs { position: absolute; }
+
+/* The band: a full-width box between the bars. Put type here. */
+.band { position: absolute; left: 0; right: 0; top: var(--band-top); bottom: calc(var(--H) - var(--band-bottom)); }
+.center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+
+/* ---------- Lens: focus ---------- */
+.dof { --dof: 0px; filter: blur(var(--dof)); will-change: filter; }
+
+/* ---------- Light ----------
+   Light is what makes it look shot, not drawn. Every shot gets a key (one direction),
+   darkness around it, and usually one atmospheric layer (haze, beam or dust). */
+.key-pool {   /* a pool of key light on the void, aim it with --kx / --ky */
+  position: absolute; inset: -10%;
+  background: radial-gradient(ellipse 38% 46% at var(--kx, 50%) var(--ky, 42%), color-mix(in srgb, var(--key) 22%, transparent), transparent 70%);
+}
+.haze {       /* low fog bank; drift it with x over the whole shot */
+  position: absolute; left: -20%; right: -20%; height: 60%; bottom: -12%;
+  background: radial-gradient(ellipse 50% 60% at 50% 70%, rgba(200, 210, 255, 0.10), transparent 70%);
+  filter: blur(40px);
+}
+.beam {       /* a volumetric shaft from above; rotate it, fade it */
+  position: absolute; top: -30%; width: 640px; height: 160%;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--key) 55%, transparent) 0%, color-mix(in srgb, var(--key) 18%, transparent) 45%, transparent 85%);
+  filter: blur(28px); mix-blend-mode: screen; transform-origin: 50% 0%;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 30%, #000 70%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 30%, #000 70%, transparent);
+}
+.rays {       /* god rays fanning from a point; set --rx / --ry */
+  position: absolute; inset: -20%;
+  background: repeating-conic-gradient(from 200deg at var(--rx, 50%) var(--ry, -10%), color-mix(in srgb, var(--key) 16%, transparent) 0deg 3deg, transparent 3deg 9deg);
+  -webkit-mask-image: radial-gradient(ellipse 60% 70% at var(--rx, 50%) var(--ry, -10%), #000, transparent 75%);
+          mask-image: radial-gradient(ellipse 60% 70% at var(--rx, 50%) var(--ry, -10%), #000, transparent 75%);
+  filter: blur(6px); mix-blend-mode: screen; opacity: 0.8;
+}
+.flare {      /* anamorphic streak: a thin horizontal line of light with a hot core */
+  position: absolute; left: 50%; top: 50%; width: 1600px; height: 6px; margin: -3px 0 0 -800px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--fill) 70%, transparent) 30%, #fff 50%, color-mix(in srgb, var(--fill) 70%, transparent) 70%, transparent);
+  filter: blur(2px); mix-blend-mode: screen; opacity: 0;
+}
+.flare::after { content: ""; position: absolute; left: 50%; top: 50%; width: 220px; height: 220px; margin: -110px 0 0 -110px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.85), color-mix(in srgb, var(--fill) 35%, transparent) 30%, transparent 70%); filter: blur(4px); }
+.mote { position: absolute; border-radius: 50%; background: var(--ink); }   /* dust/embers, made by cine.motes() */
+
+/* Specular sweep: a band of light crosses an object once (tween --sweep 120% -> -20%). */
+.sweep { position: relative; }
+.sweep::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(105deg, transparent 0%, transparent 42%, rgba(255,255,255,0.55) 50%, transparent 58%, transparent 100%);
+  background-size: 300% 100%; background-position: var(--sweep, 120%) 0; mix-blend-mode: screen;
+}
+/* Same idea for type: the letters themselves catch the light. */
+.sweep-text {
+  background-image: linear-gradient(100deg, var(--ink) 0%, var(--ink) 42%, #ffffff 50%, var(--ink) 58%, var(--ink) 100%);
+  background-size: 300% 100%; background-position: var(--sweep, 120%) 0;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* Same for a logo image: the sweep is masked to the logo's own pixels.
+   <div class="sweep-logo" style="--mask:url('assets/img/logo.png')"><img src="assets/img/logo.png"></div> */
+.sweep-logo { position: relative; }
+.sweep-logo > img { display: block; width: 100%; height: auto; }
+.sweep-logo::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(105deg, transparent 0%, transparent 42%, rgba(255,255,255,0.85) 50%, transparent 58%, transparent 100%);
+  background-size: 300% 100%; background-position: var(--sweep, 120%) 0;
+  -webkit-mask: var(--mask) center / contain no-repeat; mask: var(--mask) center / contain no-repeat;
+}
+
+/* ---------- Edit overlays (one of each per film, spanning the whole film) ---------- */
+.fx-flash, .fx-black, .fx-leak { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+.fx-flash { background: #fff; }
+.fx-black { background: #000; }
+.fx-leak { mix-blend-mode: screen;
+  background: radial-gradient(ellipse 45% 70% at 20% 40%, rgba(255, 150, 60, 0.9), transparent 70%),
+              radial-gradient(ellipse 35% 60% at 70% 60%, rgba(255, 60, 40, 0.55), transparent 70%),
+              radial-gradient(ellipse 60% 80% at 50% 50%, rgba(255, 220, 160, 0.35), transparent 75%); }
+/* Preview-only bars so the cut frames like the finish. The finish draws its own. */
+.bars::before, .bars::after { content: ""; position: absolute; left: 0; right: 0; height: var(--bar); background: #000; }
+.bars::before { top: 0; } .bars::after { bottom: 0; }
+.bars { position: absolute; inset: 0; pointer-events: none; }
+
+/* ---------- Type ----------
+   Cinematic type is small, spaced and lit. Big only when it hits. Hidden until revealed. */
+.t { opacity: 0; will-change: transform, opacity, filter; }
+.kicker { font-family: var(--f-sans); font-weight: 500; font-size: 40px; letter-spacing: 0.42em; text-transform: uppercase; color: var(--ink); padding-left: 0.42em; }
+.display { font-family: var(--f-display); font-weight: 500; font-size: 112px; line-height: 1.02; letter-spacing: -0.01em; }
+.display i, .display em { font-style: italic; font-weight: 400; }
+.trailer { font-family: var(--f-trailer); font-weight: 400; font-size: 168px; line-height: 0.95; text-transform: uppercase; letter-spacing: 0.02em; }
+.wordmark { font-family: var(--f-sans); font-weight: 600; font-size: 96px; letter-spacing: var(--ls, 0.3em); padding-left: var(--ls, 0.3em); text-transform: uppercase; }
+.small { font-family: var(--f-sans); font-weight: 500; font-size: 40px; letter-spacing: 0.08em; color: var(--muted); }
+.track { letter-spacing: var(--ls, 0.18em); padding-left: var(--ls, 0.18em); }  /* centred and tracked: pad left so it stays centred */
+.glow-text { text-shadow: 0 0 24px color-mix(in srgb, var(--key) 45%, transparent), 0 0 80px color-mix(in srgb, var(--key) 25%, transparent); }
+/* Masked line reveals: cine.reveal(el, "rise") wraps each child in a mask. */
+.mask { display: block; overflow: hidden; padding: 0.06em 0.08em 0.12em; margin: -0.06em -0.08em -0.12em; }
+.mask > * { display: inline-block; will-change: transform; }
+.ch { display: inline-block; will-change: transform, opacity, filter; white-space: pre; }
+
+/* ---------- Device: a phone you can light and turn ----------
+   <div class="phone3d" style="--pw:380px"><div class="p-screen">...</div></div>
+   cine.phone() adds the edge slabs, island and glare. Put it inside a .world to turn it. */
+.phone3d { --pw: 380px; --ph: calc(var(--pw) * 2.08); --pr: calc(var(--pw) * 0.16); --rim: var(--fill);
+  position: absolute; width: var(--pw); height: var(--ph); transform-style: preserve-3d; }
+.phone3d .p-slab { position: absolute; inset: 0; border-radius: var(--pr); background: linear-gradient(90deg, #2b2e36, #0d0e12 30%, #0d0e12 70%, #2b2e36); }
+.phone3d .p-body { position: absolute; inset: 0; border-radius: var(--pr); background: #050506; overflow: hidden;
+  box-shadow: inset 0 0 0 2px #3c3f48, inset 0 0 0 calc(var(--pw) * 0.03) #060607, 0 0 0 1.5px color-mix(in srgb, var(--rim) 50%, transparent), 0 0 40px color-mix(in srgb, var(--rim) 18%, transparent); }
+.phone3d .p-screen { position: absolute; inset: calc(var(--pw) * 0.032); border-radius: calc(var(--pr) * 0.82); overflow: hidden; background: #000; }
+.phone3d .p-screen > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.phone3d .p-island { position: absolute; left: 50%; top: calc(var(--pw) * 0.055); width: calc(var(--pw) * 0.3); height: calc(var(--pw) * 0.085); margin-left: calc(var(--pw) * -0.15); border-radius: 999px; background: #000; }
+.phone3d .p-glare { position: absolute; inset: 0; border-radius: var(--pr); pointer-events: none;
+  background: linear-gradient(115deg, transparent 0%, transparent 35%, rgba(255,255,255,0.16) 46%, rgba(255,255,255,0.04) 52%, transparent 60%);
+  background-size: 260% 100%; background-position: var(--gx, 60%) 0; }
+.phone3d .p-shadow { position: absolute; left: 8%; right: 8%; bottom: -14%; height: 10%; border-radius: 50%; background: rgba(0,0,0,0.75); filter: blur(30px); transform: translateZ(-60px); }
